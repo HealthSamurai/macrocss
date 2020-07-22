@@ -1,6 +1,6 @@
 # macrocss
 
-Styles in css for clojure using macros
+Styles in css for clojure(script) using macros
 
 hibryd of tailwind and https://github.com/clj-commons/cljss
 
