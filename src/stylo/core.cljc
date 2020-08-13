@@ -55,7 +55,17 @@
      (->> @styles
           (sort-by (comp :location meta val))
           (map (fn [[k v]] (into [k] v))))))))
-           (map (fn [[k v]] (into [k] v)))))))
+
+
+(defn get-stylo-styles
+  ([]
+   (get-stylo-styles {}))
+  ([flags]
+   (garden.core/css
+    flags
+    (->> @styles
+         (sort-by (comp :location meta val))
+         (map (fn [[k v]] (into [k] v)))))))
 
 
 #?(:clj
