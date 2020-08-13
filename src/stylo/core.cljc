@@ -44,13 +44,29 @@
        (into [(keyword (str ".c" (hash rules)))] (join-rules rules)))))
 
 
-(defn get-styles []
-  (garden.core/css
+(defn get-styles
+  ([]
+   (get-styles {}))
+  ([flags]
+   (garden.core/css
+    flags
     (concat
-      stylo.tailwind.preflight/preflight
-      (->> @styles
-           (sort-by (comp :location meta val))
-           (map (fn [[k v]] (into [k] v)))))))
+     stylo.tailwind.preflight/preflight
+     (->> @styles
+          (sort-by (comp :location meta val))
+          (map (fn [[k v]] (into [k] v))))))))
+
+
+(defn get-stylo-styles
+  ([]
+   (get-stylo-styles {}))
+  ([flags]
+   (garden.core/css
+    flags
+    (->> @styles
+         (sort-by (comp :location meta val))
+         (map (fn [[k v]] (into [k] v)))))))
+
 
 #?(:clj
    (defmacro mount-style
