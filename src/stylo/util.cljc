@@ -9,12 +9,10 @@
   #?(:cljs
      (:require-macros [garden.def])))
 
-
 (defn format
   [fmt & args]
   #?(:clj (apply clojure.core/format fmt args)
      :cljs (apply gstring/format fmt args)))
-
 
 (defn with-alpha
   [color variable]
@@ -23,19 +21,16 @@
             red green blue (name variable))
     color))
 
-
 (defn str-ratio?
   [s]
   (and (string? s)
        (re-matches #"(-?\d+)/(\d+)" s)))
-
 
 (defn parse-str-ratio
   [s]
   (let [[_ n d] (re-matches #"(-?\d+)/(\d+)" s)]
     #?(:clj (/ (Double/parseDouble n) (Double/parseDouble d))
        :cljs (/ (js/parseFloat n) (js/parseFloat d)))))
-
 
 (defn as-unit
   ([v]
