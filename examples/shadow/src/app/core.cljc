@@ -8,7 +8,7 @@
 
 (defn app
   []
-  [:div {:class (c :text-xs)} "hello"])
+  [:div {:class (c [:text :purple-500] :extrabold :text-3xl :underline)} "Hello World!"])
 
 (defn render
   []
