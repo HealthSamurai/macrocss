@@ -1,12 +1,10 @@
 {
-    "name": "figcss",
-    "description": "figwheel example",
-    "license": "ISC",
     "devDependencies": {
-        "@cljs-oss/module-deps": "1.1.1"
+        "webpack": "^4.43.0",
+        "webpack-cli": "^3.3.11"
     },
     "dependencies": {
-        "react": "17.0.1",
-        "react-dom": "17.0.1"
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1"
     }
 }

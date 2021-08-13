@@ -8,5 +8,5 @@
 (defn hello-world []
   [:div "Hello World!"])
 
-(rd/render [hello-world]
-          (.getElementById js/document "app"))
+(rd/render hello-world
+          (js/document "app"))

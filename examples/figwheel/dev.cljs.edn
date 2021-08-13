@@ -1,1 +1,5 @@
-{:main figcss.core}
+{:watch-dirs ["test" "src"]
+ :css-dirs ["resources/public/css"]
+ :auto-testing true
+ :auto-bundle :webpack
+ :main figcss.core}
