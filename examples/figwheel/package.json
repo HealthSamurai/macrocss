@@ -1,0 +1,12 @@
+{
+    "name": "figcss",
+    "description": "figwheel example",
+    "license": "ISC",
+    "devDependencies": {
+        "@cljs-oss/module-deps": "1.1.1"
+    },
+    "dependencies": {
+        "react": "17.0.1",
+        "react-dom": "17.0.1"
+    }
+}
