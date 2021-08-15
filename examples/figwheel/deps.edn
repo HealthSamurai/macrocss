@@ -1,12 +1,9 @@
-{:paths ["src" "resources" "target"]
-
- :deps {com.bhauman/figwheel-main {:mvn/version "0.2.11"}
-        com.bhauman/rebel-readline-cljs {:mvn/version "0.1.4"}
-        org.clojure/clojure {:mvn/version "1.10.0"}
+{:deps {org.clojure/clojure {:mvn/version "1.10.0"}
         org.clojure/clojurescript {:mvn/version "1.10.773"}
-        cljsjs/react {:mvn/version "16.4.1-0"}
-        cljsjs/react-dom {:mvn/version "16.4.1-0"}
-        sablono/sablono {:mvn/version "0.8.6"}
-        reagent/reagent {:mvn/version "0.10.0" :exclusions [cljsjs/react
-                                                            cljsjs/react-dom
-                                                            cljsjs/react-dom-server]}}}
+        reagent/reagent {:mvn/version "0.10.0" :exclusions [cljsjs/react cljsjs/react-dom cljsjs/react-dom-server]}
+        ;macrocss/macrocss {:local/root "../../"}
+        com.bhauman/figwheel-main {:mvn/version "0.2.11"}
+        }
+ :paths ["src" "resources" "target"]
+ :aliases {:fig {:main-opts ["-m" "figwheel.main" "-b" "dev"]}}}
+ 
