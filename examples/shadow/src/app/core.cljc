@@ -10,6 +10,9 @@
 (defn gen-key []
   (gensym "key-"))
 
+(defn k []
+  {:key (gen-key)})
+
 (def compiler
   (r/create-compiler {:function-components true}))
 
@@ -82,7 +85,7 @@
             (p "Other available options of shadow-cljs are given here: "
                (a "https://github.com/shadow-cljs/lein-template"))
             (p "2. Add  into dependencies: ")
-            (p " " [:pre {:key (gen-key)} "[stylo-css \"0.1.0 \"]"])
+            (p " " [:pre (k) "[stylo-css \"0.1.0 \"]"])
             (p " 3. Open up your shadow-cljs.edn configuration file and add"
                (pre-bash ":build-hooks [(stylo.shadow/reload {PATH-TO-CSS})]"))
             (p "  into the :app configuration. {PATH-TO-CSS} - is a path where the css file will be generated.")
@@ -152,10 +155,27 @@
     (c [:text :blue-600] [:pseudo :hover [:text :blue-300]])
     (c [:pseudo :hover [:text :blue-300]])))
 
-(def doc-menu (atom [:li {:key (gen-key)}]))
+(def doc-menu (r/atom {:visibility false 
+                     :content [:li (k)]}))
 
 (defn hide-doc-menu []
-  (reset! doc-menu [:li {:key (gen-key)}]))
+  (swap! doc-menu assoc :content [:li (k)]
+                        :visibility false))
+
+
+(defn sub-menu-item [k]
+  [:a {:href (rfe/href k)
+       :class (clicked? k)
+       :on-click #(light-clicked-item k)} (-> k
+                                              name
+                                              str
+                                              str/capitalize)])
+
+(defn set-doc-menu []
+  (swap! menu-clicked-state merge (set-all-to-false doc-ns-es))
+  (swap! doc-menu assoc :visibility true :content (->> doc-ns-es
+                                                       (mapv (fn [x] [:li (k) (sub-menu-item x)]))
+                                                       (apply conj [:ul (k)]))))
 
 (defn menu-item 
   ([k] (menu-item k (-> k
@@ -168,22 +188,6 @@
        :on-click #(do (light-clicked-item k)
                       (hide-doc-menu))} description]))
 
-(defn sub-menu-item [k]
-   [:a {:href (rfe/href k)
-        :class (clicked? k)
-        :on-click #(light-clicked-item k)} (-> k
-                                               name
-                                               str
-                                               str/capitalize)])
-
-
-
-(defn set-doc-menu []
-  (swap! menu-clicked-state merge (set-all-to-false doc-ns-es))
-  (reset! doc-menu (->> doc-ns-es
-                        (mapv (fn [x] [:li {:key (gen-key)} (sub-menu-item x)]))
-                        (apply conj [:ul {:key (gen-key)}]))))
-
 (def doc-routes 
   (map (fn [x] [(->> x name (str "/"))
                 {:name x
@@ -192,21 +196,25 @@
 
 (defn current-page []
   [:div {:class (c :flex :flex-row)
-         :key (gen-key)}
-   [:nav {:class (c :flex :flex-column [:mx 5] [:mt 8])
-          :key (gen-key)}
-    [:ul {:key (gen-key)}
-     [:li {:key (gen-key)} (menu-item ::about)]
-     [:li {:key (gen-key)} (menu-item ::installation)]
-     [:li {:key (gen-key)
-           :on-click #(set-doc-menu)} (menu-item ::documentation)]
-     @doc-menu]]
-   
-   (when @match
-     (let [_ (println @match)
-           _ (println @menu-clicked-state)
-           view (:view (:data @match))]
-       [view @match]))])
+           :key (gen-key)}
+     [:nav {:class (c :flex :flex-column [:mx 5] [:mt 8])
+            :key (gen-key)}
+      [:ul (k)
+       [:li (k) (menu-item ::about)]
+       [:li (k) (menu-item ::installation)]
+       [:li {:key (gen-key)
+             :on-click #(if-not (:visibility @doc-menu)
+                          (set-doc-menu)
+                          (hide-doc-menu))} (menu-item ::documentation)]
+       (:content @doc-menu)]]
+
+     (when @match
+       (let [_ (println @match)
+             _ (println @menu-clicked-state)
+             _ (println @doc-menu)
+             _ (println (:visibility @doc-menu))
+             view (:view (:data @match))]
+         [view @match]))])
  
 (def routes
   [["/"
