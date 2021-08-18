@@ -5,12 +5,12 @@
  :builds
  {:app
   {:target :browser
-   :output-dir "../doc/public/out"
+   :output-dir "../docs/public/out"
    :modules {:app {:init-fn app.core/init}}
    :compiler-options {:infer-externs :auto}
 
    :build-hooks
-   [(stylo.shadow/reload "../doc/public/out/stylo/css/stylo.css")]
+   [(stylo.shadow/reload "../docs/public/out/stylo/css/stylo.css")]
 
    :dev
    {:devtools {:after-load app/render}
