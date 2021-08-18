@@ -5,15 +5,11 @@
  :builds
  {:app
   {:target :browser
-   :output-dir "../docs/public/out"
    :modules {:app {:init-fn app.core/init}}
+   :build-hooks [(stylo.shadow/reload "public/out/stylo/css/stylo.css")]
+   :output-dir "public/out" 
    :compiler-options {:infer-externs :auto}
-
-   :build-hooks
-   [(stylo.shadow/reload "../docs/public/out/stylo/css/stylo.css")]
 
    :dev
    {:devtools {:after-load app/render}
-    :compiler-options {:optimizations :none}
-    :build-hooks [(stylo.shadow/reload "public/out/stylo/css/stylo.css")]
-    :output-dir "public/out"}}}}
+    :compiler-options {:optimizations :none}}}}}
