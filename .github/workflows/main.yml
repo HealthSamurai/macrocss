@@ -33,7 +33,7 @@ jobs:
           cli: 1.10.1.693 # Clojure CLI based on tools.deps
       - run: cd examples
       - run: npm install 
-      - run: clj -M:release
+      - run: clojure -M:release
       - run: cp "/home/runner/work/macrocss/macrocss/examples/public/index.html" "/home/runner/work/macrocss/macrocss/docs"
       - run: cp -R "/home/runner/work/macrocss/macrocss/examples/public/out" "/home/runner/work/macrocss/macrocss/docs" 
 
