@@ -32,5 +32,5 @@ jobs:
         with:
           cli: 1.10.1.693 # Clojure CLI based on tools.deps
       - run: cd examples; npm install; clojure -M:release; cd public; 
-             cp "/home/runner/work/macrocss/macrocss/examples/public/index.html" "/home/runner/work/macrocss/macrocss/docs"; 
-             cp -R "/home/runner/work/macrocss/macrocss/examples/public/out" "/home/runner/work/macrocss/macrocss/docs";
+             rsync "/home/runner/work/macrocss/macrocss/examples/public/index.html" "/home/runner/work/macrocss/macrocss/docs"; 
+             rsync -r "/home/runner/work/macrocss/macrocss/examples/public/out" "/home/runner/work/macrocss/macrocss/docs";
