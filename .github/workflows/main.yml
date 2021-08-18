@@ -34,6 +34,9 @@ jobs:
       - run: cd examples
       - run: npm install 
       - run: clojure -M:release
+      - run: cd public 
+      - run: ls 
+      - run: pwd
       - run: cp "/home/runner/work/macrocss/macrocss/examples/public/index.html" "/home/runner/work/macrocss/macrocss/docs"
       - run: cp -R "/home/runner/work/macrocss/macrocss/examples/public/out" "/home/runner/work/macrocss/macrocss/docs" 
 
