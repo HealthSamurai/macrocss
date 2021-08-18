@@ -4,10 +4,11 @@
  {org.clojure/clojurescript {:mvn/version "1.10.866"}
   org.clojure/clojure {:mvn/version "1.10.0"}
   thheller/shadow-cljs {:mvn/version "2.14.4"}
-  macrocss/macrocss {:local/root "././"}
+  macrocss/macrocss {:local/root "../"}
   reagent/reagent {:mvn/version "1.1.0"}
   metosin/reitit {:mvn/version "0.5.15"}}
 
- :aliases
- {:shadow
-  {:main-opts ["-m" "shadow.cljs.devtools.cli" "watch" "app"]}}}
+ :aliases {:shadow
+           {:main-opts ["-m" "shadow.cljs.devtools.cli" "watch" "app"]}
+           :release
+           {:main-opts ["-m" "shadow.cljs.devtools.cli" "release" "app"]}}}
