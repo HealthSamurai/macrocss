@@ -31,12 +31,6 @@ jobs:
       - uses: DeLaGuardo/setup-clojure@3.5
         with:
           cli: 1.10.1.693 # Clojure CLI based on tools.deps
-      - run: cd examples
-      - run: npm install 
-      - run: clojure -M:release
-      - run: ls 
-      - run: pwd
-      - run: cd public 
-      - run: cp "/home/runner/work/macrocss/macrocss/examples/public/index.html" "/home/runner/work/macrocss/macrocss/docs"
-      - run: cp -R "/home/runner/work/macrocss/macrocss/examples/public/out" "/home/runner/work/macrocss/macrocss/docs" 
-
+      - run: cd examples; npm install; clojure -M:release; cd public; 
+             cp "/home/runner/work/macrocss/macrocss/examples/public/index.html" "/home/runner/work/macrocss/macrocss/docs"; 
+             cp -R "/home/runner/work/macrocss/macrocss/examples/public/out" "/home/runner/work/macrocss/macrocss/docs";
