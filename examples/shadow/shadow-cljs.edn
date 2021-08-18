@@ -1,0 +1,16 @@
+{:deps true
+
+ :dev-http {9999 "public"}
+
+ :builds
+ {:app
+  {:target :browser
+   :output-dir "public/out"
+   :modules {:app {:init-fn app.core/init}}
+
+   :build-hooks
+   [(stylo.shadow/reload "public/out/stylo/css/stylo.css")]
+
+   :dev
+   {:devtools {:after-load app/render}
+    :compiler-options {:optimizations :none}}}}}

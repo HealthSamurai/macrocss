@@ -1,0 +1,7 @@
+^{:watch-dirs ["src"]
+  :css-dirs ["resources/public/css"]
+  :auto-testing true
+  :auto-bundle :webpack}
+{:main example.figwheel
+ ;:preloads stylo.core
+ }
