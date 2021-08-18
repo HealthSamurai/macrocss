@@ -234,7 +234,7 @@
    (rf/router (apply conj routes doc-routes) {:data {:coercion rss/coercion}})
    (fn [m] (reset! match m))
     ;; set to false to enable HistoryAPI
-   {:use-fragment false})
+   {:use-fragment true})
   (dom/render
    [current-page]
    (js/document.getElementById "app")
