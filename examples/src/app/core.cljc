@@ -53,7 +53,7 @@
 
 (defn about []
   [:div 
-   (heading "Philosophy."
+   (heading "Philosophy of library."
             (p "StyloCSS develops an idea of storing all css in one place without actually touching any .css file.")
             (p "It was inspired by Tailwind CSS. But we want to go far beyond.")
             (p "Library develops an idea of storing all css in one place without actually touching any .css file.")
