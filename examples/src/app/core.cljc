@@ -3,241 +3,112 @@
             [reagent.dom :as dom]
             [stylo.core :refer [c c?]]
             [clojure.string :as str]
-            [re-frame.core :as re]
-            [secretary.core :as secretary]))
+            [re-frame.core :as rf]
+            [app.render :as rn]))
 
-(defn gen-key []
-  (gensym "key-"))
+(rf/reg-event-db :initialize
+                 (fn [_ _] {:current-component :about, :menu-showable false}))
 
-(defn k []
-  {:key (gen-key)})
+(def pages {:default [:about :installation :documentation]
+            :doc [:accessibility :background :border :color :container :effect :flex :grid
+   :interactivity :layout :preflight :sizing :spacing :svg :table :transform
+   :transition :typography :variant]})
+
+(defn contains-item? [k item]
+  (->> pages
+       k
+       (some #{item})))
+
+(defn default-menu-item? [item]
+  (contains-item? :default item))
+
+(defn documentation-item? [item]
+  (contains-item? :doc item))
+
+(defn menu-showable? [db item]
+  (cond (= item :documentation) (-> db
+                                    :menu-showable
+                                    not)
+        (default-menu-item? item) false
+        (documentation-item? item) true))
+
+(rf/reg-event-fx :clicked-component
+                 (fn [{:keys [db]} [_ item]]
+                   {:db (-> db
+                       (assoc :menu-showable (menu-showable? db item))
+                       (assoc :current-component item))}))
+
+(rf/reg-sub :current-component (fn [db _] (:current-component db)))
+
+(rf/reg-sub :menu-showable (fn [db _] (:menu-showable db)))
+
+(rf/reg-sub :content
+  :<- [:current-component]
+  (fn [c _ ]
+    (cond (default-menu-item? c) (rn/render-default c)
+          (documentation-item? c) (rn/render-doc c))))
+
+(defn clicked? [current-component k]
+  (if (= current-component k)
+    (c [:text :blue-600] [:pseudo :hover [:text :blue-300]])
+    (c [:pseudo :hover [:text :blue-300]])))
+
+(defn menu-view
+  ([current-component k]
+   (menu-view current-component k
+                            (-> k
+                                name
+                                str/capitalize)))
+  ([current-component k description]
+   [:li
+    [:a
+    {:class (clicked? current-component k)
+     :on-click #(rf/dispatch [:clicked-component k])}
+     description]]))
+
+(defn create-menu [current-component items]
+  (apply conj [:ul]
+         (mapv (partial menu-view current-component) items)))
+
+(defn default-menu [current-component]
+  (create-menu current-component (:default pages)))
+
+(defn extended-menu [current-component]
+  (create-menu current-component (->> pages
+                                      vals
+                                      (apply concat)
+                                      flatten
+                                      vec)))
+
+(rf/reg-sub :menu
+  :<- [:current-component]
+  :<- [:menu-showable]
+  (fn [[c m] _]
+    (if-not m
+      (default-menu c)
+      (extended-menu c))))
+
+(defn side-menu
+  []
+  [:nav {:class (c :flex :flex-column [:mx 5] [:mt 8])}
+   @(rf/subscribe [:menu])])
+
+(defn current-component [] [:div @(rf/subscribe [:content])])
+
+(defn ui
+  []
+  [:div {:class (c :flex :flex-row)}
+   [side-menu]
+   [current-component]])
 
 (def compiler
   (r/create-compiler {:function-components true}))
 
-(defn p
-  ([content]
-   [:p {:class (c [:mt 1] :text-base :text-gray-500)
-        :key (gen-key)}
-    content])
-  ([content & other-content]
-   [:p {:class (c [:mt 1] :text-base :text-gray-500)
-        :key (gen-key)}
-    content other-content]))
+(defn render [] (dom/render [ui] (js/document.getElementById "app") compiler))
 
-(defn pre-bash [content] 
-   [:div {:style {:background-color :black :width :min-content :border-radius "6px"}
-          :class (c [:m 1])
-          :key (gen-key)}
-        [:pre {:class (c [:text :white])
-               :key (gen-key)}
-         content]])
+(defn ^:dev/after-load clear-cache-and-render!
+  []
+  (rf/clear-subscription-cache!)
+  (render))
 
-(defn heading [& content]
-   [:div {:class (c :content-center [:mt 8])
-          :key (gen-key)}
-    [:div {:class (c :box-border [:pb 10] [:mb 10]  [:border-b :gray-200])
-         :key (gen-key)}
-   [:h1 {:class (c [:m 1] :text-3xl :inline-block :extrabold [:text :gray-900] :tracking-tight)
-         :key (gen-key)}
-    content]]])
-
-(defn a 
-  ([link] 
-   (a link link))
-  ([link description]
-    [:a {:href link
-         :class (c [:text :blue-300] :underline)
-         :key (gen-key)} description]))
-
-(defn about []
-  [:div 
-   (heading "Philosophy of library."
-            (p "StyloCSS develops an idea of storing all css in one place without actually touching any .css file.")
-            (p "It was inspired by Tailwind CSS. But we want to go far beyond.")
-            (p "Library develops an idea of storing all css in one place without actually touching any .css file.")
-            (p " Isntall the Stylo library and keep your focus on styling, not typing. Let the macro do the rest of routine. ")
-            (p " P.S. library is based on macro, so we need some alchemy to make it work in ClojureScript environment, ")
-            (p " but we prepared " (a (rfe/href ::installation) "installation guide")))
-   (heading "Version and compatibility. " 
-            (p "Latest version is 0.1.0")
-            (p "Tested with: " 
-               (p "ClojureScript 10.10.866")
-               (p "Clojure 1.10.0"))
-            (p "Status: usable alpha."))
-   (heading "Distribution and license: "
-            (p "Copyright © belongs to HealthSamurai and contributors.")
-            (p "Distributed under the Eclipse Public License 2.0")
-            (p "Logo is a property of HealthSamurai, but you can make a T-shirt with it free of charge."))])
-
-(defn installation []
-  [:div
-
-   (heading "Installation"
-            (p  "Learn to set up shadow-cljs from the scratch in your project. "))
-   (heading "shadow-cljs"
-            (p "1. We create a shadowcljs template:"
-               (pre-bash "lein new shadow-cljs shadow-example +reagent"))
-
-            (p "Don't forget to install all necessary js packages: "
-               (pre-bash "npm install"))
-            (p "Other available options of shadow-cljs are given here: "
-               (a "https://github.com/shadow-cljs/lein-template"))
-            (p "2. Add  into dependencies: ")
-            (p " " [:pre (k) "[stylo-css \"0.1.0 \"]"])
-            (p " 3. Open up your shadow-cljs.edn configuration file and add"
-               (pre-bash ":build-hooks [(stylo.shadow/reload {PATH-TO-CSS})]"))
-            (p "  into the :app configuration. {PATH-TO-CSS} - is a path where the css file will be generated.")
-            (p "  Our configuration should look like this: "
-               (pre-bash "{... \n :builds \n {:app \n \n {... \n \n :build-hooks [(stylo.shadow/reload \"public/out/stylo/css/stylo.css\")]}}}"))
-            (p  "4. Open public/index.html file, it is generated by shadow-cljs by default. We should add the new source of css into it. ")
-            (p "Add the following into the <head> </head> section: "
-               (pre-bash " <link href= {PATH-TO-CSS} rel= \"stylesheet\">"))
-            (p "5. So, you it is time to use the library. 
-           Comprehensive documetation may be read by the link:  "
-               (a (rfe/href ::documentation) "documentation"))
-            (p "  The basic syntax is the following: "
-               (pre-bash "[:div {:class (c [:pt 8] :h-screen)}] "))
-            (p "c - is our macro, it waits for classes alias as arguments ")
-            (p ":h-screen [:pt 8] - class alias ")
-            (p "when class needs some configuration - it is passed as a vector [:pt 8] - where :pt is class alias and 6 - it's value "))
-    (heading "figwheel"
-             (p "Documentation for figwheel is in progress."))])
-
-
-(defn documentation [] [:div "Documentation"])
-
-(defn default [] [:div "Deafult"])
-
-(defonce match (r/atom nil))
-
-(def doc-ns-es [::accessibility
-                ::background
-                ::border
-                ::color
-                ::container
-                ::effect
-                ::flex
-                ::grid
-                ::interactivity
-                ::layout
-                ::preflight
-                ::sizing
-                ::spacing
-                ::svg
-                ::table
-                ::transform
-                ::transition
-                ::typography
-                ::variant])
-
-(defn set-all-to-false [ks]
-  (reduce (fn [acc v] (assoc acc v false)) {} ks))
-
-(def menu-clicked-state (r/atom (merge {::about true
-                                        ::installation false
-                                        ::documentation false}
-                                       (set-all-to-false doc-ns-es))))
-
-(defn set-all-to-false-except-key [m k]
-  (merge (assoc m k true)
-         (->> m
-              keys
-              (remove #{k})
-              set-all-to-false)))
-
-(defn light-clicked-item [k]
- (swap! menu-clicked-state set-all-to-false-except-key k))
-
-(defn clicked? [k] 
-  (if (k @menu-clicked-state)
-    (c [:text :blue-600] [:pseudo :hover [:text :blue-300]])
-    (c [:pseudo :hover [:text :blue-300]])))
-
-(def doc-menu (r/atom {:visibility false 
-                     :content [:li (k)]}))
-
-(defn hide-doc-menu []
-  (swap! doc-menu assoc :content [:li (k)]
-                        :visibility false))
-
-
-(defn sub-menu-item [k]
-  [:a {:href (rfe/href k)
-       :class (clicked? k)
-       :on-click #(light-clicked-item k)} (-> k
-                                              name
-                                              str
-                                              str/capitalize)])
-
-(defn set-doc-menu []
-  (swap! menu-clicked-state merge (set-all-to-false doc-ns-es))
-  (swap! doc-menu assoc :visibility true :content (->> doc-ns-es
-                                                       (mapv (fn [x] [:li (k) (sub-menu-item x)]))
-                                                       (apply conj [:ul (k)]))))
-
-(defn menu-item 
-  ([k] (menu-item k (-> k
-                        name
-                        str 
-                        str/capitalize)))
-  ([k description]
-    [:a {:href (rfe/href k)
-       :class (clicked? k)
-       :on-click #(do (light-clicked-item k)
-                      (hide-doc-menu))} description]))
-
-(def doc-routes 
-  (map (fn [x] [(->> x name (str "/"))
-                {:name x
-                 :view installation}])
-       doc-ns-es))
-
-(defn current-page []
-  [:div {:class (c :flex :flex-row)
-           :key (gen-key)}
-     [:nav {:class (c :flex :flex-column [:mx 5] [:mt 8])
-            :key (gen-key)}
-      [:ul (k)
-       [:li (k) (menu-item ::about)]
-       [:li (k) (menu-item ::installation)]
-       [:li {:key (gen-key)
-             :on-click #(if-not (:visibility @doc-menu)
-                          (set-doc-menu)
-                          (hide-doc-menu))} (menu-item ::documentation)]
-       (:content @doc-menu)]]
-
-     (when @match
-       (let [_ (println @match)
-             _ (println @menu-clicked-state)
-             _ (println @doc-menu)
-             _ (println (:visibility @doc-menu))
-             view (:view (:data @match))]
-         [view @match]))])
- 
-(def routes
-  [["/"
-    {:name ::about
-     :view about}]
-
-   ["/installation"
-    {:name ::installation
-     :view installation}]
-
-   ["/documentation"
-    {:name ::documentation
-     :view documentation}]])
-
-(defn init! []
-  (rfe/start!
-   (rf/router (apply conj routes doc-routes) {:data {:coercion rss/coercion}})
-   (fn [m] (reset! match m))
-    ;; set to false to enable HistoryAPI
-   {:use-fragment true})
-  (dom/render
-   [current-page]
-   (js/document.getElementById "app")
-   compiler))
-
-(init!)
-
+(defn run [] (rf/dispatch-sync [:initialize]) (render))
