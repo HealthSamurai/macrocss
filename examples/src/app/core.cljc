@@ -2,10 +2,9 @@
   (:require [reagent.core :as r]
             [reagent.dom :as dom]
             [stylo.core :refer [c c?]]
-            [reitit.frontend :as rf]
-            [reitit.frontend.easy :as rfe]
-            [reitit.coercion.spec :as rss]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [re-frame.core :as re]
+            [secretary.core :as secretary]))
 
 (defn gen-key []
   (gensym "key-"))
