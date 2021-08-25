@@ -19,6 +19,11 @@
        k
        (some #{item})))
 
+(defn clicked? [current-component k]
+  (if (= current-component k)
+    (c [:text :blue-600] [:pseudo :hover [:text :blue-300]])
+    (c [:pseudo :hover [:text :blue-300]])))
+
 (defn default-menu-item? [item]
   (contains-item? :default item))
 
@@ -32,30 +37,9 @@
         (default-menu-item? item) false
         (documentation-item? item) true))
 
-(rf/reg-event-fx :clicked-component
-                 (fn [{:keys [db]} [_ item]]
-                   {:db (-> db
-                       (assoc :menu-showable (menu-showable? db item))
-                       (assoc :current-component item))}))
-
-(rf/reg-sub :current-component (fn [db _] (:current-component db)))
-
-(rf/reg-sub :menu-showable (fn [db _] (:menu-showable db)))
-
-(rf/reg-sub :content
-  :<- [:current-component]
-  (fn [c _ ]
-    (cond (default-menu-item? c) (rn/render-default c)
-          (documentation-item? c) (rn/render-doc c))))
-
-(defn clicked? [current-component k]
-  (if (= current-component k)
-    (c [:text :blue-600] [:pseudo :hover [:text :blue-300]])
-    (c [:pseudo :hover [:text :blue-300]])))
-
-(defn menu-view
+(defn menu-item
   ([current-component k]
-   (menu-view current-component k
+   (menu-item current-component k
                             (-> k
                                 name
                                 str/capitalize)))
@@ -68,17 +52,42 @@
 
 (defn create-menu [current-component items]
   (apply conj [:ul]
-         (mapv (partial menu-view current-component) items)))
+         (mapv (partial menu-item current-component) items)))
 
 (defn default-menu [current-component]
-  (create-menu current-component (:default pages)))
+  (let [default-menu-items (:default pages)]
+    (create-menu current-component default-menu-items)))
 
-(defn extended-menu [current-component]
-  (create-menu current-component (->> pages
-                                      vals
-                                      (apply concat)
-                                      flatten
-                                      vec)))
+(defn extended-menu
+  [current-component]
+  (let [default-and-doc-items (->> pages
+                                   vals
+                                   (apply concat)
+                                   flatten
+                                   vec)]
+    (create-menu current-component default-and-doc-items)))
+
+;; Events
+
+(rf/reg-event-fx :clicked-component
+                 (fn [{:keys [db]} [_ item]]
+                   {:db (-> db
+                       (assoc :menu-showable (menu-showable? db item))
+                       (assoc :current-component item))}))
+
+
+;; Subscriptions
+
+
+(rf/reg-sub :current-component (fn [db _] (:current-component db)))
+
+(rf/reg-sub :menu-showable (fn [db _] (:menu-showable db)))
+
+(rf/reg-sub :content
+  :<- [:current-component]
+  (fn [c _ ]
+    (cond (default-menu-item? c) (rn/render-default c)
+          (documentation-item? c) (rn/render-doc c))))
 
 (rf/reg-sub :menu
   :<- [:current-component]
@@ -87,6 +96,8 @@
     (if-not m
       (default-menu c)
       (extended-menu c))))
+
+;; Components
 
 (defn side-menu
   []
@@ -101,6 +112,8 @@
    [side-menu]
    [current-component]])
 
+;; Re-frame machinery
+
 (def compiler
   (r/create-compiler {:function-components true}))
 
@@ -112,3 +125,5 @@
   (render))
 
 (defn run [] (rf/dispatch-sync [:initialize]) (render))
+
+(run)
