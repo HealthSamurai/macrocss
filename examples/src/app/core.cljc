@@ -7,16 +7,13 @@
             [app.render :as rn]
             [zframes.routing :as routing]
             [zframes.redirect]
-            [re-frame.db :as db]
-            [goog.events])
-  (:import goog.History
-           goog.history.EventType))
+            [re-frame.db :as db])
+
 
 (def pages {:default [:about :installation :documentation]
             :doc [:accessibility :background :border :color :container :effect :flex :grid
    :interactivity :layout :preflight :sizing :spacing :svg :table :transform
    :transition :typography :variant]})
-
 
 (defn route-path [page]
   (->> page
@@ -171,7 +168,3 @@
                         routing/parse-fragment
                         :path))
 (println "app state after route dispatch: " @db/app-db)
-
-(comment (let [h (History.)]
-  (goog.events/listen h EventType/NAVIGATE #(println "here is hash-change:" %))
-  (doto h (.setEnabled true))))
