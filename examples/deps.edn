@@ -6,9 +6,7 @@
   thheller/shadow-cljs {:mvn/version "2.14.4"}
   macrocss/macrocss {:local/root "../"}
   reagent/reagent {:mvn/version "1.1.0"}
-  re-frame/re-frame {:mvn/version "1.2.0"}
-  metosin/reitit {:mvn/version "0.5.15"}
-  route-map      {:mvn/version "0.0.7-RC1"}}
+  re-frame/re-frame {:mvn/version "1.2.0"}}
 
  :aliases {:shadow
            {:main-opts ["-m" "shadow.cljs.devtools.cli" "watch" "app"]}

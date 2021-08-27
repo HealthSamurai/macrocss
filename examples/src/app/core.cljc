@@ -5,29 +5,30 @@
             [clojure.string :as str]
             [re-frame.core :as rf]
             [app.render :as rn]
-            [zframes.routing :as routing]
-            [zframes.redirect]
-            [re-frame.db :as db])
-
+            [re-frame.db :as db]))
 
 (def pages {:default [:about :installation :documentation]
             :doc [:accessibility :background :border :color :container :effect :flex :grid
-   :interactivity :layout :preflight :sizing :spacing :svg :table :transform
-   :transition :typography :variant]})
+                  :interactivity :layout :preflight :sizing :spacing :svg :table :transform
+                  :transition :typography :variant]})
+
+(def default-and-doc (->> pages
+                          vals
+                          (apply concat)))
 
 (defn route-path [page]
   (->> page
        name
        (str "/")))
 
+(defn href [path]
+  (str "#" path))
+
 (defn create-routes [ks]
   (reduce (fn [acc k] (assoc acc k (route-path k))) {} ks))
 
 (def routes
-    (->> pages
-     vals
-     (apply concat)
-     create-routes))
+    (create-routes default-and-doc))
 
 (defn contains-item? [k item]
   (->> pages
@@ -49,20 +50,26 @@
   (cond (= item :documentation) (-> db
                                     :menu-showable
                                     not)
-        (default-menu-item? item) false
+        (default-menu-item? item)  false
         (documentation-item? item) true))
+
+(defn documentation-clicker [k]
+  (when (= k :documentation)
+    (fn [] (rf/dispatch [:doc-clicked]))))
 
 (defn menu-item
   ([page k]
-   (menu-item page k
-                            (-> k
-                                name
-                                str/capitalize)))
+   (menu-item page k (-> k
+                         name
+                         str/capitalize)))
   ([page k description]
    [:li
     [:a
     {:class (clicked? page k)
-     :on-click #(rf/dispatch [:clicked-component k])}
+     :href (-> k
+               routes
+               href)
+     :on-click (documentation-clicker k)}
      description]]))
 
 (defn create-menu [page items]
@@ -75,15 +82,17 @@
 
 (defn extended-menu
   [page]
-  (let [default-and-doc-items (->> pages
-                                   vals
-                                   (apply concat)
-                                   flatten
-                                   vec)]
-    (create-menu page default-and-doc-items)))
+    (create-menu page default-and-doc))
 
 (defn redirect [url]
   (set! (.-hash (.-location js/window)) url))
+
+(defn dispatch-routes [_]
+  (let [fragment (.. js/window -location -hash)]
+    (rf/dispatch [:clicked-component (->> fragment
+                                         (drop 2)
+                                         str/join
+                                         keyword)])))
 
 ;; Events
 
@@ -92,15 +101,20 @@
  (fn [_ _]
    {:db {:page :about
          :menu-showable false}
-    :redirect "/about"}))
+    :redirect "/about"
+    :history {}}))
 
 (rf/reg-event-fx :clicked-component
                  (fn [{:keys [db]} [_ item]]
                    (let [path (item routes)]
                      {:db (-> db
-                       (assoc :menu-showable (menu-showable? db item))
-                       (assoc :page item))
+                              (assoc :menu-showable (menu-showable? db item))
+                              (assoc :page item))
                       :redirect path})))
+
+(rf/reg-event-db :doc-clicked
+                 (fn [db _]
+                   (update db :menu-showable not)))
 
 ;; Subscriptions
 
@@ -131,6 +145,12 @@
  :redirect
  (fn [path] (redirect path)))
 
+ (rf/reg-fx
+ :history
+ (fn [_]
+   (aset js/window "onhashchange" dispatch-routes)
+   (dispatch-routes nil)))
+
 ;; Components
 
 (defn side-menu
@@ -143,6 +163,9 @@
 
 (defn ui
   []
+ (println "menu-showable:" (-> db/app-db
+                              deref
+                              :menu-showable))
   [:div (rn/with-key {:class (c :flex :flex-row)})
    [side-menu]
    [page]])
@@ -161,10 +184,3 @@
 
 (defn run [] (rf/dispatch-sync [:initialize]) (render))
 (run)
-
-(println "current app state is " @db/app-db)
-
-(println "hash is:" (-> (.. js/window -location -hash)
-                        routing/parse-fragment
-                        :path))
-(println "app state after route dispatch: " @db/app-db)
