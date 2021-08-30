@@ -1,10 +1,10 @@
 (ns components.core
   (:require [app.pages :refer [pages all-pages]]
             [stylo.core :refer [c]]
-            [components.templates :as t]
             [clojure.string :as str]
             [routing.core :refer [routes]]
             [components.hiccup :refer [href]]
+            [components.store :refer [components]]
             [re-frame.core :as rf]))
 
 (defn contains-item? [k item]
@@ -59,15 +59,12 @@
   [page]
   (create-menu page all-pages))
 
-(def components {:about (t/about)
-                 :installation (t/installation)
-                 :documentation (t/documentation)})
-
 (defn render-default [k]
   (k components))
 
 (defn render-doc [k]
-  (:installation components))
+  (or (render-default k)
+      (:installation components)))
 
 (defn render-page [c]
   (cond (default-menu-item? c) (render-default c)

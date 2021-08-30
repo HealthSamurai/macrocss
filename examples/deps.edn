@@ -11,4 +11,6 @@
  :aliases {:shadow
            {:main-opts ["-m" "shadow.cljs.devtools.cli" "watch" "app"]}
            :release
-           {:main-opts ["-m" "shadow.cljs.devtools.cli" "release" "app"]}}}
+           {:main-opts ["-m" "shadow.cljs.devtools.cli" "release" "app"]}
+           :test {:paths ["test"]
+                  :deps {healthsamurai/matcho "0.3.7"}}}}

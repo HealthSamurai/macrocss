@@ -54,3 +54,28 @@
   ([link description]
    [:a (with-key {:href (create-link link), :class (c [:text :blue-300] :underline)})
     description]))
+
+
+(defn create-table-heading [keyseq]
+  (reduce (fn [acc v] (conj acc [:th (-> v
+                                         name
+                                         str/capitalize)]))
+          [:tr] keyseq))
+
+(defn create-table-cells [resp]
+  (map create-table-cell resp))
+
+(defn table-from-response [resp]
+  [:table {:style {:border "1px dotted black"}}
+   [:tbody (create-table-heading)
+    (create-table-cells resp)]])
+
+(defn table [content]
+  [:table (c :w-full :text-left :border-collapse)
+   [:thead
+    [:tr
+     [:th (c [:z 20] :sticky [:top 0] :text-sm :font-semibold [:text :gray-600] :bg-white [:p 0])]]]
+   [:tbody (c :align-baseline )
+    [:tr
+     [:td (c [:py 2] [:pr 2] :font-mono :text-xs [:text :purple-600] :bg-white :whitespace-no-wrap)]
+     [:td (c [:py 2] [:pl 2] :font-mono :text-xs [:text :blue-300] :whitespace-pre)]]]])

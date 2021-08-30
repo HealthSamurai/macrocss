@@ -1,4 +1,4 @@
-(ns components.templates
+(ns components.default
   (:require [components.hiccup :refer [heading
                                        p
                                        a
