@@ -31,7 +31,7 @@ jobs:
       - uses: DeLaGuardo/setup-clojure@3.5
         with:
           cli: 1.10.1.693 # Clojure CLI based on tools.deps
-      - run: cd examples; npm install; clojure -M:release;
+      - run: cd examples; rm -rf .cpcache; rm -rf .shadow-cljs; cd public; rm -rf out; cd ..; npm install; clojure -M:release;
       - uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
          branch: master # The branch the action should deploy to.
