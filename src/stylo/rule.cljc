@@ -10,7 +10,7 @@
   `(defmethod rule ~k [~'_]
      [[:& ~v]]))
 
-(defn add-rules [rules]
+(defn defrules [rules]
   (doseq [[k v] rules]
     (defrule k v)))
 
