@@ -1,6 +1,6 @@
 (ns rule-test
   (:require [clojure.test :refer [deftest is testing use-fixtures]]
-            [stylo.rule :refer [rule defrule]]))
+            [stylo.rule :refer [rule defrules]]))
 
 (def rule-atom (atom {:old nil
                       :new nil}))
@@ -39,13 +39,12 @@
           old-rule-applied (rule :sr-only)
           _ (swap! rule-atom assoc :old old-rule-applied)]
       (is (= old-rule-applied (:old @rule-atom)))))
-  (testing "we declare rule using add-rules macro and store it
+  (testing "we declare rule using defrules and store it
             under :new key in rule atom,
             before we remove all methods to ensure it works.
             thus we can check equality of old and new"
     (let [_ (remove-all-methods rule)
-          _ (doseq [[k v] rules]
-                       (defrule k v))
+          _ (defrules rules)
             new-rule-applied (rule :sr-only)
             _ (swap! rule-atom assoc :new new-rule-applied)]
         (is (= new-rule-applied (:new @rule-atom)))

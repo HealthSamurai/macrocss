@@ -6,9 +6,10 @@
   [k & types]
   [[:& {k (pr-str types)}]])
 
-(defmacro defrule [k v]
-  `(defmethod rule ~k [~'_]
-     [[:& ~v]]))
+(defn defrules [rules]
+  (doseq [[k v] rules]
+    (defmethod rule k [_]
+      [[:& v]])))
 
 (defn merge-by-selector
   [exps]

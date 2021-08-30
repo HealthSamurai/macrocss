@@ -1,9 +1,10 @@
 (ns components.tailwind.accessibility
-  (:require [components.hiccup :refer [heading
-                                       p
-                                       a
-                                       pre-bash]]))
+  (:require [components.hiccup :as h]
+            [stylo.tailwind.accessibility :as a]))
+
+(def headers ["Class" "Properties"])
 
 (defn accessibility []
-  (heading "Screen Readers"
-       (p "Utilities for improving accessibility with screen readers.")))
+  [:div (h/heading "Screen Readers"
+                   (h/p "Utilities for improving accessibility with screen readers."))
+   (h/table headers a/accessibility-data)])

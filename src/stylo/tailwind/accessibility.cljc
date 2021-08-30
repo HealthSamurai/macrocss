@@ -2,7 +2,7 @@
   (:require
    [stylo.rule :refer [defrules]]))
 
-(def accessibility
+(def accessibility-data
   {:sr-only  {:position "absolute"
               :width "1px"
               :height "1px"
@@ -21,4 +21,4 @@
                  :clip "auto"
                  :white-space "normal"}})
 
-(defrules accessibility)
+(defrules accessibility-data)
