@@ -6,6 +6,11 @@
   [k & types]
   [[:& {k (pr-str types)}]])
 
+(defn defrules [rules]
+  (doseq [[k v] rules]
+    (defmethod rule k [_]
+      [[:& v]])))
+
 (defn merge-by-selector
   [exps]
   (->> exps
