@@ -77,7 +77,7 @@
     (p
      "As being inspired by Tailwind CSS library - our documentation implements the same logic.")
     (p "Table of contents:")
-    (p "Accessibibility.")
+    (p (a "/accessibility" "Accessibility."))
     (p "Background.")
     (p "Border.")
     (p "It must be links."))])

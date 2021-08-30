@@ -103,17 +103,11 @@
 
 
 (defn table [heading-names rule-data]
-  [:div {:class (c [:w-min 0]
-                   :flex-auto
-                   [:px 4]
-                   [:pt 10]
-                   [:pb 24])}
-   [:div {:class (c [:pb 10])}
-   [:div {:class (c :border-b
+[:div {:class (c :border-b
                    [:border :gray-200]
                    :overflow-hidden
                    :relative)}
    [:div {:class (c :overflow-y-auto)}
     [:table {:class (c :w-full :text-left :border-collapse)}
      (create-table-heading heading-names)
-     (create-table-cells rule-data)]]]]])
+     (create-table-cells rule-data)]]])
