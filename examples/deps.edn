@@ -13,4 +13,4 @@
            :release
            {:main-opts ["-m" "shadow.cljs.devtools.cli" "release" "app"]}
            :test {:paths ["test"]
-                  :deps {healthsamurai/matcho "0.3.7"}}}}
+                  :deps {healthsamurai/matcho {:mvn/version "0.3.7"}}}}}

@@ -10,10 +10,6 @@
   `(defmethod rule ~k [~'_]
      [[:& ~v]]))
 
-(defn defrules [rules]
-  (doseq [[k v] rules]
-    (defrule k v)))
-
 (defn merge-by-selector
   [exps]
   (->> exps
