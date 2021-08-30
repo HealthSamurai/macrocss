@@ -6,7 +6,6 @@
                       :new nil}))
 
 (defn clear [t]
-  (remove-all-methods rule)
   (reset! rule-atom {:old nil
                            :new nil})
   (t))
@@ -42,8 +41,10 @@
       (is (= old-rule-applied (:old @rule-atom)))))
   (testing "we declare rule using add-rules macro and store it
             under :new key in rule atom,
+            before we remove all methods to ensure it works.
             thus we can check equality of old and new"
-      (let [_ (doseq [[k v] rules]
+    (let [_ (remove-all-methods rule)
+          _ (doseq [[k v] rules]
                        (defrule k v))
             new-rule-applied (rule :sr-only)
             _ (swap! rule-atom assoc :new new-rule-applied)]
