@@ -2,98 +2,74 @@
   (:require [reagent.core :as r]
             [reagent.dom :as dom]
             [re-frame.core :as rf]
-            [re-frame.db :as db]
-            [stylo.core :refer [c c?]]
-            [clojure.string :as str]
-            [components.core :as c]
-            [components.hiccup :refer [k with-key]]
-            [routing.core :as routing]))
+            [stylo.core :refer [c]]
+            [app.pages]
+            [app.intro]))
 
+(defn href [x] (str "#" x))
 
-;; Dispatching functions
+(rf/reg-event-db
+  ::on-hash-change
+  (fn [db [_ hash]]
+    (println ::hash (subs hash 1))
+    (assoc db ::hash (keyword (subs hash 1)))))
 
+(defn on-hash-change []
+  (let [disp-fn #(rf/dispatch [::on-hash-change (.-hash (.-location js/window))])]
+    (aset js/window "onhashchange" disp-fn)
+    (disp-fn)))
 
-(defn dispatch-routes [_]
-  (let [fragment (.. js/window -location -hash)
-        component  (->> fragment
-                        (drop 2)
-                        str/join
-                        keyword)]
-    (rf/dispatch [:clicked-component component])))
-
-;; Events
 
 (rf/reg-event-fx
  :initialize
  (fn [_ _]
-   {:db {:page :about
-         :menu-showable false}
-    :redirect "/about"
-    :history {}}))
+   ;; effect
+   (on-hash-change)
+   {:init-routes {}}))
 
-(rf/reg-event-fx :clicked-component
-                 (fn [{:keys [db]} [_ item]]
-                   (let [path (item routing/routes)
-                         new-db (-> db
-                                    (assoc :menu-showable (c/menu-showable? db item))
-                                    (assoc :page item))]
-                     {:db new-db
-                      :redirect path})))
-
-(rf/reg-event-db :doc-clicked
-                 (fn [db _]
-                   (update db :menu-showable not)))
-
-;; Subscriptions
-
-
-(rf/reg-sub :page (fn [db _] (:page db)))
-
-(rf/reg-sub :menu-showable (fn [db _] (:menu-showable db)))
-
-(rf/reg-sub :route (fn [db _] (:route db)))
-
-(rf/reg-sub :content
-            :<- [:page]
-            (fn [c _]
-              (c/render-page c)))
-
-(rf/reg-sub :menu
-            :<- [:page]
-            :<- [:menu-showable]
-            (fn [[c m] _]
-              (c/render-menu c m)))
-
-;; Effects
-
-(rf/reg-fx
- :redirect
- (fn [path] (routing/redirect path)))
-
-(rf/reg-fx
- :history
- (fn [_]
-   (routing/on-hash-change dispatch-routes)
-   (dispatch-routes nil)))
-
-;; View Functions
+(rf/reg-sub
+  ::menu
+  (fn [db _]
+    (->> @app.pages/pages
+         (map (fn [[k v]]
+                (assoc v :id k :href (str "#" (name k)))))
+         (sort-by :w))))
 
 (defn side-menu
   []
-  [:nav (with-key {:class (c :flex :flex-column [:mx 5] [:mt 8])})
-   @(rf/subscribe [:menu])])
+  (let [m (rf/subscribe [::menu])]
+    (fn []
+      [:div {:class (c [:w 60] [:py 4] [:px 8])}
+       [:div {:class (c [:mb 4] :text-bold)} "LOGO"]
+       [:nav
+        (for [item @m]
+          [:a {:href  (:href item)
+               :key (:id item)
+               :class (c :block [:py 2] [:px 3]
+                         [:text :gray-700] [:hover [:text :black]])}
+           (:title item)])]])))
+
+(rf/reg-sub
+  ::content
+  (fn [db _]
+    (let [id (or (get db ::hash) :about)]
+      (get @app.pages/pages id))))
 
 (defn page []
-  [:div (k) @(rf/subscribe [:content])])
+  (let [m @(rf/subscribe [::content])]
+    (if-let [c (:cmp m)]
+      [c]
+      [:div (pr-str "No compoment for " m)])))
 
 (defn ui
   []
-  [:div (with-key {:class (c :flex :flex-row)})
-   [side-menu]
-   [page]])
+  [:div {:class (c :w-full )}
+   [:div {:class (c [:w 340] :border :mx-auto :flex)}
+    [side-menu]
+    [:div {:class (c :flex-1)}
+     [page]]]])
 
 ;; Re-frame machinery
-
 (def compiler
   (r/create-compiler {:function-components true}))
 

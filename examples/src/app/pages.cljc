@@ -1,10 +1,6 @@
 (ns app.pages)
 
-(def pages {:default [:about :installation :documentation]
-            :doc [:accessibility :background :border :color :container :effect :flex :grid
-                  :interactivity :layout :preflight :sizing :spacing :svg :table :transform
-                  :transition :typography :variant]})
+(defonce pages (atom {}))
 
-(def all-pages (->> pages
-                    vals
-                    (apply concat)))
+(defn reg-page [key title comp w]
+  (swap! pages assoc key {:cmp comp :title title :w w}))
