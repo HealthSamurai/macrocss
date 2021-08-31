@@ -11,14 +11,14 @@
 (rf/reg-event-db
   ::on-hash-change
   (fn [db [_ hash]]
-    (println ::hash (subs hash 1))
-    (assoc db ::hash (keyword (subs hash 1)))))
+    (if (empty? (subs hash 1))
+        (set! (.-hash (.-location js/window)) "/about")
+        (assoc db ::hash (keyword (subs hash 1))))))
 
 (defn on-hash-change []
   (let [disp-fn #(rf/dispatch [::on-hash-change (.-hash (.-location js/window))])]
     (aset js/window "onhashchange" disp-fn)
     (disp-fn)))
-
 
 (rf/reg-event-fx
  :initialize
@@ -32,7 +32,7 @@
   (fn [db _]
     (->> @app.pages/pages
          (map (fn [[k v]]
-                (assoc v :id k :href (str "#" (name k)))))
+                (assoc v :id k :href (str "#/" (name k)))))
          (sort-by :w))))
 
 (defn side-menu
@@ -52,11 +52,13 @@
 (rf/reg-sub
   ::content
   (fn [db _]
-    (let [id (or (get db ::hash) :about)]
+    (let [_ (println (get db ::hash))
+          id (or (get db ::hash) :about)]
       (get @app.pages/pages id))))
 
 (defn page []
   (let [m @(rf/subscribe [::content])]
+    (println "pages is: "@app.pages/pages)
     (if-let [c (:cmp m)]
       [c]
       [:div (pr-str "No compoment for " m)])))
