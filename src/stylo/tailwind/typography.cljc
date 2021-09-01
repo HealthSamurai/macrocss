@@ -92,7 +92,9 @@
 
 
 ;; https://tailwindcss.com/docs/text-color/#app
-(defmethod rule :text [_ x] [[:& {:color (with-alpha (colors x) :--text-opacity) :--text-opacity 1}]])
+(defmethod rule :text [_ x] [[:& {:color (with-alpha (cond
+                                                       (keyword? x) (colors x)
+                                                       (string? x) x) :--text-opacity) :--text-opacity 1}]])
 
 
 ;; https://tailwindcss.com/docs/text-opacity/#app

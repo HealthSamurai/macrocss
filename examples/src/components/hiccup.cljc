@@ -8,32 +8,82 @@
 
 (defn with-key [m] (merge (k) m))
 
-(defn p
-  ([content]
-   [:p (with-key {:class (c [:mt 1] :text-base [:text :gray-500])}) content])
-  ([content & other-content]
-   [:p (with-key {:class (c [:mt 1] :text-base [:text :gray-500])}) content
-    other-content]))
-
 (defn pre-bash
-  [content]
-  [:div
-   (with-key
-     {:style {:background-color :black, :width :min-content, :border-radius "6px"},
-      :class (c [:m 1])})
-   [:pre (with-key {:class (c [:text :white] [:mt 1] :text-base)}) content]])
-
-(defn heading
   [& content]
-  [:div (with-key {:class (c :content-center [:mt 8])})
+  [:div
+   {:class (c [:mt 1]
+              [:bg :black]
+              [:rounded 12]
+              [:px 4]
+              [:py 3]
+              :w-auto)}
+   [:pre {:class (c [:text :white]
+                    :font-mono
+                    :text-sm)} content]])
+
+(defn lint [code-string]
+  (let [colors [:yellow-600
+                :blue-300
+                :orange-500
+                :pink-500]
+        code-color (nth colors (rand-int 3))]
+    (reduce (fn [acc smbl]
+              (conj acc (cond
+                          (or (= \] smbl)
+                              (= \[ smbl)) [:span {:class (c [:text :purple-500])} smbl]
+
+                          (or (= \} smbl)
+                              (= \{ smbl)) [:span {:class (c [:text :blue-500])} smbl]
+
+                          (or (= \( smbl)
+                              (= \) smbl)) [:span {:class (c [:text :indigo-500])} smbl]
+
+                          (or (= \< smbl)
+                              (= \> smbl)) [:span {:class (c [:text :blue-900])} smbl]
+
+                          (= \= smbl)  [:span {:class (c [:text :orange-900])} smbl]
+
+                          :else [:span {:class (c [:text :yellow-500])} smbl])))
+            [:span] code-string)))
+
+(defn code [code-string]
+  [:div
+   {:class (c [:mt 1]
+              [:bg :black]
+              [:rounded 12]
+              [:px 4]
+              [:py 3]
+              :w-auto)}
+   [:pre {:class (c :font-mono
+                    :text-sm)} (lint code-string)]])
+
+(defn block [& content]
+  [:div {:class (c :content-center [:mt 8])}
    [:div
-    (with-key {:class (c :box-border [:pb 10] [:mb 10] [:border-b :gray-200])})
-    [:h1
-     (with-key {:class (c [:m 1]
-                          :text-3xl
-                          :inline-block
-                          [:text :gray-900]
-                          :tracking-tight)}) content]]])
+    {:class (c :box-border [:pb 10] [:mb 10] [:border-b :gray-200])}
+    content]])
+
+(defn h1 [& content]
+  [:h1 {:class (c
+                :text-3xl
+                :inline-block
+                :font-extrabold
+                [:text :gray-900]
+                :tracking-tight)} content])
+
+(defn p1 [& content]
+  [:p {:class (c [:mt 1] :font-sans :text-lg :font-light [:text :gray-600])} content])
+
+(defn h3 [& content]
+  [:h3 {:class (c [:m 1]
+                  :text-xl
+                  :inline-block
+                  :font-bold
+                  [:text :gray-900]
+                  :tracking-tight)} content])
+
+(defn p3 [& content]
+  [:p {:class (c [:mt 1] :font-sans :text-base [:text :gray-800])} content])
 
 (defn hash-link? [link]
   (= "/" (-> link
@@ -54,17 +104,6 @@
    [:a (with-key {:href (create-link link), :class (c [:text :blue-300] :underline)})
     description]))
 
-(def table-heading-style
-  {:class (c [:z 20] :sticky
-             [:top 0] :text-sm
-             :font-semibold [:text :gray-600]
-             [:bg :white]
-             [:p 0])
-   :key (gen-key)})
-
-(def table-content-style
-  {:class (c [:pb 2] [:pr 2] :border-b [:border :gray-200])})
-
 (defn right-cell-content [cell]
   (reduce (fn [acc [k v]]
             (conj acc [:p (-> k
@@ -75,39 +114,41 @@
           cell))
 
 (defn create-table-heading [keyseq]
-  [:thead (reduce (fn [acc v] (conj acc [:th table-heading-style
-                                         [:div table-content-style
-                                          v]]))
-                  [:tr] keyseq)])
+  [:thead {:class (c :border-b)}
+   (conj
+    (reduce (fn [acc v] (conj acc [:th {:class (c :font-semibold
+                                                  :font-sans
+                                                  [:text :gray-600]
+                                                  :text-sm
+                                                  [:pb 2])
+                                        :key v}
+                                   [:div {:class (c :flex
+                                                    :content-start)} v]]))
+
+            [:tr] keyseq))])
 
 (defn create-left-cell [k]
-  [:td {:class (c [:py 2] [:pr 2]
-                  :font-mono :text-xs
-                  [:text :purple-600]
-                  [:bg :white]
-                  :whitespace-no-wrap)}
-   k])
+  [:td {:class (c :font-mono :text-xs
+                  [:text :purple-600])} k])
 
 (defn create-right-cell [v]
-  [:td {:class (c [:py 2] [:pl 2]
-                  :font-mono :text-xs
-                  [:text :blue-300]
-                  :whitespace-pre)}
+  [:td {:class (c :font-mono :text-xs
+                  [:text :blue-300])}
    (right-cell-content v)])
 
 (defn create-table-cells [rule-data]
-  (reduce (fn [acc [k v]] (conj acc [:tr (create-left-cell k)
-                                     (create-right-cell v)]))
-          [:tbody {:class (c :align-baseline)}] rule-data))
+  (reduce (fn [acc [k v]]
+            (conj acc [:tr (create-left-cell k)
+                       (create-right-cell v)]
+                  [:tr {:class (c :border-b)}]))
+          [:tbody] rule-data))
 
-
-
-(defn table [heading-names rule-data]
-[:div {:class (c :border-b
+(defn table [rule-data]
+  [:div {:class (c :border-b
                    [:border :gray-200]
                    :overflow-hidden
                    :relative)}
    [:div {:class (c :overflow-y-auto)}
     [:table {:class (c :w-full :text-left :border-collapse)}
-     (create-table-heading heading-names)
+     (create-table-heading ["Class" "Properties"])
      (create-table-cells rule-data)]]])

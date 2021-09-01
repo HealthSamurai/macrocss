@@ -1,14 +1,10 @@
 (ns app.intro
-  (:require [app.pages]))
+  (:require [app.pages]
+            [components.tailwind.accessibility :as a]
+            [components.default :as d]))
 
+(app.pages/reg-page :about d/about 0)
 
-(defn about []
-  [:div "About "])
+(app.pages/reg-page :installation  d/installation 1)
 
-(app.pages/reg-page :about about 0)
-
-
-(defn inst []
-  [:div "Installation "])
-
-(app.pages/reg-page :installation  inst 1)
+(app.pages/reg-page :accessibility a/accessibility 2)

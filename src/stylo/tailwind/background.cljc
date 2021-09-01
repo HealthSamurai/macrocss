@@ -12,8 +12,9 @@
 
 
 ;; https://tailwindcss.com/docs/background-color/#app
-(defmethod rule :bg [_ x] [[:& {:background-color (with-alpha (colors x) :--bg-opacity) :--bg-opacity 1}]])
-
+(defmethod rule :bg [_ x] [[:& {:background-color (with-alpha (cond
+                                                                (keyword? x) (colors x)
+                                                                (string? x) x) :--bg-opacity) :--bg-opacity 1}]])
 
 ;; https://tailwindcss.com/docs/background-opacity/#app
 (defmethod rule :bg-opacity [_ x] [[:& {:--bg-opacity (as-unit x :percent)}]])

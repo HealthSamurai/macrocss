@@ -12,25 +12,10 @@
        k
        (some #{item})))
 
-(defn clicked? [page k]
-  (if (= page k)
+(defn clicked? [bool]
+  (if bool
     (c [:text :blue-600] [:pseudo :hover [:text :blue-300]])
     (c [:pseudo :hover [:text :blue-300]])))
-
-(defn default-menu-item? [item]
-  (contains-item? :default item))
-
-(defn documentation-item? [item]
-  (contains-item? :doc item))
-
-(defn menu-showable? [db item]
-  (cond (= item :documentation) true
-        (default-menu-item? item)  false
-        (documentation-item? item) true))
-
-(defn dispatch-doc-click [k]
-  (when (= k :documentation)
-    (fn [] (rf/dispatch [:doc-clicked]))))
 
 (defn menu-item
   ([page k]
@@ -40,7 +25,7 @@
   ([page k description]
    [:li
     [:a
-     {:class (clicked? page k)
+     {:class (clicked? k)
       :href (-> k
                 routes
                 href)
