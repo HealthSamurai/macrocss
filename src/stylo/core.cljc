@@ -81,7 +81,6 @@
   @styles
 
   (c? [:progress-bar [:bg :red-500]] {:font-weight "500"})
-
   (c? [:progress-bar [:bg :red-500]])
   (c? [:disabled [:hover [:bg :red-500]]])
   (c? [:bg :red-500] [[:.some-arbitrary-class {:bg :blue-400}]])

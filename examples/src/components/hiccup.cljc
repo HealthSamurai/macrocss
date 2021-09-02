@@ -48,7 +48,8 @@
 
 (defn code [code-string]
   [:div
-   {:class (c [:mt 1]
+   {:class (c [:mt 2]
+              [:mb 2]
               [:bg :black]
               [:rounded 12]
               [:px 4]
@@ -58,7 +59,7 @@
                     :text-sm)} (lint code-string)]])
 
 (defn block [& content]
-  [:div {:class (c :content-center [:mt 8])}
+  [:div {:class (c [:w 180] :content-center [:mt 8])}
    [:div
     {:class (c :box-border [:pb 10] [:mb 10] [:border-b :gray-200])}
     content]])
@@ -83,7 +84,7 @@
                   :tracking-tight)} content])
 
 (defn p3 [& content]
-  [:p {:class (c [:mt 1] :font-sans :text-base [:text :gray-800])} content])
+  [:p {:class (c [:mt 1] :font-sans :font-light :text-base [:text :gray-800])} content])
 
 (defn hash-link? [link]
   (= "/" (-> link
@@ -152,3 +153,10 @@
     [:table {:class (c :w-full :text-left :border-collapse)}
      (create-table-heading ["Class" "Properties"])
      (create-table-cells rule-data)]]])
+
+(defn code-span [code]
+  [:span {:class (c :font-mono
+                    :text-sm
+                    :font-semibold
+                    [:text "7c3aed"])}
+   code])

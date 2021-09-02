@@ -6,4 +6,7 @@
 (defn reg-page [key comp w]
   (swap! pages assoc key {:cmp comp :title (-> key
                                                name
-                                               str/capitalize) :w w}))
+                                               (str/split #"-")
+                                               (->>
+                                                (mapv str/capitalize)
+                                                (str/join " "))) :w w}))

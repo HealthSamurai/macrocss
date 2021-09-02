@@ -80,16 +80,27 @@
         [:div {:class (c [:ml 1] [:mt 3]
                         :text-xl :font-extrabold)} "macroCSS"]]
        [:nav {:class (c :flex-column) }
-        (for [{:keys [id href title clicked] :as item} @m]
+        (for [{:keys [id href title clicked] :as item} @m
+              :let [_ (println item)]]
+
           [:div {:class (c [:flex-grow 4])}
-           [:a {:href href
+           (if-not (or (= "Documentation" title)
+                       (= "Introduction" title))
+             [:a {:href href
                :key id
                :class (clicked-text-color clicked)}
-            (clicked-opacity clicked)
+              (clicked-opacity clicked)
              [:span {:class (c :relative
                                [:line-height 16]
                                :text-sm
-                               :font-normal)} title]]])]])))
+                               :font-normal)} title]]
+             [:span {:class (c :text-sm
+                               :relative
+                                :font-semibold
+                                [:line-height 16]
+                                [:text :gray-900]
+                                [:pt 2]
+                                [:pb 2])} (str title ": ")])])]])))
 
 (rf/reg-sub
   ::content
