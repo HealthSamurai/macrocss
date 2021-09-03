@@ -145,14 +145,9 @@
           [:tbody] rule-data))
 
 (defn table [rule-data]
-  [:div {:class (c :border-b
-                   [:border :gray-200]
-                   :overflow-hidden
-                   :relative)}
-   [:div {:class (c :overflow-y-auto)}
-    [:table {:class (c :w-full :text-left :border-collapse)}
-     (create-table-heading ["Class" "Properties"])
-     (create-table-cells rule-data)]]])
+  [:table {:class (c :w-full :text-left :border-collapse)}
+   (create-table-heading ["Class" "Properties"])
+   (create-table-cells rule-data)])
 
 (defn code-span [code]
   [:span {:class (c :font-mono
@@ -160,3 +155,35 @@
                     :font-semibold
                     [:text "7c3aed"])}
    code])
+
+(defn title-from-key [k]
+  (-> k
+      name
+      (str/split #"-")
+      (->>
+       (mapv str/capitalize)
+       (str/join " "))))
+
+(defn navigation-arrows [[prev-page next-page]]
+  (let [prev-title (->> prev-page
+                        title-from-key
+                        (str "← "))
+        prev-link (-> prev-page
+                      name
+                      href)
+        next-title (-> next-page
+                       title-from-key
+                       (str " →"))
+        next-link (-> next-page
+                      name
+                      href)]
+    [:div {:class (c :flex [:mt 16] :font-medium [:leading 6])}
+     [:a {:class (c :flex [:mr 8] [:text :gray-500]
+                    [:hover [:text :gray-900]]
+                    [:duration 200])
+          :href prev-link} prev-title]
+     [:a {:class (c :flex :text-right :ml-auto
+                    [:text :gray-500]
+                    [:duration 200]
+                     [:hover [:text :gray-900]])
+          :href next-link} next-title]]))

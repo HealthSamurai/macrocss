@@ -8,8 +8,11 @@
 
 (defn defrules [rules]
   (doseq [[k v] rules]
-    (defmethod rule k [_]
-      [[:& v]])))
+    (if (associative? v)
+     (defmethod rule k [_]
+       [[:& v]])
+     (defmethod rule k [_ x]
+       [[:& (v x)]]))))
 
 (defn merge-by-selector
   [exps]

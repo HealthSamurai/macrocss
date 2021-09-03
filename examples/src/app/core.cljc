@@ -80,9 +80,7 @@
         [:div {:class (c [:ml 1] [:mt 3]
                         :text-xl :font-extrabold)} "macroCSS"]]
        [:nav {:class (c :flex-column) }
-        (for [{:keys [id href title clicked] :as item} @m
-              :let [_ (println item)]]
-
+        (for [{:keys [id href title clicked] :as item} @m]
           [:div {:class (c [:flex-grow 4])}
            (if-not (or (= "Documentation" title)
                        (= "Introduction" title))
@@ -110,7 +108,6 @@
 
 (defn page []
   (let [m @(rf/subscribe [::content])]
-    (println "pages is: "@app.pages/pages)
     (if-let [c (:cmp m)]
       [c]
       [:div (pr-str "No compoment for " m)])))
@@ -136,7 +133,5 @@
   (render))
 
 (defn run [] (rf/dispatch-sync [:initialize]) (render))
-
-(println "db is: " db/app-db)
 
 (run)
