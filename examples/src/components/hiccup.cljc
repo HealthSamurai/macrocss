@@ -130,7 +130,8 @@
 
 (defn create-left-cell [k]
   [:td {:class (c :font-mono :text-xs
-                  [:text :purple-600])} k])
+                  [:text :purple-600]
+                  :whitespace-no-wrap)} k])
 
 (defn create-right-cell [v]
   [:td {:class (c :font-mono :text-xs

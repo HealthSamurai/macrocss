@@ -3,10 +3,12 @@
 
 (defonce pages (atom {}))
 
-(defn reg-page [key comp w]
-  (swap! pages assoc key {:cmp comp :title (-> key
-                                               name
-                                               (str/split #"-")
+(defn reg-page
+  [k component weight]
+  (swap! pages assoc k {:cmp component :title (-> k
+                                                    name
+                                                    (str/split #"-")
                                                (->>
                                                 (mapv str/capitalize)
-                                                (str/join " "))) :w w}))
+                                                (str/join " ")))
+                          :w weight}))

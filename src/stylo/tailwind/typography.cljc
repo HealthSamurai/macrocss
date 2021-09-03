@@ -87,18 +87,19 @@
 
 ;; https://tailwindcss.com/docs/list-style-position/#app
 
+(def list-style-position {:list-inside {:list-style-position "inside"}
+                          :list-outside {:list-style-position "outside"}})
 
-(defmethod rule :list-inside [_] [[:& {:list-style-position "inside"}]])
-(defmethod rule :list-outside [_] [[:& {:list-style-position "outside"}]])
-
+(defrules list-style-position)
 
 ;; https://tailwindcss.com/docs/list-style-type/#app
 
+(def list-style-type
+  {:list-none  {:list-style "none"}
+   :list-disc {:list-style "disc"}
+   :list-decimal {:list-style "decimal"}})
 
-(defmethod rule :list-none [_] [[:& {:list-style "none"}]])
-(defmethod rule :list-disc [_] [[:& {:list-style "disc"}]])
-(defmethod rule :list-decimal [_] [[:& {:list-style "decimal"}]])
-
+(defrules list-style-type)
 
 ;; https://tailwindcss.com/docs/placeholder-color/#app
 
@@ -115,18 +116,17 @@
 ;; https://tailwindcss.com/docs/text-align/#app
 
 
-(defmethod rule :text-left [_] [[:& {:text-align "left"}]])
-(defmethod rule :text-center [_] [[:& {:text-align "center"}]])
-(defmethod rule :text-right [_] [[:& {:text-align "right"}]])
-(defmethod rule :text-justify [_] [[:& {:text-align "justify"}]])
+(def text-align {:text-left  {:text-align "left"}
+                 :text-center  {:text-align "center"}
+                 :text-right  {:text-align "right"}
+                 :text-justify  {:text-align "justify"}})
 
+(defrules text-align)
 
 ;; https://tailwindcss.com/docs/text-color/#app
 
 
-(defmethod rule :text [_ x] [[:& {:color (with-alpha (cond
-                                                       (keyword? x) (colors x)
-                                                       (string? x) x) :--text-opacity) :--text-opacity 1}]])
+(defmethod rule :text [_ x] [[:& {:color (with-alpha (colors x) :--text-opacity) :--text-opacity 1}]])
 
 
 ;; https://tailwindcss.com/docs/text-opacity/#app
@@ -138,45 +138,58 @@
 ;; https://tailwindcss.com/docs/text-decoration/#app
 
 
-(defmethod rule :underline [_] [[:& {:text-decoration "underline"}]])
-(defmethod rule :line-through [_] [[:& {:text-decoration "line-through"}]])
-(defmethod rule :no-underline [_] [[:& {:text-decoration "none"}]])
+(def text-decoration
+ { :underline {:text-decoration "underline"}
+  :line-through {:text-decoration "line-through"}
+  :no-underline  {:text-decoration "none"}})
 
+(defrules text-decoration)
 
 ;; https://tailwindcss.com/docs/text-transform/#app
 
+(def text-transform {
+ :uppercase  {:text-transform "uppercase"}
+ :lowercase  {:text-transform "lowercase"}
+ :capitalize  {:text-transform "capitalize"}
+ :normal-case {:text-transform "none"}}
+)
 
-(defmethod rule :uppercase [_] [[:& {:text-transform "uppercase"}]])
-(defmethod rule :lowercase [_] [[:& {:text-transform "lowercase"}]])
-(defmethod rule :capitalize [_] [[:& {:text-transform "capitalize"}]])
-(defmethod rule :normal-case [_] [[:& {:text-transform "none"}]])
-
+(defrules text-transform)
 
 ;; https://tailwindcss.com/docs/vertical-align/#app
 
+(def vertical-align {
+ :align-baseline {:vertical-align "baseline"}
+ :align-top {:vertical-align "top"}
+ :align-middle  {:vertical-align "middle"}
+ :align-bottom  {:vertical-align "bottom"}
+ :align-text-top  {:vertical-align "text-top"}
+ :align-text-bottom  {:vertical-align "text-bottom"}
+                     })
 
-(defmethod rule :align-baseline [_] [[:& {:vertical-align "baseline"}]])
-(defmethod rule :align-top [_] [[:& {:vertical-align "top"}]])
-(defmethod rule :align-middle [_] [[:& {:vertical-align "middle"}]])
-(defmethod rule :align-bottom [_] [[:& {:vertical-align "bottom"}]])
-(defmethod rule :align-text-top [_] [[:& {:vertical-align "text-top"}]])
-(defmethod rule :align-text-bottom [_] [[:& {:vertical-align "text-bottom"}]])
-
+(defrules vertical-align)
 
 ;; https://tailwindcss.com/docs/whitespace/#app
 
+(def whitespace {
+ :whitespace-normal {:white-space "normal"}
+:whitespace-no-wrap {:white-space "nowrap"}
+ :whitespace-pre  {:white-space "pre"}
+ :whitespace-pre-line {:white-space "pre-line"}
+:whitespace-pre-wrap {:white-space "pre-wrap"}
+}
+  )
 
-(defmethod rule :whitespace-normal [_] [[:& {:white-space "normal"}]])
-(defmethod rule :whitespace-no-wrap [_] [[:& {:white-space "nowrap"}]])
-(defmethod rule :whitespace-pre [_] [[:& {:white-space "pre"}]])
-(defmethod rule :whitespace-pre-line [_] [[:& {:white-space "pre-line"}]])
-(defmethod rule :whitespace-pre-wrap [_] [[:& {:white-space "pre-wrap"}]])
-
+(defrules whitespace)
 
 ;; https://tailwindcss.com/docs/word-break/#app
 
+(def word-break
+{
+ :break-normal  {:overflow-wrap "normal" :word-break "normal"}
+ :break-words  {:overflow-wrap "break-word"}
+ :break-all {:word-break "break-all"}
+ :truncate  {:overflow "hidden" :text-overflow "ellipsis" :white-space "nowrap"}}
+  )
 
-(defmethod rule :break-normal [_] [[:& {:overflow-wrap "normal" :word-break "normal"}]])
-(defmethod rule :break-words [_] [[:& {:overflow-wrap "break-word"}]])
-(defmethod rule :break-all [_] [[:& {:word-break "break-all"}]])
-(defmethod rule :truncate [_] [[:& {:overflow "hidden" :text-overflow "ellipsis" :white-space "nowrap"}]])
+(defrules word-break)

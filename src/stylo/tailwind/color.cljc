@@ -1,7 +1,6 @@
 (ns stylo.tailwind.color)
 
-
-(def colors
+(def colors-data
   {:transparent "transparent"
    :current     "currentColor"
    :inherit     "inherit"
@@ -97,3 +96,7 @@
    :pink-700    "#b83280"
    :pink-800    "#97266d"
    :pink-900    "#702459"})
+
+(defn colors [x]
+  (cond (keyword? x) (x colors-data)
+        (string? x) x))

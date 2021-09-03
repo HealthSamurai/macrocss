@@ -8,10 +8,6 @@
             [stylo.core :refer [c]]
             [stylo.tailwind.accessibility :as a]))
 
-(def headers ["Class" "Properties"])
-
-(def td-c (c [:px 2] [:py 1] :border-b :align-top))
-
 (defn accessibility []
   [:div
    (block
