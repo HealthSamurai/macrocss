@@ -1,13 +1,14 @@
 (ns rule-test
   (:require [clojure.test :refer [deftest is testing use-fixtures]]
-            [stylo.rule :refer [rule defrules]]))
+            [stylo.rule :refer [rule defrules]]
+            [stylo.core :refer [c]]))
 
 (def rule-atom (atom {:old nil
                       :new nil}))
 
 (defn clear [t]
   (reset! rule-atom {:old nil
-                           :new nil})
+                     :new nil})
   (t))
 
 (use-fixtures :each clear)
@@ -21,31 +22,55 @@
                        :clip "rect(0 0 0 0)"
                        :white-space "nowrap"
                        :border-width "0"}
-            :not-sr-only {:position "static"
-                          :width "auto"
-                          :height "auto"
-                          :padding "0"
-                          :margin "0"
-                          :overflow "visible"
-                          :clip "auto"
-                          :white-space "normal"}})
+            :not-sr-only (fn [x] {:position x
+                                  :width "auto"
+                                  :height "auto"
+                                  :padding "0"
+                                  :margin "0"
+                                  :overflow "visible"
+                                  :clip "auto"
+                                  :white-space "normal"})})
 
-(deftest rule-test
-  (testing "we declare rule old-fashioned way via doseq and without macro,
-            then add result of checking rule application into atom,
-            it is stored under :old key in rule-atom"
-    (let [_  (doseq [[k v] rules]
-                      (defmethod rule k [_] [[:& v]]))
-          old-rule-applied (rule :sr-only)
-          _ (swap! rule-atom assoc :old old-rule-applied)]
-      (is (= old-rule-applied (:old @rule-atom)))))
+(deftest rule-tests
+  (testing "we declare rules old-fashioned way via defmethod"
+    (let [sr :sr-only
+          _ (defmethod rule sr [_] [[:& (sr rules)]])
+          nsr :not-sr-only
+          _ (defmethod rule nsr [_ x] [[:& {:position x
+                                            :width "auto"
+                                            :height "auto"
+                                            :padding "0"
+                                            :margin "0"
+                                            :overflow "visible"
+                                            :clip "auto"
+                                            :white-space "normal"}]])
+          old-a1 (rule :sr-only)
+          old-a2 (rule :not-sr-only "static")
+          _ (swap! rule-atom assoc-in [:old :a1] old-a1)
+          _ (swap! rule-atom assoc-in [:old :a2] old-a2)]
+      (is (= old-a1  (->> rule-atom
+                          deref
+                                  :old
+                                  :a1)))
+      (is (= old-a2 (->> rule-atom
+                         deref
+                         :old
+                         :a2)))))
   (testing "we declare rule using defrules and store it
-            under :new key in rule atom,
-            before we remove all methods to ensure it works.
+            under :new key in rule atom, before we remove all methods to ensure it works.
             thus we can check equality of old and new"
     (let [_ (remove-all-methods rule)
           _ (defrules rules)
-            new-rule-applied (rule :sr-only)
-            _ (swap! rule-atom assoc :new new-rule-applied)]
-        (is (= new-rule-applied (:new @rule-atom)))
-        (is (= (:new @rule-atom) (:old @rule-atom))))))
+          new-a1 (rule :sr-only)
+          new-a2 (rule :not-sr-only "static")
+          _ (swap! rule-atom assoc-in [:new :a1] new-a1)
+          _ (swap! rule-atom assoc-in [:new :a2] new-a2)]
+      (is (= new-a1 (-> rule-atom
+                        deref
+                        :new
+                        :a1)))
+      (is (= new-a2 (-> rule-atom
+                        deref
+                        :new
+                        :a2)))
+      (is (= (:new @rule-atom) (:old @rule-atom))))))
