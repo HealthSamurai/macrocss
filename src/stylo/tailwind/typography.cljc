@@ -139,57 +139,48 @@
 
 
 (def text-decoration
- { :underline {:text-decoration "underline"}
-  :line-through {:text-decoration "line-through"}
-  :no-underline  {:text-decoration "none"}})
+  {:underline {:text-decoration "underline"}
+   :line-through {:text-decoration "line-through"}
+   :no-underline  {:text-decoration "none"}})
 
 (defrules text-decoration)
 
 ;; https://tailwindcss.com/docs/text-transform/#app
 
-(def text-transform {
- :uppercase  {:text-transform "uppercase"}
- :lowercase  {:text-transform "lowercase"}
- :capitalize  {:text-transform "capitalize"}
- :normal-case {:text-transform "none"}}
-)
+(def text-transform {:uppercase  {:text-transform "uppercase"}
+                     :lowercase  {:text-transform "lowercase"}
+                     :capitalize  {:text-transform "capitalize"}
+                     :normal-case {:text-transform "none"}})
 
 (defrules text-transform)
 
 ;; https://tailwindcss.com/docs/vertical-align/#app
 
-(def vertical-align {
- :align-baseline {:vertical-align "baseline"}
- :align-top {:vertical-align "top"}
- :align-middle  {:vertical-align "middle"}
- :align-bottom  {:vertical-align "bottom"}
- :align-text-top  {:vertical-align "text-top"}
- :align-text-bottom  {:vertical-align "text-bottom"}
-                     })
+(def vertical-align {:align-baseline {:vertical-align "baseline"}
+                     :align-top {:vertical-align "top"}
+                     :align-middle  {:vertical-align "middle"}
+                     :align-bottom  {:vertical-align "bottom"}
+                     :align-text-top  {:vertical-align "text-top"}
+                     :align-text-bottom  {:vertical-align "text-bottom"}})
 
 (defrules vertical-align)
 
 ;; https://tailwindcss.com/docs/whitespace/#app
 
-(def whitespace {
- :whitespace-normal {:white-space "normal"}
-:whitespace-no-wrap {:white-space "nowrap"}
- :whitespace-pre  {:white-space "pre"}
- :whitespace-pre-line {:white-space "pre-line"}
-:whitespace-pre-wrap {:white-space "pre-wrap"}
-}
-  )
+(def whitespace {:whitespace-normal {:white-space "normal"}
+                 :whitespace-no-wrap {:white-space "nowrap"}
+                 :whitespace-pre  {:white-space "pre"}
+                 :whitespace-pre-line {:white-space "pre-line"}
+                 :whitespace-pre-wrap {:white-space "pre-wrap"}})
 
 (defrules whitespace)
 
 ;; https://tailwindcss.com/docs/word-break/#app
 
 (def word-break
-{
- :break-normal  {:overflow-wrap "normal" :word-break "normal"}
- :break-words  {:overflow-wrap "break-word"}
- :break-all {:word-break "break-all"}
- :truncate  {:overflow "hidden" :text-overflow "ellipsis" :white-space "nowrap"}}
-  )
+  {:break-normal  {:overflow-wrap "normal" :word-break "normal"}
+   :break-words  {:overflow-wrap "break-word"}
+   :break-all {:word-break "break-all"}
+   :truncate  {:overflow "hidden" :text-overflow "ellipsis" :white-space "nowrap"}})
 
 (defrules word-break)

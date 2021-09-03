@@ -5,9 +5,10 @@
             [stylo.core :refer [c]]
             [re-frame.db :as db]
             [app.pages]
-            [app.intro]))
+            [app.intro]
+            [clojure.string :as str]
+            [components.hiccup :refer [k]] ))
 
-(defn href [x] (str "#" x))
 
 (rf/reg-event-db
   ::on-hash-change
@@ -27,7 +28,7 @@
  (fn [_ _]
    ;; effect
    (on-hash-change)
-   {:init-routes {}}))
+    {}))
 
 (rf/reg-sub
   ::menu
@@ -73,15 +74,21 @@
   []
   (let [m (rf/subscribe [::menu])]
     (fn []
-      [:div {:class (c [:w 72] [:py 4] [:px 8])}
-       [:div {:class (c [:mb 2] :flex)}
-        [:div [:img {:class (c [:w 15] )
+      [:div {:class (c [:w 72] [:py 4] [:px 8])
+             :key (k)}
+       [:div {:class (c [:mb 2] :flex)
+              :key (k)}
+        [:div [:img {:key (k)
+                     :class (c [:w 15] )
                      :src "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia-exp1.licdn.com%2Fdms%2Fimage%2FC560BAQHmyLQmsMqKJg%2Fcompany-logo_200_200%2F0%3Fe%3D2159024400%26v%3Dbeta%26t%3DZQvloyFokWovUhF-xj36Cc1Xfv9xHFS-4JwwXKxDd-c&f=1&nofb=1" }]]
         [:div {:class (c [:ml 1] [:mt 3]
-                        :text-xl :font-extrabold)} "macroCSS"]]
-       [:nav {:class (c :flex-column) }
+                         :text-xl :font-extrabold)
+               :key (k)} "macroCSS"]]
+       [:nav {:class (c :flex-column)
+              :key (k)}
         (for [{:keys [id href title clicked] :as item} @m]
-          [:div {:class (c [:flex-grow 4])}
+          [:div {:class (c [:flex-grow 4])
+                 :key (k)}
            (if-not (or (= "Documentation" title)
                        (= "Introduction" title))
              [:a {:href href
@@ -91,24 +98,48 @@
              [:span {:class (c :relative
                                [:line-height 16]
                                :text-sm
-                               :font-normal)} title]]
+                               :font-normal)
+                     :key (k)} title]]
              [:span {:class (c :text-sm
                                :relative
                                 :font-semibold
                                 [:line-height 16]
                                 [:text :gray-900]
                                 [:pt 2]
-                                [:pb 2])} (str title ": ")])])]])))
+                                [:pb 2])
+                     :key (k)} (str title ": ")])])]])))
 
 (rf/reg-sub
   ::content
   (fn [db _]
-    (let [id (or (get db ::hash) :about)]
-      (get @app.pages/pages id))))
+    (let [id (or (get db ::hash) :about)
+          page (id @app.pages/pages)]
+      {:id page
+       :sub (:sub page)})))
+
+(rf/reg-sub
+ ::navigation
+ (fn [db _]
+   (when-let [sublinks (->> (get db ::hash)
+                            (get @app.pages/pages)
+                            :subs)]
+     sublinks)))
+
+(defn navigation []
+(let [n @(rf/subscribe [::content])]
+  [:div {:class (c :flex-col :justify-between)} (when-let [sublinks (:sub n)]
+        [:div
+          (for [slnk sublinks]
+            [:div [:a {:href (-> n
+                                 :title
+                                  str
+                                  rest
+                                  str/join
+                                  (str "/" slnk))} slnk]])])]))
 
 (defn page []
   (let [m @(rf/subscribe [::content])]
-    (if-let [c (:cmp m)]
+    (if-let [c (:cmp (:id m))]
       [c]
       [:div (pr-str "No compoment for " m)])))
 
@@ -119,7 +150,8 @@
     [side-menu]
     [:div {:class (c :flex-1)}
      [page]]
-    [:div {:class (c :flex-1)}]]])
+    [:div {:class (c :flex-1)}
+     [navigation]]]])
 
 ;; Re-frame machinery
 (def compiler

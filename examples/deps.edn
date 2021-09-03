@@ -8,6 +8,7 @@
   reagent/reagent {:mvn/version "1.1.0"}
   re-frame/re-frame {:mvn/version "1.2.0"}}
 
+
  :aliases {:shadow
            {:main-opts ["-m" "shadow.cljs.devtools.cli" "watch" "app"]}
            :release

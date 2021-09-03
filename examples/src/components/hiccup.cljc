@@ -1,6 +1,7 @@
 (ns components.hiccup
   (:require [stylo.core :refer [c]]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [highlight.js :as hljs]))
 
 (defn gen-key [] (gensym "key-"))
 
@@ -188,3 +189,8 @@
                     [:duration 200]
                      [:hover [:text :gray-900]])
           :href next-link} next-title]]))
+
+(defn get-highlight-code [c]
+  [:pre
+    [:code {:dangerouslySetInnerHTML
+             {:__html (.-value (hljs/highlight "clojure" c))}}]])

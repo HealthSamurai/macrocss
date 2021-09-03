@@ -22,5 +22,5 @@
           (code "[:a {:href \"#\"} \n  [:svg \"some.svg\"] \n  [:span {:class (c \"not-sr-only\")}]]")
           (p3 "By default, " (code-span "'responsive'") " and " (code-span "'focus'") " variants are generated for these utilities. You can use pseudo classes, such as focus
           to make an element visually hidden by default but visible when the user tabs to it — useful for “skip to content” links:")
-          (code "[:a {:href \"#\" \n     :class (c :sr-only [:focus :not-sr-only])}\n \"Some content\"]")
+          (h/get-highlight-code "[:a {:href \"#\" \n     :class (c :sr-only [:focus :not-sr-only])}\n \"Some content\"]")
           (navigation-arrows [:basic-syntax :typography]))])
