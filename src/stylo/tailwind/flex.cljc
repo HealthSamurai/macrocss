@@ -20,7 +20,7 @@
                      :flex-col  {:flex-direction "column"}
                      :flex-col-reverse  {:flex-direction "column-reverse"}})
 
-(defrules flex)
+(defrules flex-direction)
 
 ;; https://tailwindcss.com/docs/flex-grow/#app
 (defmethod rule :flex-grow
@@ -29,28 +29,31 @@
 
 
 ;; https://tailwindcss.com/docs/flex-shrink/#app
+
+
 (defmethod rule :flex-shrink
   ([_] [[:& {:flex-shrink 1}]])
   ([_ x] [[:& {:flex-shrink x}]]))
 
 
 ;; https://tailwindcss.com/docs/flex-wrap/#app
+
+
 (def flex-wrap {:flex-no-wrap  {:flex-wrap "nowrap"}
                 :flex-wrap  {:flex-wrap "wrap"}
                 :flex-:wrap-reverse  {:flex-wrap "wrap-reverse"}})
-
 
 (defrules flex-wrap)
 
 ;; https://tailwindcss.com/docs/order/#app
 
 
-(def order {:order-first  {:order -9999}
-            :order-last  {:order 9999}
-            :order-none  {:order 0}
-            :order (fn [x] {:order x})})
+(def flex-order {:order-first  {:order -9999}
+                 :order-last  {:order 9999}
+                 :order-none  {:order 0}
+                 :order (fn [x] {:order (or x 1)})})
 
-(defrules order)
+(defrules flex-order)
 
 ;; https://tailwindcss.com/docs/align-items/#app
 (def align-items {:items-start  {:align-items "flex-start"}
