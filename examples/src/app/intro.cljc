@@ -7,7 +7,8 @@
             [components.tailwind.border :as bd]
             [components.tailwind.color :as c]
             [components.tailwind.effect :as ef]
-            [components.tailwind.flex :as f]))
+            [components.tailwind.flex :as f]
+            [components.tailwind.grid :as g]))
 
 (app.pages/reg-page :introduction 0)
 
@@ -33,13 +34,14 @@
 
 (app.pages/reg-page :flex f/flex 11)
 
-;(app.pages/reg-page :grid g/grid)
-;(app.pages/reg-page :interactivity i/interactivity)
-;(app.paegs/reg-page :layout l/layout)
-;(app.pages/reg-page :preflight p/preflight)
-;(app.pages/reg-page :sizing s/sizing)
-;(app.pages/reg-page :spacing sp/spacing)
-;(app.pages/reg-page :svg svg/svg)
-;(app.pages/reg-page :table tb/table)
-;(app.pages/reg-page :transition tr/transition)
-;(app.pages/reg-page :variant v/variant)
+(app.pages/reg-page :grid g/grid 12)
+
+;(app.pages/reg-page :interactivity i/interactivity 13)
+;(app.paegs/reg-page :layout l/layout 14)
+;(app.pages/reg-page :preflight p/preflight 15)
+;(app.pages/reg-page :sizing s/sizing 16)
+;(app.pages/reg-page :spacing sp/spacing 17)
+;(app.pages/reg-page :svg svg/svg 18)
+;(app.pages/reg-page :table tb/table 19)
+;(app.pages/reg-page :transition tr/transition 20)
+;(app.pages/reg-page :variant v/variant 21)

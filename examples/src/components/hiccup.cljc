@@ -107,12 +107,10 @@
 
 (defn right-cell-content [cell]
   (reduce (fn [acc [k v :as i]]
-            (conj acc [:p (if-not (string? i)
-                            (-> k
+            (conj acc [:p (-> k
                               name
                               (str ":")
-                              (str "  '" v "'; "))
-                            i)]))
+                              (str "  '" v "'; "))]))
           [:div]
           cell))
 
@@ -190,6 +188,15 @@
                     [:duration 200]
                      [:hover [:text :gray-900]])
           :href next-link} next-title]]))
+
+(defn saturate-with-default
+  ([table-data]
+   (saturate-with-default table-data 5))
+  ([table-data default]
+ (reduce (fn [acc [k v]]
+          (assoc acc k (if (associative? v)
+                         v
+                         (v default)))) {} table-data)))
 
 (defn example-block
   ([heading description table-data]
