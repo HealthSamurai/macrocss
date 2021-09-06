@@ -6,13 +6,21 @@
   [k & types]
   [[:& {k (pr-str types)}]])
 
-(defn defrules [rules]
+(defn defrules
+  ([rules]
   (doseq [[k v] rules]
     (if (associative? v)
      (defmethod rule k [_]
        [[:& v]])
      (defmethod rule k [_ x]
        [[:& (v x)]]))))
+  ([rules pseudo-element-key]
+   (doseq [[k v] rules]
+    (if (associative? v)
+     (defmethod rule k [_]
+       [[(str ":&:" pseudo-element-key) v]])
+     (defmethod rule k [_ x]
+       [[(str ":&:" pseudo-element-key) (v x)]])))))
 
 (defn merge-by-selector
   [exps]

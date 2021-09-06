@@ -12,8 +12,9 @@
   [:div
    (block
      (h1 "Screen Readers")
-     (p1 "Utilities for improving accessibility with screen readers."))
-    (h/table a/accessibility-data)
+     (p1 "Utilities for improving accessibility with screen readers.")
+     (h/table a/accessibility-data))
+
    (block (h3 "Usage")
           (p3 "Use " (code-span "'sr-only'") " to hide an element visually without hiding it from screen readers:")
           (code " [:a {:href \"#\"} \n   [:svg \"some.svg\"] \n   [:span {:class (c :sr-only)} \"Settings\"]]")
@@ -22,5 +23,6 @@
           (code "[:a {:href \"#\"} \n  [:svg \"some.svg\"] \n  [:span {:class (c \"not-sr-only\")}]]")
           (p3 "By default, " (code-span "'responsive'") " and " (code-span "'focus'") " variants are generated for these utilities. You can use pseudo classes, such as focus
           to make an element visually hidden by default but visible when the user tabs to it — useful for “skip to content” links:")
-          (h/get-highlight-code "[:a {:href \"#\" \n     :class (c :sr-only [:focus :not-sr-only])}\n \"Some content\"]")
           (navigation-arrows [:basic-syntax :typography]))])
+
+#_(re-matches #"(?<=\()[ \w]+(?=\))" "(defn boo [x] (identity x))")

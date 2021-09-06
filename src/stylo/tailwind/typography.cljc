@@ -2,7 +2,8 @@
   (:require
    [stylo.rule :refer [rule defrules]]
    [stylo.tailwind.color :refer [colors]]
-   [stylo.util :refer [with-alpha as-unit]]))
+   [stylo.util :refer [with-alpha as-unit]]
+   [clojure.string :as str]))
 
 
 ;; https://tailwindcss.com/docs/font-family/#app
@@ -14,7 +15,6 @@
    :font-mono {:font-family "Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace"}})
 
 (defrules font-family)
-
 
 ;; https://tailwindcss.com/docs/font-weight/#app
 
@@ -102,18 +102,14 @@
 (defrules list-style-type)
 
 ;; https://tailwindcss.com/docs/placeholder-color/#app
-
-
-(defmethod rule :placeholder [_ x] [["&::placeholder" {:color (with-alpha (colors x) :--placeholder-opacity) :--placeholder-opacity 1}]])
-
-
 ;; https://tailwindcss.com/docs/placeholder-opacity/#app
 
+(def placeholder-color-opacity {:placeholder {:color (fn [x] (with-alpha (colors x) :--placeholder-opacity)) :--placeholder-opacity 1}
+                                :placeholder-opacity {:--placeholder-opacity (fn [x] (as-unit x :percent))}})
 
-(defmethod rule :placeholder-opacity [_ x] [["&::placeholder" {:--placeholder-opacity (as-unit x :percent)}]])
+(defrules placeholder-color-opacity :placeholder)
 
-
-;; https://tailwindcss.com/docs/text-align/#app
+ ;; https://tailwindcss.com/docs/text-align/#app
 
 
 (def text-align {:text-left  {:text-align "left"}
@@ -124,16 +120,12 @@
 (defrules text-align)
 
 ;; https://tailwindcss.com/docs/text-color/#app
-
-
-(defmethod rule :text [_ x] [[:& {:color (with-alpha (colors x) :--text-opacity) :--text-opacity 1}]])
-
-
 ;; https://tailwindcss.com/docs/text-opacity/#app
 
+(def text-color-opacity {:text (fn [x] {:color (with-alpha (colors x) :--text-opacity) :--text-opacity 1})
+:text-opacity (fn [x] {:--text-opacity (as-unit x :percent)})})
 
-(defmethod rule :text-opacity [_ x] [[:& {:--text-opacity (as-unit x :percent)}]])
-
+(defrules text-color-opacity)
 
 ;; https://tailwindcss.com/docs/text-decoration/#app
 

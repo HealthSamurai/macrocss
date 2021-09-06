@@ -1,14 +1,12 @@
 (ns stylo.tailwind.border
   (:require
-    [stylo.rule :refer [rule]]
-    [stylo.tailwind.color :refer [colors]]
-    [stylo.util :refer [with-alpha as-unit] :as util]
-    [garden.compiler :refer [render-css]]))
-
+   [stylo.rule :refer [rule defrules]]
+   [stylo.tailwind.color :refer [colors]]
+   [stylo.util :refer [with-alpha as-unit] :as util]
+   [garden.compiler :refer [render-css]]))
 
 (def rounded-size
   {:none "0" :sm "0.125rem" :md "0.375rem" :lg "0.5rem" :full "9999px"})
-
 
 (defn rounded
   [x & keys]
@@ -18,8 +16,30 @@
             :else (rounded-size x))]
     (zipmap keys (repeat x))))
 
+(def borders-default {:rounded (rounded nil :border-radius)
+                      :rounded-t (rounded nil :border-top-left-radius :border-top-right-radius)
+                      :rounded-r (rounded nil :border-top-right-radius :border-bottom-right-radius)
+                      :rounded-b (rounded nil :border-bottom-right-radius :border-bottom-left-radius)
+                      :rounded-l (rounded nil :border-top-left-radius :border-bottom-left-radius)
+                      :rounded-tl (rounded nil :border-top-left-radius)
+                      :rounded-tr (rounded nil :border-top-left-radius)
+                      :rounded-br (rounded nil :border-bottom-right-radius)
+                      :border {:border-width {:unit :px, :magnitude 1}}
+                      :border-opacity  {:--border-opacity {:unit :%
+                                                           :magnitude "ENTER INTEGER, MEANS PERCENT"}}
+                      :divide {:border-color "HEX CODE OR PREDEFINED COLOR KEY",
+                               :--divide-opacity 1}
+                      :divide-x
+                      {:--divide-x-reverse 0,
+                       :border-right-width "calc(1px * var(--divide-x-reverse))",
+                       :border-left-width "calc(1px * calc(1 - var(--divide-x-reverse)))"}
+
+                      :divide-y  {:--divide-y-reverse 0,
+                                  :border-top-width "calc(1px * calc(1 - var(--divide-y-reverse)))",
+                                  :border-bottom-width "calc(1px * var(--divide-y-reverse))"}})
 
 ;; https://tailwindcss.com/docs/border-radius/#app
+
 (defmethod rule :rounded
   ([_] [[:& (rounded nil :border-radius)]])
   ([_ x] [[:& (rounded x :border-radius)]]))
@@ -58,15 +78,17 @@
 
 
 ;; https://tailwindcss.com/docs/border-width/#app
+
+
 (defmethod rule :border
   ([_] (rule :border 1))
   ([_ & props]
    [[:& (->> props
-          (reduce (fn [acc x]
-                    (if (int? x)
-                      (assoc acc :border-width (as-unit x :px))
-                      (assoc acc :border-color (with-alpha (colors x) :--border-opacity) :--border-opacity 1)))
-                  {:border-width (as-unit 1 :px)}))]]))
+             (reduce (fn [acc x]
+                       (if (int? x)
+                         (assoc acc :border-width (as-unit x :px))
+                         (assoc acc :border-color (with-alpha (colors x) :--border-opacity) :--border-opacity 1)))
+                     {:border-width (as-unit 1 :px)}))]]))
 
 ;; TODO: add colors
 (defmethod rule :border-t
@@ -93,26 +115,32 @@
 
 
 ;; https://tailwindcss.com/docs/border-opacity/#app
+
+
 (defmethod rule :border-opacity [_ x] [[:& {:--border-opacity (as-unit x :percent)}]])
 
 
 ;; https://tailwindcss.com/docs/border-style/#app
-(defmethod rule :border-solid [_] [[:& {:border-style "solid"}]])
-(defmethod rule :border-dashed [_] [[:& {:border-style "dashed"}]])
-(defmethod rule :border-dotted [_] [[:& {:border-style "dotted"}]])
-(defmethod rule :border-double [_] [[:& {:border-style "double"}]])
-(defmethod rule :border-none [_] [[:& {:border-style "none"}]])
 
+
+(def border-style {:border-solid {:border-style "solid"}
+                   :border-dashed  {:border-style "dashed"}
+                   :border-dotted {:border-style "dotted"}
+                   :border-double  {:border-style "double"}
+                   :border-none  {:border-style "none"}})
+
+(defrules border-style)
 
 ;; https://tailwindcss.com/docs/divide-color/#app
 (defmethod rule :divide [_ x] [["&>*+*" {:border-color (with-alpha (colors x) :--divide-opacity) :--divide-opacity 1}]])
-
 
 ;; https://tailwindcss.com/docs/divide-opacity/#app
 (defmethod rule :divide-opacity [_ x] [[:& {:--divide-opacity (as-unit x :percent)}]])
 
 
 ;; https://tailwindcss.com/docs/divide-width/#app
+
+
 (defmethod rule :divide-x
   ([_] (rule :divide-x 1))
   ([_ x] [["&>*+*" {:--divide-x-reverse 0

@@ -1,7 +1,6 @@
 (ns components.hiccup
   (:require [stylo.core :refer [c]]
-            [clojure.string :as str]
-            [highlight.js :as hljs]))
+            [clojure.string :as str]))
 
 (defn gen-key [] (gensym "key-"))
 
@@ -107,11 +106,13 @@
     description]))
 
 (defn right-cell-content [cell]
-  (reduce (fn [acc [k v]]
-            (conj acc [:p (-> k
+  (reduce (fn [acc [k v :as i]]
+            (conj acc [:p (if-not (string? i)
+                            (-> k
                               name
                               (str ":")
-                              (str "  '" v "'; "))]))
+                              (str "  '" v "'; "))
+                            i)]))
           [:div]
           cell))
 
@@ -147,7 +148,7 @@
           [:tbody] rule-data))
 
 (defn table [rule-data]
-  [:table {:class (c :w-full :text-left :border-collapse)}
+  [:table {:class (c :w-full :text-left :border-collapse [:mt 5])}
    (create-table-heading ["Class" "Properties"])
    (create-table-cells rule-data)])
 
@@ -190,7 +191,13 @@
                      [:hover [:text :gray-900]])
           :href next-link} next-title]]))
 
-(defn get-highlight-code [c]
-  [:pre
-    [:code {:dangerouslySetInnerHTML
-             {:__html (.-value (hljs/highlight "clojure" c))}}]])
+(defn example-block
+  ([heading description table-data]
+   (block (h1 heading)
+          (p1 description)
+          (table table-data)))
+  ([heading description table-data usage]
+   (block (h1 heading)
+          (p1 description)
+          (table table-data)
+          (usage))))
