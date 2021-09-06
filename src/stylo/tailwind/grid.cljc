@@ -7,16 +7,6 @@
 
 (defrules grid)
 
-(defn saturate-with-default
-  ([table-data]
-   (saturate-with-default table-data 5))
-  ([table-data default]
- (reduce (fn [acc [k v]]
-          (assoc acc k (if (associative? v)
-                         v
-                         (v default)))) {} table-data)))
-
-
 ;; https://tailwindcss.com/docs/gap/#app
 (def gap {:gap  (fn [x] {:gap (as-unit x)})
           :gap-px {:gap (as-unit 1 :px)}

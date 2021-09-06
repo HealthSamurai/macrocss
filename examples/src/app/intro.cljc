@@ -8,7 +8,8 @@
             [components.tailwind.color :as c]
             [components.tailwind.effect :as ef]
             [components.tailwind.flex :as f]
-            [components.tailwind.grid :as g]))
+            [components.tailwind.grid :as g]
+            [components.tailwind.interactivity :as i]))
 
 (app.pages/reg-page :introduction 0)
 
@@ -36,7 +37,8 @@
 
 (app.pages/reg-page :grid g/grid 12)
 
-;(app.pages/reg-page :interactivity i/interactivity 13)
+(app.pages/reg-page :interactivity i/interactivity 13)
+
 ;(app.paegs/reg-page :layout l/layout 14)
 ;(app.pages/reg-page :preflight p/preflight 15)
 ;(app.pages/reg-page :sizing s/sizing 16)
