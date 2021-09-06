@@ -5,7 +5,8 @@
             [components.tailwind.typography :as t]
             [components.tailwind.background :as b]
             [components.tailwind.border :as bd]
-            [components.tailwind.color :as c]))
+            [components.tailwind.color :as c]
+            [components.tailwind.effect :as ef]))
 
 (app.pages/reg-page :introduction 0)
 
@@ -27,8 +28,8 @@
 
 (app.pages/reg-page :colours c/color 9)
 
-;(app.pages/reg-page :container cnt/container 10)
-;(app.pages/reg-page :effect e/effect)
+(app.pages/reg-page :effect ef/effect 10)
+
 ;(app.pages/reg-page :flex f/flex)
 ;(app.pages/reg-page :grid g/grid)
 ;(app.pages/reg-page :interactivity i/interactivity)

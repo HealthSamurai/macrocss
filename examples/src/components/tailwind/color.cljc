@@ -13,4 +13,4 @@
                                                                (reduce (fn [acc [k v]]
                                                                          (assoc acc k {:color v})) {})
                                                                (into (sorted-map))))
-   (navigation-arrows [:borders :container])])
+   (navigation-arrows [:borders :effect])])

@@ -9,8 +9,5 @@
   ([_] [[:& {}]])
   ([_ x] [[:& {}]]))
 
-(rule :container)
-;; => [[:& {}]]
-
-(rule :container 550)
-;; => [[:& {}]]
+;; TODO
+;; https://tailwindcss.com/docs/container
