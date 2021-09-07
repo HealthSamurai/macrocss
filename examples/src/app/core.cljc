@@ -7,7 +7,7 @@
             [app.pages]
             [app.intro]
             [clojure.string :as str]
-            [components.hiccup :refer [k]] ))
+            [components.hiccup :as h] ))
 
 
 (rf/reg-event-db
@@ -75,20 +75,20 @@
   (let [m (rf/subscribe [::menu])]
     (fn []
       [:div {:class (c [:w 72] [:py 4] [:px 8])
-             :key (k)}
+             :key (h/gen-key)}
        [:div {:class (c [:mb 2] :flex)
-              :key (k)}
-        [:div [:img {:key (k)
+              :key (h/gen-key)}
+        [:div [:img {:key (h/gen-key)
                      :class (c [:w 15] )
                      :src "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia-exp1.licdn.com%2Fdms%2Fimage%2FC560BAQHmyLQmsMqKJg%2Fcompany-logo_200_200%2F0%3Fe%3D2159024400%26v%3Dbeta%26t%3DZQvloyFokWovUhF-xj36Cc1Xfv9xHFS-4JwwXKxDd-c&f=1&nofb=1" }]]
         [:div {:class (c [:ml 1] [:mt 3]
                          :text-xl :font-extrabold)
-               :key (k)} "macroCSS"]]
+               :key (h/gen-key)} "macroCSS"]]
        [:nav {:class (c :flex-column)
-              :key (k)}
+              :key (h/gen-key)}
         (for [{:keys [id href title clicked] :as item} @m]
           [:div {:class (c [:flex-grow 4])
-                 :key (k)}
+                 :key (h/gen-key)}
            (if-not (or (= "Documentation" title)
                        (= "Introduction" title))
              [:a {:href href
@@ -99,7 +99,7 @@
                                [:line-height 16]
                                :text-sm
                                :font-normal)
-                     :key (k)} title]]
+                     :key (h/gen-key)} title]]
              [:span {:class (c :text-sm
                                :relative
                                 :font-semibold
@@ -107,7 +107,7 @@
                                 [:text :gray-900]
                                 [:pt 2]
                                 [:pb 2])
-                     :key (k)} (str title ": ")])])]])))
+                     :key (h/gen-key)} (str title ": ")])])]])))
 
 (rf/reg-sub
   ::content

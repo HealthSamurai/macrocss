@@ -2,7 +2,8 @@
   (:require [components.hiccup :refer [h1 h3
                                        p1 p3 a
                                        pre-bash code
-                                       block code-span]]
+                                       block code-span]
+             :as h]
             [stylo.core :refer [c]]))
 
 (defn about
@@ -51,12 +52,15 @@
     (pre-bash "npm install")
     (p3 "Other available options of shadow-cljs are given here: "
        (a "https://github.com/shadow-cljs/lein-template"))
-    (p3 "Add  into " [:span {:class (c :font-bold)} "project.clj"] " dependencies: ")
+    (p3 "Add  into " [:span {:class (c :font-bold)
+                             :key (h/gen-key)} "project.clj"] " dependencies: ")
     (code "[stylo-css \"0.1.0 \"]")
-    (p3 "Open up your" [:span {:class (c :font-bold)} "shadow-cljs.edn"] "configuration file and add")
+    (p3 "Open up your" [:span {:class (c :font-bold)
+                               :key (h/gen-key)} "shadow-cljs.edn"] "configuration file and add")
     (code "{ :build-hooks [(stylo.shadow/reload \"public/out/stylo/css/stylo.css\")]}")
     (p3 "  into the :app configuration."
-        [:span {:class (c :font-bold)} "NB!"]
+        [:span {:class (c :font-bold)
+                :key (h/gen-key)} "NB!"]
         "Path written below is the path where the css file will be generated. Do not just copy and paste, find your own location.")
     (p3 " Our configuration should look like this: ")
     (code
