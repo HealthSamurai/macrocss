@@ -15,4 +15,4 @@
    (h/example-block "Transition delay"
                     "Utilities for controlling transition delay"
                     {:delay {:transition-delay "YOUR_INT MEANS MS"}})
-   (h/navigation-arrows [:table :variant])])
+   (h/navigation-arrows [:table :pseudo])])

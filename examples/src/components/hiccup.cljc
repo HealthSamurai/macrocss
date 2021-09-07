@@ -106,15 +106,6 @@
    [:a (with-key {:href (create-link link), :class (c [:text :blue-300] :underline)})
     description]))
 
-(defn right-cell-content [cell]
-  (reduce (fn [acc [k v :as i]]
-            (conj acc [:p (-> k
-                              name
-                              (str ":")
-                              (str "  '" v "'; "))]))
-          [:div]
-          cell))
-
 (defn create-table-heading [keyseq]
   [:thead {:class (c :border-b)}
    (conj
@@ -134,10 +125,22 @@
                   [:text :purple-600]
                   :whitespace-no-wrap)} k])
 
-(defn create-right-cell [v]
+(defn cell-logic [cell]
+  [:p (cond
+        (string? cell) cell
+        (keyword? cell) (str cell)
+        :else
+        (let [[k v] cell] (-> k
+                           name
+                           (str ":")
+                           (str "  '" v "'; "))))])
+
+(defn create-right-cell [cell]
   [:td {:class (c :font-mono :text-xs
                   [:text :blue-300])}
-   (right-cell-content v)])
+   (reduce (fn [acc c] (conj acc (cell-logic c)))
+           [:div]
+           cell)])
 
 (defn create-table-cells [rule-data]
   (reduce (fn [acc [k v]]
@@ -187,19 +190,19 @@
      [:a {:class (c :flex :text-right :ml-auto
                     [:text :gray-500]
                     [:duration 200]
-                     [:hover [:text :gray-900]])
+                    [:hover [:text :gray-900]])
           :href next-link} next-title]]))
 
 (defn saturate-with-default
   ([table-data]
    (saturate-with-default table-data 5))
   ([table-data default]
- (reduce (fn [acc [k v]]
-          (assoc acc k (if (associative? v)
-                         v
-                         (v default)))) {} table-data)))
+   (reduce (fn [acc [k v]]
+             (assoc acc k (if (associative? v)
+                            v
+                            (v default)))) {} table-data)))
 
-(defn unit [x] { x {:unit :rem :magnitude "YOUR_INT * 0.25 REM"}})
+(defn unit [x] {x {:unit :rem :magnitude "YOUR_INT * 0.25 REM"}})
 
 (defn units [xs]
   (reduce (fn [acc k] (merge acc (unit k))) {} xs))

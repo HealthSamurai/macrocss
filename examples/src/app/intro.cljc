@@ -17,7 +17,7 @@
             [components.tailwind.svg :as svg]
             [components.tailwind.table :as tb]
             [components.tailwind.transition :as tr]
-            [components.tailwind.variant :as v]))
+            [components.tailwind.pseudo :as ps]))
 
 (app.pages/reg-page :introduction 0)
 
@@ -61,4 +61,4 @@
 
 (app.pages/reg-page :transition tr/transition 20)
 
-;(app.pages/reg-page :variant v/variant 21)
+(app.pages/reg-page :pseudo ps/pseudo 21)
