@@ -25,7 +25,6 @@
 (defrules table-layout)
 ;; https://tailwindcss.com/docs/border-collapse/#app
 (def border-collapse {:border-collapse  {:border-collapse "collapse"}
-
                       :border-separate  {:border-collapse "separate"}})
 
 (defrules border-collapse)

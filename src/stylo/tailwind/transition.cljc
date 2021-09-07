@@ -1,29 +1,35 @@
 (ns stylo.tailwind.transition
   (:require
-    [stylo.rule :refer [rule]]
-    [stylo.util :refer [parse-str-ratio as-unit]]))
+   [stylo.rule :refer [defrules]]
+   [stylo.util :refer [parse-str-ratio as-unit]]))
 
 
 ;; https://tailwindcss.com/docs/transition-property/#app
-(defmethod rule :transition-none [_] [[:& {:transition-property "none"}]])
-(defmethod rule :transition-all [_] [[:& {:transition-property "all"}]])
-(defmethod rule :transition [_] [[:& {:transition-property "background-color, border-color, color, fill, stroke, opacity, box-shadow, transform"}]])
-(defmethod rule :transition-colors [_] [[:& {:transition-property "background-color, border-color, color, fill, stroke"}]])
-(defmethod rule :transition-opacity [_] [[:& {:transition-property "opacity"}]])
-(defmethod rule :transition-shadow [_] [[:& {:transition-property "box-shadow"}]])
-(defmethod rule :transition-transform [_] [[:& {:transition-property "transform"}]])
 
 
+(def transition-property  {:transition-none   {:transition-property "none"}
+                           :transition-all   {:transition-property "all"}
+                           :transition   {:transition-property "background-color, border-color, color, fill, stroke, opacity, box-shadow, transform"}
+                           :transition-colors   {:transition-property "background-color, border-color, color, fill, stroke"}
+                           :transition-opacity   {:transition-property "opacity"}
+                           :transition-shadow   {:transition-property "box-shadow"}
+                           :transition-transform   {:transition-property "transform"}})
+
+(defrules transition-property)
 ;; https://tailwindcss.com/docs/transition-duration/#app
-(defmethod rule :duration [_ x] [[:& {:transition-duration (as-unit x :ms)}]])
+(def transition-duration {:duration (fn [x] {:transition-duration (as-unit x :ms)})})
 
+(defrules transition-duration)
 
 ;; https://tailwindcss.com/docs/transition-timing-function/#app
-(defmethod rule :ease-linear [_] [[:& {:transition-timing-function "linear"}]])
-(defmethod rule :ease-in [_] [[:& {:transition-timing-function "cubic-bezier(0.4, 0, 1, 1)"}]])
-(defmethod rule :ease-out [_] [[:& {:transition-timing-function "cubic-bezier(0, 0, 0.2, 1)"}]])
-(defmethod rule :ease-in-out [_] [[:& {:transition-timing-function "cubic-bezier(0.4, 0, 0.2, 1)"}]])
+(def transition-timing {:ease-linear   {:transition-timing-function "linear"}
+                        :ease-in   {:transition-timing-function "cubic-bezier(0.4, 0, 1, 1)"}
+                        :ease-out   {:transition-timing-function "cubic-bezier(0, 0, 0.2, 1)"}
+                        :ease-in-out   {:transition-timing-function "cubic-bezier(0.4, 0, 0.2, 1)"}})
 
+(defrules transition-timing)
 
 ;; https://tailwindcss.com/docs/transition-delay/#app
-(defmethod rule :delay [_ x] [[:& {:transition-delay (as-unit x :ms)}]])
+(def transition-delay {:delay (fn [x] {:transition-delay (as-unit x :ms)})})
+
+(defrules transition-delay)
