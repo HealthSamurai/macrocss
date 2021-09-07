@@ -12,7 +12,8 @@
             [components.tailwind.interactivity :as i]
             [components.tailwind.layout :as l]
             [components.tailwind.preflight :as p]
-            [components.tailwind.sizing :as s]))
+            [components.tailwind.sizing :as s]
+            [components.tailwind.spacing :as sp]))
 
 (app.pages/reg-page :introduction 0)
 
@@ -47,7 +48,9 @@
 (app.pages/reg-page :preflight p/preflight 15)
 
 (app.pages/reg-page :sizing s/sizing 16)
-;(app.pages/reg-page :spacing sp/spacing 17)
+
+(app.pages/reg-page :spacing sp/spacing 17)
+
 ;(app.pages/reg-page :svg svg/svg 18)
 ;(app.pages/reg-page :table tb/table 19)
 ;(app.pages/reg-page :transition tr/transition 20)

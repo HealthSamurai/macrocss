@@ -201,6 +201,9 @@
 
 (defn unit [x] { x {:unit :rem :magnitude "YOUR_INT * 0.25 REM"}})
 
+(defn units [xs]
+  (reduce (fn [acc k] (merge acc (unit k))) {} xs))
+
 (defn example-block
   ([heading description table-data]
    (block (h1 heading)
