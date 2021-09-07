@@ -1,105 +1,131 @@
 (ns stylo.tailwind.layout
   (:require
-    [stylo.rule :refer [rule]]
-    [stylo.util :refer [as-unit]]))
+   [stylo.rule :refer [rule defrules]]
+   [stylo.util :refer [as-unit]]))
 
 
 ;; https://tailwindcss.com/docs/box-sizing/#app
-(defmethod rule :box-border [_] [[:& {:box-sizing "border-box"}]])
-(defmethod rule :box-content [_] [[:& {:box-sizing "content-box"}]])
+
+(def box-sizing {:box-border  {:box-sizing "border-box"}
+                 :box-content  {:box-sizing "content-box"}})
+
+(defrules box-sizing)
 
 
 ;; https://tailwindcss.com/docs/display/#app
-(defmethod rule :hidden [_] [[:& {:display "none"}]])
-(defmethod rule :block [_] [[:& {:display "block"}]])
-(defmethod rule :flow-root [_] [[:& {:display "flow-root"}]])
-(defmethod rule :inline-block [_] [[:& {:display "inline-block"}]])
-(defmethod rule :inline [_] [[:& {:display "inline"}]])
-(defmethod rule :inline-flex [_] [[:& {:display "inline-flex"}]])
-(defmethod rule :inline-grid [_] [[:& {:display "inline-grid"}]])
 
+
+(def display {:hidden  {:display "none"}
+              :block  {:display "block"}
+              :flow-root  {:display "flow-root"}
+              :inline-block  {:display "inline-block"}
+              :inline  {:display "inline"}
+              :inline-flex  {:display "inline-flex"}
+              :inline-grid  {:display "inline-grid"}})
+
+(defrules display)
 
 ;; https://tailwindcss.com/docs/float/#app
-(defmethod rule :float-right [_] [[:& {:float "right"}]])
-(defmethod rule :float-left [_] [[:& {:float "left"}]])
-(defmethod rule :float-none [_] [[:& {:float "none"}]])
-(defmethod rule :clearfix [_] [["&::after" {:content "\"\"" :display "table" :clear "both"}]])
+(def css-floats {:float-right  {:float "right"}
+            :float-left  {:float "left"}
+            :float-none  {:float "none"}})
 
+(defrules css-floats)
+
+(def floats-clearfix {:clearfix {:content "\"\"" :display "table" :clear "both"}})
+
+(defrules floats-clearfix :after)
 
 ;; https://tailwindcss.com/docs/clear/#app
-(defmethod rule :clear-left [_] [[:& {:clear "left"}]])
-(defmethod rule :clear-right [_] [[:& {:clear "right"}]])
-(defmethod rule :clear-both [_] [[:& {:clear "both"}]])
-(defmethod rule :clear-none [_] [[:& {:clear "none"}]])
+(def clear {:clear-left  {:clear "left"}
+            :clear-right  {:clear "right"}
+            :clear-both  {:clear "both"}
+            :clear-none  {:clear "none"}})
 
+(defrules clear)
 
 ;; https://tailwindcss.com/docs/object-fit/#app
-(defmethod rule :object-contain [_] [[:& {:object-fit "contain"}]])
-(defmethod rule :object-cover [_] [[:& {:object-fit "cover"}]])
-(defmethod rule :object-fill [_] [[:& {:object-fit "fill"}]])
-(defmethod rule :object-none [_] [[:& {:object-fit "none"}]])
-(defmethod rule :object-scale-down [_] [[:& {:object-fit "scale-down"}]])
+(def object-fit {:object-contain  {:object-fit "contain"}
+                 :object-cover  {:object-fit "cover"}
+                 :object-fill  {:object-fit "fill"}
+                 :object-none  {:object-fit "none"}
+                 :object-scale-down  {:object-fit "scale-down"}})
 
+(defrules object-fit)
 
 ;; https://tailwindcss.com/docs/object-position/#app
-(defmethod rule :object-bottom [_] [[:& {:object-position "bottom"}]])
-(defmethod rule :object-center [_] [[:& {:object-position "center"}]])
-(defmethod rule :object-left [_] [[:& {:object-position "left"}]])
-(defmethod rule :object-left-bottom [_] [[:& {:object-position "left bottom"}]])
-(defmethod rule :object-left-top [_] [[:& {:object-position "left top"}]])
-(defmethod rule :object-right [_] [[:& {:object-position "right"}]])
-(defmethod rule :object-right-bottom [_] [[:& {:object-position "right bottom"}]])
-(defmethod rule :object-right-top [_] [[:& {:object-position "right top"}]])
-(defmethod rule :object-top [_] [[:& {:object-position "top"}]])
-
+(def object-position {:object-bottom  {:object-position "bottom"}
+                      :object-center  {:object-position "center"}
+                      :object-left  {:object-position "left"}
+                      :object-left-bottom  {:object-position "left bottom"}
+                      :object-left-top  {:object-position "left top"}
+                      :object-right  {:object-position "right"}
+                      :object-right-bottom  {:object-position "right bottom"}
+                      :object-right-top  {:object-position "right top"}
+                      :object-top  {:object-position "top"}})
+(defrules object-position)
 
 ;; https://tailwindcss.com/docs/overflow/#app
-(defmethod rule :overflow-auto [_] [[:& {:overflow "auto"}]])
-(defmethod rule :overflow-hidden [_] [[:& {:overflow "hidden"}]])
-(defmethod rule :overflow-visible [_] [[:& {:overflow "visible"}]])
-(defmethod rule :overflow-scroll [_] [[:& {:overflow "scroll"}]])
-(defmethod rule :overflow-x-auto [_] [[:& {:overflow-x "auto"}]])
-(defmethod rule :overflow-y-auto [_] [[:& {:overflow-y "auto"}]])
-(defmethod rule :overflow-x-hidden [_] [[:& {:overflow-x "hidden"}]])
-(defmethod rule :overflow-y-hidden [_] [[:& {:overflow-y "hidden"}]])
-(defmethod rule :overflow-x-visible [_] [[:& {:overflow-x "visible"}]])
-(defmethod rule :overflow-y-visible [_] [[:& {:overflow-y "visible"}]])
-(defmethod rule :overflow-x-scroll [_] [[:& {:overflow-x "scroll"}]])
-(defmethod rule :overflow-y-scroll [_] [[:& {:overflow-y "scroll"}]])
-(defmethod rule :scrolling-touch [_] [[:& {:-webkit-overflow-scrolling "touch"}]])
-(defmethod rule :scrolling-auto [_] [[:& {:-webkit-overflow-scrolling "auto"}]])
+(def overflow {:overflow-auto  {:overflow "auto"}
+               :overflow-hidden  {:overflow "hidden"}
+               :overflow-visible  {:overflow "visible"}
+               :overflow-scroll  {:overflow "scroll"}
+               :overflow-x-auto  {:overflow-x "auto"}
+               :overflow-y-auto  {:overflow-y "auto"}
+               :overflow-x-hidden  {:overflow-x "hidden"}
+               :overflow-y-hidden  {:overflow-y "hidden"}
+               :overflow-x-visible  {:overflow-x "visible"}
+               :overflow-y-visible  {:overflow-y "visible"}
+               :overflow-x-scroll  {:overflow-x "scroll"}
+               :overflow-y-scroll  {:overflow-y "scroll"}
+               :scrolling-touch  {:-webkit-overflow-scrolling "touch"}
+               :scrolling-auto  {:-webkit-overflow-scrolling "auto"}})
 
+(defrules overflow)
 
 ;; https://tailwindcss.com/docs/position/#app
-(defmethod rule :static [_] [[:& {:position "static"}]])
-(defmethod rule :fixed [_] [[:& {:position "fixed"}]])
-(defmethod rule :absolute [_] [[:& {:position "absolute"}]])
-(defmethod rule :relative [_] [[:& {:position "relative"}]])
-(defmethod rule :sticky [_] [[:& {:position "sticky"}]])
+(def position {:static  {:position "static"}
+               :fixed  {:position "fixed"}
+               :absolute  {:position "absolute"}
+               :relative  {:position "relative"}
+               :sticky  {:position "sticky"}})
 
+(defrules position)
 
 ;; https://tailwindcss.com/docs/top-right-bottom-left/#app
-(defmethod rule :inset-auto [_] [[:& {:top "auto" :right "auto" :bottom "auto" :left "auto"}]])
-(defmethod rule :inset [_ x] [[:& {:top (as-unit x) :right (as-unit x) :bottom (as-unit x) :left (as-unit x)}]])
-(defmethod rule :inset-x-auto [_] [[:& {:left "auto" :right "auto"}]])
-(defmethod rule :inset-x [_ x] [[:& {:left (as-unit x) :right (as-unit x)}]])
-(defmethod rule :inset-y-auto [_] [[:& {:top "auto" :bottom "auto"}]])
-(defmethod rule :inset-y [_ x] [[:& {:top (as-unit x) :bottom (as-unit x)}]])
-(defmethod rule :top [_ x] [[:& {:top (as-unit x)}]])
-(defmethod rule :top-auto [_] [[:& {:top "auto"}]])
-(defmethod rule :right [_ x] [[:& {:right (as-unit x)}]])
-(defmethod rule :right-auto [_] [[:& {:right "auto"}]])
-(defmethod rule :bottom [_ x] [[:& {:bottom (as-unit x)}]])
-(defmethod rule :bottom-auto [_] [[:& {:bottom "auto"}]])
-(defmethod rule :left [_ x] [[:& {:left (as-unit x)}]])
-(defmethod rule :left-auto [_] [[:& {:left "auto"}]])
+(def top-right-bottom-left {:inset-auto {:top "auto"
+                                         :right "auto"
+                                         :bottom "auto"
+                                         :left "auto"}
+                            :inset (fn [x] {:top (as-unit x)
+                                            :right (as-unit x)
+                                            :bottom (as-unit x)
+                                            :left (as-unit x)})
+                            :inset-x-auto  {:left "auto" :right "auto"}
+                            :inset-x (fn [x] {:left (as-unit x)
+                                              :right (as-unit x)})
+                            :inset-y-auto  {:top "auto" :bottom "auto"}
+                            :inset-y (fn [x] {:top (as-unit x)
+                                              :bottom (as-unit x)})
+                            :top (fn [x] {:top (as-unit x)})
+                            :top-auto  {:top "auto"}
+                            :right (fn [x] {:right (as-unit x)})
+                            :right-auto {:right "auto"}
+                            :bottom  (fn [x] {:bottom (as-unit x)})
+                            :bottom-auto  {:bottom "auto"}
+                            :left (fn [x] {:left (as-unit x)})
+                            :left-auto  {:left "auto"}})
 
+(defrules top-right-bottom-left)
 
 ;; https://tailwindcss.com/docs/visibility/#app
-(defmethod rule :visible [_] [[:& {:visibility "visible"}]])
-(defmethod rule :invisible [_] [[:& {:visibility "hidden"}]])
+(def visibility {:visible  {:visibility "visible"}
+                 :invisible  {:visibility "hidden"}})
 
+(defrules visibility)
 
 ;; https://tailwindcss.com/docs/z-index/#app
-(defmethod rule :z-auto [_] [[:& {:z-index "auto"}]])
-(defmethod rule :z [_ x] [[:& {:z-index x}]])
+(def z-index {:z-auto  {:z-index "auto"}
+              :z (fn [x] {:z-index x})})
+
+(defrules z-index)

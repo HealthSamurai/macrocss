@@ -9,7 +9,8 @@
             [components.tailwind.effect :as ef]
             [components.tailwind.flex :as f]
             [components.tailwind.grid :as g]
-            [components.tailwind.interactivity :as i]))
+            [components.tailwind.interactivity :as i]
+            [components.tailwind.layout :as l]))
 
 (app.pages/reg-page :introduction 0)
 
@@ -39,8 +40,9 @@
 
 (app.pages/reg-page :interactivity i/interactivity 13)
 
-;(app.paegs/reg-page :layout l/layout 14)
-;(app.pages/reg-page :preflight p/preflight 15)
+(app.pages/reg-page :layout l/layout 14)
+
+                                        ;(app.pages/reg-page :preflight p/preflight 15)
 ;(app.pages/reg-page :sizing s/sizing 16)
 ;(app.pages/reg-page :spacing sp/spacing 17)
 ;(app.pages/reg-page :svg svg/svg 18)

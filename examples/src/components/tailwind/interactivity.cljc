@@ -1,7 +1,6 @@
 (ns components.tailwind.interactivity
   (:require [components.hiccup :as h]
-            [stylo.tailwind.interactivity :as i]
-            [stylo.util :as u]))
+            [stylo.tailwind.interactivity :as i]))
 
 (defn interactivity []
   [:div
