@@ -15,7 +15,7 @@
             [components.tailwind.sizing :as s]
             [components.tailwind.spacing :as sp]
             [components.tailwind.svg :as svg]
-            [components.tailwind.table :as ta]
+            [components.tailwind.table :as tb]
             [components.tailwind.transition :as tr]
             [components.tailwind.variant :as v]))
 
@@ -57,6 +57,6 @@
 
 (app.pages/reg-page :svg svg/svg 18)
 
- ;(app.pages/reg-page :table tb/table 19)
+(app.pages/reg-page :table tb/table 19)
 ;(app.pages/reg-page :transition tr/transition 20)
 ;(app.pages/reg-page :variant v/variant 21)

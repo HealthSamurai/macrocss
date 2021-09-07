@@ -1,25 +1,31 @@
 (ns stylo.tailwind.table
   (:require
-    [stylo.rule :refer [rule]]))
+   [stylo.rule :refer [defrules]]))
 
 
 ;; https://tailwindcss.com/docs/display/#table
-(defmethod rule :table [_] [[:& {:display "table"}]])
-(defmethod rule :table-caption [_] [[:& {:display "table-caption"}]])
-(defmethod rule :table-cell [_] [[:& {:display "table-cell"}]])
-(defmethod rule :table-column [_] [[:& {:display "table-column"}]])
-(defmethod rule :table-column-group [_] [[:& {:display "table-column-group"}]])
-(defmethod rule :table-footer-group [_] [[:& {:display "table-footer-group"}]])
-(defmethod rule :table-header-group [_] [[:& {:display "table-header-group"}]])
-(defmethod rule :table-row-group [_] [[:& {:display "table-row-group"}]])
-(defmethod rule :table-row [_] [[:& {:display "table-row"}]])
 
+
+(def table {:table  {:display "table"}
+            :table-caption  {:display "table-caption"}
+            :table-cell  {:display "table-cell"}
+            :table-column  {:display "table-column"}
+            :table-column-group  {:display "table-column-group"}
+            :table-footer-group  {:display "table-footer-group"}
+            :table-header-group  {:display "table-header-group"}
+            :table-row-group  {:display "table-row-group"}
+            :table-row  {:display "table-row"}})
+
+(defrules table)
 
 ;; https://tailwindcss.com/docs/table-layout
-(defmethod rule :table-auto [_] [[:& {:table-layout "auto"}]])
-(defmethod rule :table-fixed [_] [[:& {:table-layout "fixed"}]])
+(def table-layout {:table-auto  {:table-layout "auto"}
+                   :table-fixed  {:table-layout "fixed"}})
 
-
+(defrules table-layout)
 ;; https://tailwindcss.com/docs/border-collapse/#app
-(defmethod rule :border-collapse [_] [[:& {:border-collapse "collapse"}]])
-(defmethod rule :border-separate [_] [[:& {:border-collapse "separate"}]])
+(def border-collapse {:border-collapse  {:border-collapse "collapse"}
+
+                      :border-separate  {:border-collapse "separate"}})
+
+(defrules border-collapse)
