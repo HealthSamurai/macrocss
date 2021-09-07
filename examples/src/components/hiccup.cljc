@@ -8,21 +8,6 @@
 
 (defn with-key [m] (merge (k) m))
 
-(defn pre-bash
-  [& content]
-  [:div
-   {:class (c [:mt 1]
-              [:bg :black]
-              [:rounded 12]
-              [:px 4]
-              [:py 3]
-              :w-auto)
-    :key (gen-key)}
-   [:pre {:class (c [:text :white]
-                    :font-mono
-                    :text-sm)
-          :key (gen-key)} content]])
-
 (defn lint [code-string]
   (reduce (fn [acc smbl]
               (conj acc (cond
@@ -45,11 +30,26 @@
                           (= \= smbl)  [:span {:class (c [:text :orange-900])
                                                :key (gen-key)} smbl]
 
-                          :else [:span {:class (c [:text :yellow-500])
+                          :else [:span {:class (c [:text :yellow-300])
                                         :key (gen-key)} smbl])))
-            [:span] code-string))
+          [:span {:key (gen-key)} ] code-string))
 
-(defn code [code-string]
+(defn comment-code [code-string]
+  [:span {:class (c [:text :gray-500])
+          :key (gen-key)}
+   code-string])
+
+(defn code-style [style]
+  (condp = style
+    :bash (c [:text :white]
+                    :font-mono
+                    :text-sm)
+    :clojure (c :font-mono
+                    :font-hairline
+                    :text-sm
+                    :tracking-tighter)))
+
+(defn code [k & code-string]
   [:div
    {:class (c [:mt 2]
               [:mb 2]
@@ -59,9 +59,8 @@
               [:py 3]
               :w-auto)
     :key (gen-key)}
-   [:pre {:class (c :font-mono
-                    :font-thin)
-          :key (gen-key)} (lint code-string)]])
+   [:pre {:class (code-style k)
+          :key (gen-key)} code-string]])
 
 (defn block [& content]
   [:div {:class (c [:w 180] :content-center [:mt 8])
