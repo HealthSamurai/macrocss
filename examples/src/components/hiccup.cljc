@@ -56,7 +56,8 @@
               [:py 3]
               :w-auto)}
    [:pre {:class (c :font-mono
-                    :text-sm)} (lint code-string)]])
+                    :text-sm
+                    :font-light)} (lint code-string)]])
 
 (defn block [& content]
   [:div {:class (c [:w 180] :content-center [:mt 8])}
@@ -197,6 +198,8 @@
           (assoc acc k (if (associative? v)
                          v
                          (v default)))) {} table-data)))
+
+(defn unit [x] { x {:unit :rem :magnitude "YOUR_INT * 0.25 REM"}})
 
 (defn example-block
   ([heading description table-data]
