@@ -22,12 +22,7 @@
                     :text-sm)} content]])
 
 (defn lint [code-string]
-  (let [colors [:yellow-600
-                :blue-300
-                :orange-500
-                :pink-500]
-        code-color (nth colors (rand-int 3))]
-    (reduce (fn [acc smbl]
+  (reduce (fn [acc smbl]
               (conj acc (cond
                           (or (= \] smbl)
                               (= \[ smbl)) [:span {:class (c [:text :purple-500])} smbl]
@@ -44,7 +39,7 @@
                           (= \= smbl)  [:span {:class (c [:text :orange-900])} smbl]
 
                           :else [:span {:class (c [:text :yellow-500])} smbl])))
-            [:span] code-string)))
+            [:span] code-string))
 
 (defn code [code-string]
   [:div
@@ -56,8 +51,7 @@
               [:py 3]
               :w-auto)}
    [:pre {:class (c :font-mono
-                    :text-sm
-                    :font-light)} (lint code-string)]])
+                    :font-thin)} (lint code-string)]])
 
 (defn block [& content]
   [:div {:class (c [:w 180] :content-center [:mt 8])}
