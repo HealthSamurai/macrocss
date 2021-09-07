@@ -90,7 +90,7 @@ img, video {
   height: auto;
 }
 
-.app_core-45-19 {
+.app_core-46-19 {
   right: 0.0rem;
   top: 0.0rem;
   transition-duration: 200ms;
@@ -102,7 +102,7 @@ img, video {
   left: 0.0rem;
 }
 
-.app_core-50-19 {
+.app_core-51-19 {
   right: 0.0rem;
   top: 0.0rem;
   transition-duration: 200ms;
@@ -115,7 +115,7 @@ img, video {
   left: 0.0rem;
 }
 
-.app_core-60-5 {
+.app_core-61-5 {
   --text-opacity: 1;
   padding-bottom: 0.5rem;
   transition-property: background-color, border-color, color, fill, stroke;
@@ -127,12 +127,12 @@ img, video {
   padding-top: 0.5rem;
 }
 
-.app_core-65-5:hover {
+.app_core-66-5:hover {
   color: rgba(26,32,44,var(--text-opacity));
   --text-opacity: 1;
 }
 
-.app_core-65-5 {
+.app_core-66-5 {
   --text-opacity: 1;
   padding-bottom: 0.5rem;
   transition-property: background-color, border-color, color, fill, stroke;
@@ -144,7 +144,7 @@ img, video {
   padding-top: 0.5rem;
 }
 
-.app_core-76-21 {
+.app_core-77-21 {
   width: 18.0rem;
   padding-top: 1.0rem;
   padding-bottom: 1.0rem;
@@ -152,42 +152,58 @@ img, video {
   padding-right: 2.0rem;
 }
 
-.app_core-77-22 {
+.app_core-79-22 {
   margin-bottom: 0.5rem;
   display: flex;
 }
 
-.app_core-78-29 {
+.app_core-82-29 {
   width: 3.75rem;
 }
 
-.app_core-80-23 {
+.app_core-84-23 {
   margin-left: 0.25rem;
   margin-top: 0.75rem;
   font-size: 1.25rem;
   font-weight: 800;
 }
 
-.app_core-82-22 {
+.app_core-87-22 {
   flex-column: nil;
 }
 
-.app_core-84-25 {
+.app_core-90-25 {
   flex-grow: 4;
 }
 
-.app_core-89-29 {
+.app_core-98-29 {
   position: relative;
   line-height: (16);
   font-size: .875rem;
   font-weight: 400;
 }
 
-.app_core-109-17 {
+.app_core-103-29 {
+  font-size: .875rem;
+  position: relative;
+  font-weight: 600;
+  line-height: (16);
+  color: rgba(26,32,44,var(--text-opacity));
+  --text-opacity: 1;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.app_core-130-17 {
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.app_core-148-17 {
   width: 100%;
 }
 
-.app_core-110-18 {
+.app_core-149-18 {
   width: 85.0rem;
   border-width: 1px;
   margin-left: auto;
@@ -195,76 +211,81 @@ img, video {
   display: flex;
 }
 
-.app_core-112-19 {
+.app_core-151-19 {
   flex: 1 1 0%;
 }
 
-.app_core-114-19 {
+.app_core-153-19 {
   flex: 1 1 0%;
 }
 
-.components_default-54-37 {
+.components_default-51-39 {
   font-weight: 700;
 }
 
-.components_default-56-39 {
+.components_default-55-41 {
   font-weight: 700;
 }
 
-.components_hiccup-14-12 {
-  width: auto;
-  padding-bottom: 0.75rem;
-  --bg-opacity: 1;
-  margin-top: 0.25rem;
-  background-color: rgba(0,0,0,var(--bg-opacity));
-  padding-right: 1.0rem;
-  border-radius: 12px;
-  padding-left: 1.0rem;
-  padding-top: 0.75rem;
+.components_default-60-24 {
+  font-weight: 700;
 }
 
-.components_hiccup-20-18 {
+.components_hiccup-15-59 {
+  color: rgba(159,122,234,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.components_hiccup-19-59 {
+  color: rgba(66,153,225,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.components_hiccup-23-59 {
+  color: rgba(102,126,234,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.components_hiccup-27-59 {
+  color: rgba(42,67,101,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.components_hiccup-30-55 {
+  color: rgba(123,52,30,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.components_hiccup-33-48 {
+  color: rgba(250,240,137,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.components_hiccup-38-18 {
+  color: rgba(160,174,192,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.components_hiccup-44-11 {
   color: rgba(255,255,255,var(--text-opacity));
   --text-opacity: 1;
   font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: .875rem;
 }
 
-.components_hiccup-33-59 {
-  color: rgba(159,122,234,var(--text-opacity));
-  --text-opacity: 1;
+.components_hiccup-47-14 {
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-weight: 100;
+  font-size: .875rem;
+  letter-spacing: -0.05em;
 }
 
-.components_hiccup-36-59 {
-  color: rgba(66,153,225,var(--text-opacity));
-  --text-opacity: 1;
-}
-
-.components_hiccup-39-59 {
-  color: rgba(102,126,234,var(--text-opacity));
-  --text-opacity: 1;
-}
-
-.components_hiccup-42-59 {
-  color: rgba(42,67,101,var(--text-opacity));
-  --text-opacity: 1;
-}
-
-.components_hiccup-44-55 {
-  color: rgba(123,52,30,var(--text-opacity));
-  --text-opacity: 1;
-}
-
-.components_hiccup-46-48 {
-  color: rgba(236,201,75,var(--text-opacity));
-  --text-opacity: 1;
-}
-
-.components_hiccup-51-12 {
+.components_hiccup-54-12 {
   width: auto;
   padding-bottom: 0.75rem;
   --bg-opacity: 1;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   background-color: rgba(0,0,0,var(--bg-opacity));
   padding-right: 1.0rem;
   border-radius: 12px;
@@ -272,17 +293,13 @@ img, video {
   padding-top: 0.75rem;
 }
 
-.components_hiccup-57-18 {
-  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: .875rem;
-}
-
-.components_hiccup-61-17 {
+.components_hiccup-66-17 {
+  width: 45.0rem;
   align-content: center;
   margin-top: 2.0rem;
 }
 
-.components_hiccup-63-13 {
+.components_hiccup-69-13 {
   box-sizing: border-box;
   padding-bottom: 2.5rem;
   margin-bottom: 2.5rem;
@@ -291,7 +308,7 @@ img, video {
   --border-opacity: 1;
 }
 
-.components_hiccup-67-16 {
+.components_hiccup-74-16 {
   font-size: 1.875rem;
   display: inline-block;
   font-weight: 800;
@@ -300,7 +317,7 @@ img, video {
   letter-spacing: -0.025em;
 }
 
-.components_hiccup-75-15 {
+.components_hiccup-83-15 {
   margin-top: 0.25rem;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 1.125rem;
@@ -309,7 +326,7 @@ img, video {
   --text-opacity: 1;
 }
 
-.components_hiccup-78-16 {
+.components_hiccup-87-16 {
   margin: 0.25rem;
   font-size: 1.25rem;
   display: inline-block;
@@ -319,25 +336,26 @@ img, video {
   letter-spacing: -0.025em;
 }
 
-.components_hiccup-86-15 {
+.components_hiccup-96-15 {
   margin-top: 0.25rem;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-weight: 300;
   font-size: 1rem;
   color: rgba(45,55,72,var(--text-opacity));
   --text-opacity: 1;
 }
 
-.components_hiccup-104-52 {
+.components_hiccup-116-16 {
   color: rgba(144,205,244,var(--text-opacity));
   --text-opacity: 1;
   text-decoration: underline;
 }
 
-.components_hiccup-117-19 {
+.components_hiccup-121-19 {
   border-bottom-width: 1px;
 }
 
-.components_hiccup-119-48 {
+.components_hiccup-124-48 {
   font-weight: 600;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   color: rgba(113,128,150,var(--text-opacity));
@@ -346,64 +364,75 @@ img, video {
   padding-bottom: 0.5rem;
 }
 
-.components_hiccup-125-50 {
+.components_hiccup-130-50 {
   display: flex;
   align-content: flex-start;
 }
 
-.components_hiccup-131-16 {
+.components_hiccup-137-16 {
   font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: .75rem;
   color: rgba(128,90,213,var(--text-opacity));
   --text-opacity: 1;
+  white-space: nowrap;
 }
 
-.components_hiccup-135-16 {
+.components_hiccup-153-16 {
   font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: .75rem;
   color: rgba(144,205,244,var(--text-opacity));
   --text-opacity: 1;
 }
 
-.components_hiccup-143-32 {
+.components_hiccup-163-32 {
   border-bottom-width: 1px;
 }
 
-.components_hiccup-147-17 {
-  border-bottom-width: 1px;
-  border-width: 1px;
-  border-color: rgba(237,242,247,var(--border-opacity));
-  --border-opacity: 1;
-  overflow: hidden;
-  position: relative;
-}
-
-.components_hiccup-151-18 {
-  overflow-y: auto;
-}
-
-.components_hiccup-152-21 {
+.components_hiccup-168-19 {
   width: 100%;
   text-align: left;
   border-collapse: collapse;
+  margin-top: 1.25rem;
 }
 
-.components_tailwind_accessibility-12-11 {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  border-bottom-width: 1px;
-  vertical-align: top;
+.components_hiccup-174-18 {
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: .875rem;
+  font-weight: 600;
+  color: rgba(124,58,237,var(--text-opacity));
+  --text-opacity: 1;
 }
 
-.components_tailwind_accessibility-16-18 {
-  margin-top: 2.0rem;
-  margin-bottom: 2.5rem;
+.components_hiccup-202-19 {
+  display: flex;
+  margin-top: 4.0rem;
+  font-weight: 500;
+  line-height: 1.5rem;
 }
 
-.components_tailwind_accessibility-19-20 {
-  width: 100%;
-  text-align: left;
-  border-collapse: collapse;
+.components_hiccup-204-18 {
+  display: flex;
+  margin-right: 2.0rem;
+  color: rgba(160,174,192,var(--text-opacity));
+  --text-opacity: 1;
+  transition-duration: 200ms;
+}
+
+.components_hiccup-204-18:hover {
+  color: rgba(26,32,44,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.components_hiccup-209-18 {
+  display: flex;
+  text-align: right;
+  margin-left: auto;
+  color: rgba(160,174,192,var(--text-opacity));
+  --text-opacity: 1;
+  transition-duration: 200ms;
+}
+
+.components_hiccup-209-18:hover {
+  color: rgba(26,32,44,var(--text-opacity));
+  --text-opacity: 1;
 }
