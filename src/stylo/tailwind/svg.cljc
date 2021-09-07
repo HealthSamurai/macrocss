@@ -9,4 +9,6 @@
 
 
 ;; https://tailwindcss.com/docs/stroke/#app
-(defmethod rule :stroke [_ x] (if (int? x) [[:& {:stroke-width x}]] [[:& {:stroke (colors x)}]]))
+(defmethod rule :stroke [_ x] [[:& {:stroke (colors x)}]])
+
+(defmethod rule :stroke-width [_ x] [[:& {:stroke-width x}]])
