@@ -7,7 +7,8 @@
 
 
 (defn borders []
-  [:div (block (h1 "Borders")
+  [:div
+   (block (h1 "Borders")
                (p1 "Styling borders. Adjusting size, radius, color and other border properties."))
    (example-block "Rounded. Border. Divide."
                   "Default values for border styling. All of them can accept custom value as arguments."
