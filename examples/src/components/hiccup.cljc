@@ -8,52 +8,74 @@
 
 (defn with-key [m] (merge (k) m))
 
+(def doom-emacs-styles
+  {:special-form (c [:text "#4894c9"])
+   :after-form (c [:text "#b770cd"])
+
+   :ns (c [:text "#4894c9"])
+   :after-ns (c [:text "#e8ba79"])
+
+   :def (c [:text "#4894c9"])
+   :after-def (c [:text "#c39bd0"])
+
+   :opening-bracket (c [:text "#4894c9"])
+   :function (c [:text "#bbc2cf"])
+
+   :string (c [:text "#8fb360"])
+   :keyword (c [:text "#a39bd9"])
+   :comment (c [:text "#575c63"])
+
+   :round-bracket (c [:text "#4894c9"])
+   :square-bracket (c [:text "#c678dd"])
+   :curly-bracket (c [:text "#8fb360"])
+   :default (c [:text "#b2b9c6"])
+
+   :bg (c [:text "#21252b"])})
+
+(defn span-style [smbl]
+  (cond
+
+    (or (= \] smbl)
+        (= \[ smbl)) (:square-bracket doom-emacs-styles)
+
+    (or (= \} smbl)
+        (= \{ smbl))  (:curly-bracket doom-emacs-styles)
+
+    (or (= \( smbl)
+        (= \) smbl)) (:round-bracket doom-emacs-styles)
+
+    (or (= \< smbl)
+        (= \> smbl)) (c [:text :blue-900])
+
+    (= \= smbl)  (c [:text :orange-900])
+    :else (:default doom-emacs-styles)))
+
 (defn lint [code-string]
   (reduce (fn [acc smbl]
-              (conj acc (cond
-                          (or (= \] smbl)
-                              (= \[ smbl)) [:span {:class (c [:text :purple-500])
-                                                   :key (gen-key)} smbl]
-
-                          (or (= \} smbl)
-                              (= \{ smbl)) [:span {:class (c [:text :blue-500])
-                                                   :key (gen-key)} smbl]
-
-                          (or (= \( smbl)
-                              (= \) smbl)) [:span {:class (c [:text :indigo-500])
-                                                   :key (gen-key)} smbl]
-
-                          (or (= \< smbl)
-                              (= \> smbl)) [:span {:class (c [:text :blue-900])
-                                                   :key (gen-key)} smbl]
-
-                          (= \= smbl)  [:span {:class (c [:text :orange-900])
-                                               :key (gen-key)} smbl]
-
-                          :else [:span {:class (c [:text :yellow-300])
-                                        :key (gen-key)} smbl])))
-          [:span {:key (gen-key)} ] code-string))
+            (conj acc [:span {:key (gen-key)
+                              :class (span-style smbl)} smbl]))
+          [:span {:key (gen-key)}] code-string))
 
 (defn comment-code [code-string]
-  [:span {:class (c [:text :gray-500])
+  [:span {:class (:comment doom-emacs-styles)
           :key (gen-key)}
    code-string])
 
 (defn code-style [style]
   (condp = style
     :bash (c [:text :white]
-                    :font-mono
-                    :text-sm)
+             :font-mono
+             :text-sm)
     :clojure (c :font-mono
-                    :font-hairline
-                    :text-sm
-                    :tracking-tighter)))
+                :font-hairline
+                :text-sm
+                :tracking-tighter)))
 
 (defn code [k & code-string]
   [:div
    {:class (c [:mt 2]
               [:mb 2]
-              [:bg :black]
+              [:bg "#21252b"]
               [:rounded 12]
               [:px 4]
               [:py 3]
@@ -145,9 +167,9 @@
         (keyword? cell) (str cell)
         :else
         (let [[k v] cell] (-> k
-                           name
-                           (str ":")
-                           (str "  '" v "'; "))))])
+                              name
+                              (str ":")
+                              (str "  '" v "'; "))))])
 
 (defn create-right-cell [cell]
   [:td {:class (c :font-mono :text-xs
