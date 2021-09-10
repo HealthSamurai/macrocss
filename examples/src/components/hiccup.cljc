@@ -85,10 +85,10 @@
           :key (gen-key)} code-string]])
 
 (defn block [& content]
-  [:div {:class (c [:w 180] :content-center [:mt 8])
+  [:div {:class (c [:w 180] :content-center [:mt 5])
          :key (gen-key)}
    [:div
-    {:class (c :box-border [:pb 10] [:mb 10] [:border-b :gray-200])
+    {:class (c :box-border [:pb 10] [:mb 4] [:border-b :gray-200])
      :key (gen-key)}
     content]])
 
@@ -96,35 +96,35 @@
   [:div {:class (c [:w 180] :content-center [:mt 1])
          :key (gen-key)}
    [:div
-    {:class (c :box-border [:pb 10] [:mb 1])
+    {:class (c :box-border [:pb 5] [:mb 1])
      :key (gen-key)}
     content]])
 
 (defn h1 [& content]
   [:h1 {:class (c
                 :text-3xl
-                :inline-block
+                [:m 1]
                 :font-extrabold
                 [:text :gray-900]
                 :tracking-tight)
         :key (gen-key)} content])
 
 (defn p1 [& content]
-  [:p {:class (c [:mt 1] :font-sans :text-lg :font-light [:text :gray-600])
+  [:p {:class (c [:m 1] :font-sans :text-lg :font-light [:text :gray-600])
        :key (gen-key)} content])
 
 (defn h3 [& content]
   [:h3 {:class (c [:m 1]
                   :text-xl
-                  :inline-block
+
                   :font-bold
                   [:text :gray-900]
                   :tracking-tight)
         :key (gen-key)} content])
 
 (defn p3 [& content]
-  [:p {:class (c [:mt 1] :font-sans :font-light :text-base [:text :gray-800])
-       :key (gen-key)} content])
+ [:div [:p {:class (c [:ml 1] [:mb 3] :font-sans :font-light :text-base [:text :gray-700])
+       :key (gen-key)} content]])
 
 (defn hash-link? [link]
   (= "/" (-> link
@@ -197,7 +197,7 @@
           [:tbody] rule-data))
 
 (defn table [rule-data]
-  [:table {:class (c :w-full :text-left :border-collapse [:mt 5] [:mb 8])
+  [:table {:class (c :w-full :text-left :border-collapse [:mt 1] [:mb 1])
            :key (gen-key)}
    (create-table-heading ["Class" "Properties"])
    (create-table-cells rule-data)])
@@ -261,11 +261,11 @@
 
 (defn example-block
   ([heading description table-data]
-   (example-div (h1 heading)
-                (p1 description)
+   (example-div (h3 heading)
+                (p3 description)
                 (table table-data)))
   ([heading description table-data usage]
-   (example-div (h1 heading)
-                (p1 description)
+   (example-div (h3 heading)
+                (p3 description)
                 (table table-data)
                 (usage))))

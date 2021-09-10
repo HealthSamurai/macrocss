@@ -1,4 +1,7 @@
 node_modules
 .cpcache
-public/out
+examples/public/out
 .shadow-cljs
+examples/.cpcache
+examples/.shadow-cljs
+examples/node_modules
