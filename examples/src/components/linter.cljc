@@ -10,11 +10,9 @@
 
 (def comm-marker-re #"^\;+[\w\s]*")
 
-(re-find comm-marker-re ";;privet ueban")
+(def special-forms #{"defn " "defmethod " "defmulti " "defrules " "let "})
 
-(def special-forms #{"defn" "defmethod" "defmulti" "defrules" "let"})
-
-(def clj-default (apply conj ["ns" "def"
+(def clj-default (apply conj ["ns " "def "
                               "(" ")"
                               "{" "}"
                               "[" "]"]
@@ -42,14 +40,15 @@
 (defn dispatch-syntax-el-type
   [word]
   (cond
-    (= word "(") :opening-bracket
+    (= word "(") :op-round-bracket
     (= word ")") :round-bracket
-    (or (= word "[")
-        (= word "]")) :square-bracket
-    (or (= word "{")
-        (= word "}")) :curly-bracket
-    (#{"ns"} word) :ns
-    (#{"def"} word) :def
+
+    (= word "[") :op-square-bracket
+    (= word "]") :square-bracket
+    (= word "{") :op-curly-bracket
+    (= word "}") :curly-bracket
+    (#{"ns "} word) :ns
+    (#{"def "} word) :def
     (special-forms word) :special-form
     (re-find str-re word) :string
     (re-find key-re word) :keyword
@@ -81,37 +80,36 @@
    :def (c [:text "#4894c9"])
    :after-def (c [:text "#c39bd0"])
 
-   :opening-bracket (c [:text "#4894c9"])
-   :function (c [:text "#bbc2cf"])
-
    :string (c [:text "#8fb360"])
    :keyword (c [:text "#a39bd9"])
    :comment (c [:text "#575c63"])
 
+   :op-round-bracket (c [:text "#4894c9"])
    :round-bracket (c [:text "#4894c9"])
+
+   :op-square-bracket (c [:text "#c678dd"])
    :square-bracket (c [:text "#c678dd"])
+
+   :op-curly-bracket (c [:text "#8fb360"])
    :curly-bracket (c [:text "#8fb360"])
    :default (c [:text "#bbc2cf"])
 
    :bg (c [:text "#21252b"])})
 
 (defn dispatch-style
-  ([prev-el-type cur]
-   (dispatch-style prev-el-type cur doom-emacs-styles))
-  ([prev-el-type end-comment? cur stylesheet]
+  ([el]
+   (dispatch-style el doom-emacs-styles))
+  ([{:keys [prev-el-type cur]} stylesheet]
    (cond
      (= :ns prev-el-type) (:after-ns stylesheet)
      (= :special-form prev-el-type) (:after-form stylesheet)
      (= :def prev-el-type) (:after-def stylesheet)
-     (= :opening-bracket prev-el-type) (:function stylesheet)
      :else (cur stylesheet))))
 
-(defn create-el [el]
-  (let []))
-
-(defn wrap-by-component [vec-of-els]
-  (reduce (fn [acc el] (conj acc (create-el el))
-            [:span {:key (h/gen-key)}])))
+(defn wrap-by-component [el]
+  [:span {:class (dispatch-style el)
+          :key (h/gen-key)}
+   (:val el)])
 
 (defn declare-component
   [{:keys [cur word]}]
@@ -176,11 +174,33 @@
 (defn consider-comment
   [vec-of-els]
   (->> vec-of-els
-      (reduce comment-logic {:acc []
-                             :comm false})
-      :acc))
+       (reduce comment-logic {:acc []
+                              :comm false})
+       :acc))
 
-(defn inject-spaces [vec-of-els])
+(defn inject-spaces [vec-of-els]
+  (reduce (fn [acc {:keys [val prev cur] :as el}]
+            (if (or (= :def cur)
+                    (= :special-form cur)
+                    (= :ns cur)
+                    (= :comment cur)
+                    (= :keyword cur)
+                    (= :string cur)
+                    (= :default cur))
+              (conj acc (update el :val str " "))
+              (if (and (or (= :square-bracket cur)
+                           (= :curly-bracket cur)
+                           (= :round-bracket cur))
+                       (or (= :default prev)
+                           (= :keyword prev)))
+                (let [new-last-item (-> acc
+                                        last
+                                        (update :val str/trimr))]
+                  (-> acc
+                      (subvec 0 (- (count acc) 1))
+                      (conj new-last-item el)))
+                (conj acc el))))
+          [] vec-of-els))
 
 (defn lint-string
   [linted-str]
@@ -190,9 +210,13 @@
        (insert-lost linted-str)
        (remove empty?)))
 
-(->> (str/split "(def rules [x] {:key (str \"zal\" x)} ;;; my nice comment \n (def x {:k 5}) ;; one more comment" #" +")
-     (mapv lint-string)
+(defn highlight [code]
+  (->  code
+     (str/split #" +")
+  (->> (mapv lint-string)
      inject-default
      flatten
      consider-comment
-     consider-prev-el)
+     consider-prev-el
+     inject-spaces
+     (mapv wrap-by-component))))
