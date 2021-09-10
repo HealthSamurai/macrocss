@@ -351,13 +351,13 @@ img, video {
 .components_hiccup-88-17 {
   width: 45.0rem;
   align-content: center;
-  margin-top: 2.0rem;
+  margin-top: 1.25rem;
 }
 
 .components_hiccup-91-13 {
   box-sizing: border-box;
   padding-bottom: 2.5rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.0rem;
   border-bottom-width: 1px;
   border-color: rgba(237,242,247,var(--border-opacity));
   --border-opacity: 1;
@@ -371,13 +371,13 @@ img, video {
 
 .components_hiccup-99-13 {
   box-sizing: border-box;
-  padding-bottom: 2.5rem;
+  padding-bottom: 1.25rem;
   margin-bottom: 0.25rem;
 }
 
 .components_hiccup-104-16 {
   font-size: 1.875rem;
-  display: inline-block;
+  margin: 0.25rem;
   font-weight: 800;
   color: rgba(26,32,44,var(--text-opacity));
   --text-opacity: 1;
@@ -385,7 +385,7 @@ img, video {
 }
 
 .components_hiccup-113-15 {
-  margin-top: 0.25rem;
+  margin: 0.25rem;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 1.125rem;
   font-weight: 300;
@@ -396,19 +396,19 @@ img, video {
 .components_hiccup-117-16 {
   margin: 0.25rem;
   font-size: 1.25rem;
-  display: inline-block;
   font-weight: 700;
   color: rgba(26,32,44,var(--text-opacity));
   --text-opacity: 1;
   letter-spacing: -0.025em;
 }
 
-.components_hiccup-126-15 {
-  margin-top: 0.25rem;
+.components_hiccup-126-20 {
+  margin-left: 0.25rem;
+  margin-bottom: 0.75rem;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-weight: 300;
   font-size: 1rem;
-  color: rgba(45,55,72,var(--text-opacity));
+  color: rgba(74,85,104,var(--text-opacity));
   --text-opacity: 1;
 }
 
@@ -461,8 +461,8 @@ img, video {
   width: 100%;
   text-align: left;
   border-collapse: collapse;
-  margin-top: 1.25rem;
-  margin-bottom: 2.0rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
 }
 
 .components_hiccup-206-18 {
