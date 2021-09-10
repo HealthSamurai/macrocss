@@ -442,20 +442,22 @@ img, video {
   color: rgba(128,90,213,var(--text-opacity));
   --text-opacity: 1;
   white-space: nowrap;
+  padding: 0.25rem;
 }
 
-.components_hiccup-183-16 {
+.components_hiccup-184-16 {
   font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: .75rem;
   color: rgba(66,153,225,var(--text-opacity));
   --text-opacity: 1;
+  padding: 0.5rem;
 }
 
-.components_hiccup-193-32 {
+.components_hiccup-195-32 {
   border-bottom-width: 1px;
 }
 
-.components_hiccup-198-19 {
+.components_hiccup-200-19 {
   width: 100%;
   text-align: left;
   border-collapse: collapse;
@@ -463,7 +465,7 @@ img, video {
   margin-bottom: 2.0rem;
 }
 
-.components_hiccup-204-18 {
+.components_hiccup-206-18 {
   font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: .875rem;
   font-weight: 600;
@@ -471,14 +473,14 @@ img, video {
   --text-opacity: 1;
 }
 
-.components_hiccup-232-19 {
+.components_hiccup-234-19 {
   display: flex;
   margin-top: 4.0rem;
   font-weight: 500;
   line-height: 1.5rem;
 }
 
-.components_hiccup-234-18 {
+.components_hiccup-236-18 {
   display: flex;
   margin-right: 2.0rem;
   color: rgba(160,174,192,var(--text-opacity));
@@ -486,12 +488,12 @@ img, video {
   transition-duration: 200ms;
 }
 
-.components_hiccup-234-18:hover {
+.components_hiccup-236-18:hover {
   color: rgba(26,32,44,var(--text-opacity));
   --text-opacity: 1;
 }
 
-.components_hiccup-239-18 {
+.components_hiccup-241-18 {
   display: flex;
   text-align: right;
   margin-left: auto;
@@ -500,7 +502,7 @@ img, video {
   transition-duration: 200ms;
 }
 
-.components_hiccup-239-18:hover {
+.components_hiccup-241-18:hover {
   color: rgba(26,32,44,var(--text-opacity));
   --text-opacity: 1;
 }
