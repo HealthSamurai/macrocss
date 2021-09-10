@@ -8,7 +8,7 @@
 
 (defn with-key [m] (merge (k) m))
 
-(def doom-emacs-styles
+(def doom
   {:special-form (c [:text "#4894c9"])
    :after-form (c [:text "#b770cd"])
 
@@ -36,19 +36,19 @@
   (cond
 
     (or (= \] smbl)
-        (= \[ smbl)) (:square-bracket doom-emacs-styles)
+        (= \[ smbl)) (:square-bracket doom)
 
     (or (= \} smbl)
-        (= \{ smbl))  (:curly-bracket doom-emacs-styles)
+        (= \{ smbl))  (:curly-bracket doom)
 
     (or (= \( smbl)
-        (= \) smbl)) (:round-bracket doom-emacs-styles)
+        (= \) smbl)) (:round-bracket doom)
 
     (or (= \< smbl)
         (= \> smbl)) (c [:text :blue-900])
 
     (= \= smbl)  (c [:text :orange-900])
-    :else (:default doom-emacs-styles)))
+    :else (:default doom)))
 
 (defn lint [code-string]
   (reduce (fn [acc smbl]
@@ -57,7 +57,7 @@
           [:span {:key (gen-key)}] code-string))
 
 (defn comment-code [code-string]
-  [:span {:class (:comment doom-emacs-styles)
+  [:span {:class (:comment doom)
           :key (gen-key)}
    code-string])
 
@@ -89,6 +89,14 @@
          :key (gen-key)}
    [:div
     {:class (c :box-border [:pb 10] [:mb 10] [:border-b :gray-200])
+     :key (gen-key)}
+    content]])
+
+(defn example-div [& content]
+  [:div {:class (c [:w 180] :content-center [:mt 1])
+         :key (gen-key)}
+   [:div
+    {:class (c :box-border [:pb 10] [:mb 1])
      :key (gen-key)}
     content]])
 
@@ -173,7 +181,7 @@
 
 (defn create-right-cell [cell]
   [:td {:class (c :font-mono :text-xs
-                  [:text :blue-300])}
+                  [:text :blue-500])}
    (reduce (fn [acc c] (conj acc (cell-logic c)))
            [:div]
            cell)])
@@ -187,7 +195,7 @@
           [:tbody] rule-data))
 
 (defn table [rule-data]
-  [:table {:class (c :w-full :text-left :border-collapse [:mt 5])
+  [:table {:class (c :w-full :text-left :border-collapse [:mt 5] [:mb 8])
            :key (gen-key)}
    (create-table-heading ["Class" "Properties"])
    (create-table-cells rule-data)])
@@ -251,11 +259,11 @@
 
 (defn example-block
   ([heading description table-data]
-   (block (h1 heading)
-          (p1 description)
-          (table table-data)))
+   (example-div (h1 heading)
+                (p1 description)
+                (table table-data)))
   ([heading description table-data usage]
-   (block (h1 heading)
-          (p1 description)
-          (table table-data)
-          (usage))))
+   (example-div (h1 heading)
+                (p1 description)
+                (table table-data)
+                (usage))))

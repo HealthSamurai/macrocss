@@ -8,9 +8,8 @@
    (h/block
      (h/h1 "Screen Readers")
      (h/p1 "Utilities for improving accessibility with screen readers.")
-     (h/table a/accessibility-data))
-
-   (h/block (h/h3 "Usage")
+     (h/table a/accessibility-data)
+     (h/h3 "Usage")
           (h/p3 "Use " (h/code-span "'sr-only'") " to hide an element visually without hiding it from screen readers:")
           (h/code :clojure  (h/lint " [:a {:href \"#\"} \n   [:svg \"some.svg\"] \n   [:span {:class (c :sr-only)} \"Settings\"]]"))
           (h/p3 "Use " (h/code-span "'not-sr-only'") " to undo sr-only, making an element visible to sighted users as well as screen readers.\n

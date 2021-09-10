@@ -1,8 +1,7 @@
 (ns components.linter
   (:require [clojure.string :as str]
             [clojure.set :as ss]
-            [stylo.core :refer [c]]
-            [components.hiccup :as h]))
+            [stylo.core :refer [c]]))
 
 (def key-re #"\:\w+")
 
@@ -108,7 +107,7 @@
 
 (defn wrap-by-component [el]
   [:span {:class (dispatch-style el)
-          :key (h/gen-key)}
+          :key (gensym "key-")}
    (:val el)])
 
 (defn declare-component
@@ -219,4 +218,8 @@
      consider-comment
      consider-prev-el
      inject-spaces
-     (mapv wrap-by-component))))
+     (mapv wrap-by-component)
+     (apply conj [:span {:key (gensym "key-")}]))))
+
+
+(highlight "(ns your-wonderful-code.core\n")

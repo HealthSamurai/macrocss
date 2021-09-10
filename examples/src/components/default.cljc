@@ -1,6 +1,7 @@
 (ns components.default
   (:require [components.hiccup :as h]
-            [stylo.core :refer [c]]))
+            [stylo.core :refer [c]]
+            [components.linter :as l]))
 
 (defn about
   []
