@@ -166,7 +166,8 @@
 (defn create-left-cell [k]
   [:td {:class (c :font-mono :text-xs
                   [:text :purple-600]
-                  :whitespace-no-wrap)
+                  :whitespace-no-wrap
+                  [:p 1])
         :key (gen-key)} k])
 
 (defn cell-logic [cell]
@@ -181,7 +182,8 @@
 
 (defn create-right-cell [cell]
   [:td {:class (c :font-mono :text-xs
-                  [:text :blue-500])}
+                  [:text :blue-500]
+                  [:p 2])}
    (reduce (fn [acc c] (conj acc (cell-logic c)))
            [:div]
            cell)])
