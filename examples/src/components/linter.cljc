@@ -66,8 +66,8 @@
                  :pos-end end
                  :word (when start
                          (subs linted-str start end))
-                 :cur-el-type (when start
-                                (dispatch-syntax-el-type word))})))
+                 :cur (when start
+                        (dispatch-syntax-el-type word))})))
        (remove (comp nil? :pos-start))
        (sort-by :pos-start)))
 
@@ -96,15 +96,15 @@
    :bg (c [:text "#21252b"])})
 
 (defn dispatch-style
-  ([prev-el-type cur-el-type]
-   (dispatch-style prev-el-type cur-el-type doom-emacs-styles))
-  ([prev-el-type end-comment? cur-el-type stylesheet]
+  ([prev-el-type cur]
+   (dispatch-style prev-el-type cur doom-emacs-styles))
+  ([prev-el-type end-comment? cur stylesheet]
    (cond
      (= :ns prev-el-type) (:after-ns stylesheet)
      (= :special-form prev-el-type) (:after-form stylesheet)
      (= :def prev-el-type) (:after-def stylesheet)
      (= :opening-bracket prev-el-type) (:function stylesheet)
-     :else (cur-el-type stylesheet))))
+     :else (cur stylesheet))))
 
 (defn create-el [el]
   (let []))
@@ -114,15 +114,15 @@
             [:span {:key (h/gen-key)}])))
 
 (defn declare-component
-  [cur word]
-  {cur word})
+  [{:keys [cur word]}]
+  {:val word
+   :cur cur})
 
 (defn conjoin-linted-el
-  [linted-str {:keys [acc prev-end]} {:keys [pos-start cur-el-type word]}]
+  [linted-str {:keys [acc prev-end]} {:keys [pos-start] :as w}]
   (conj acc
         (subs linted-str prev-end pos-start)
-        (declare-component cur-el-type
-                           word)))
+        (declare-component w)))
 
 (defn inject-component [linted-str syntax-pos]
   (reduce (fn [acc v]
@@ -139,67 +139,48 @@
 (defn inject-default
   [vec-of-lazy-seq]
   (mapv (partial reduce (fn [acc v] (if (string? v)
-                                      (conj acc {:default v})
+                                      (conj acc {:val v
+                                                 :cur :default})
                                       (conj acc v)))
                  []) vec-of-lazy-seq))
 
 (defn consider-prev-el
   [vec-of-els]
   (->> vec-of-els
-       (reduce (fn [{:keys [prev acc] :as res} el]
+       (reduce (fn [{:keys [prev acc] :as res} {:keys [cur] :as el}]
                  (-> res
                      (assoc :acc (conj acc (merge el {:prev prev})))
-                     (assoc :prev (-> el keys first))))
+                     (assoc :prev cur)))
                {:prev nil :acc []})
        :acc))
 
-(defn make-el-comment [el]
-  (let [keys-to-be-replaced [:opening-bracket
-                             :round-bracket
-                             :square-bracket
-                             :square-bracket
-                             :curly-bracket
-                             :ns
-                             :def
-                             :special-form
-                             :string
-                             :keyword
-                             :default]]
-    (-> el
-        (ss/rename-keys (reduce (fn [acc v] (assoc acc v :comment))
-                               {}
-                               keys-to-be-replaced))
-        (assoc :prev :comment))))
+(defn make-el-comment [acc el]
+  (conj acc (-> el
+                (assoc :cur :comment))))
 
-(defn comment-logic [{:keys [acc comm] :as res} {:keys [prev] :as el}]
-
-  (if (= :comment prev)
-     (if (= "\n" (-> el
-                    (dissoc el :prev)
-                    vals
-                    first))
+(defn comment-logic [{:keys [acc comm] :as res} {:keys [val cur] :as el}]
+  (if comm
+    (if (= :comment cur)
+      (assoc res :acc (conj acc el))
+      (if (= "\n" val)
+        (-> res
+            (assoc :acc (make-el-comment acc el))
+            (assoc :comm false))
+        (assoc res :acc (make-el-comment acc el))))
+    (if (= :comment cur)
       (-> res
-           (assoc :acc (conj acc (make-el-comment el)))
-           (assoc :comm false))
-      (-> res
-           (assoc :acc (conj acc (make-el-comment el)))
-           (assoc :comm true)))
-    (if comm
-      (assoc res :acc (conj acc (make-el-comment el)))
+          (assoc :acc (conj acc el))
+          (assoc :comm true))
       (assoc res :acc (conj acc el)))))
-
-(defn comment-logic [{:keys [acc comm] :as res} {:keys [prev] :as el}])
-
-(comment-logic
- {:acc []
-  :comm false}
- {:prev :comment
-  :default "\n"})
 
 (defn consider-comment
   [vec-of-els]
-  (reduce comment-logic {:acc []
-                         :comm false} vec-of-els))
+  (->> vec-of-els
+      (reduce comment-logic {:acc []
+                             :comm false})
+      :acc))
+
+(defn inject-spaces [vec-of-els])
 
 (defn lint-string
   [linted-str]
@@ -209,16 +190,9 @@
        (insert-lost linted-str)
        (remove empty?)))
 
-(->> (str/split "(def rules [x] {:key (str \"zal\" x)} ;;; my nice comment \n (def x {:k 5})" #" +")
+(->> (str/split "(def rules [x] {:key (str \"zal\" x)} ;;; my nice comment \n (def x {:k 5}) ;; one more comment" #" +")
      (mapv lint-string)
      inject-default
      flatten
+     consider-comment
      consider-prev-el)
-     ;consider-comment
-     ;:acc
-
-
-(->> (str/split "(def rules [x] {:key (str \"zal\" x)} ;;; my nice comment \n" #" +")
-     (mapv lint-string)
-     inject-default
-     flatten)
