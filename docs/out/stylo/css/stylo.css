@@ -154,36 +154,46 @@ img, video {
 
 .app_core-79-22 {
   margin-bottom: 0.5rem;
+}
+
+.app_core-82-25 {
   display: flex;
 }
 
-.app_core-82-29 {
+.app_core-84-29 {
   width: 3.75rem;
 }
 
-.app_core-84-23 {
-  margin-left: 0.25rem;
-  margin-top: 0.75rem;
+.app_core-86-26 {
   font-size: 1.25rem;
   font-weight: 800;
+  margin-top: 0.75rem;
 }
 
-.app_core-87-22 {
+.app_core-88-22 {
   flex-column: nil;
 }
 
-.app_core-90-25 {
+.app_core-91-25 {
   flex-grow: 4;
 }
 
-.app_core-98-29 {
+.app_core-99-29 {
   position: relative;
   line-height: (16);
   font-size: .875rem;
   font-weight: 400;
 }
 
-.app_core-103-29 {
+.app_core-105-45 {
+  margin-top: 0.25rem;
+}
+
+.app_core-106-46 {
+  margin-top: 1.25rem;
+}
+
+.app_core-107-30 {
   font-size: .875rem;
   position: relative;
   font-weight: 600;
@@ -194,40 +204,121 @@ img, video {
   padding-bottom: 0.5rem;
 }
 
-.app_core-130-17 {
+.app_core-134-17 {
   flex-direction: column;
   justify-content: space-between;
 }
 
-.app_core-148-17 {
+.app_core-144-31 {
+  color: rgba(26,32,44,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.app_core-154-17 {
   width: 100%;
 }
 
-.app_core-149-18 {
+.app_core-155-18 {
   width: 85.0rem;
-  border-width: 1px;
   margin-left: auto;
   margin-right: auto;
   display: flex;
 }
 
-.app_core-151-19 {
+.app_core-157-19 {
   flex: 1 1 0%;
 }
 
-.app_core-153-19 {
+.app_core-159-19 {
   flex: 1 1 0%;
 }
 
-.components_default-52-39 {
+.components_default-11-20 {
+  background-color: rgba(247,250,252,var(--bg-opacity));
+  --bg-opacity: 1;
+  border-radius: 0.75rem;
+  margin-top: 0.5rem;
+  padding: 2.0rem;
+}
+
+.components_default-15-18 {
+  width: 8.0rem;
+  height: 8.0rem;
+  border-radius: 9999px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.components_default-18-18 {
+  padding-top: 1.5rem;
+}
+
+.components_default-18-18>*+* {
+  --space-y-reverse: 0;
+  margin-bottom: calc(1.0rem * var(--space-y-reverse));
+  margin-top: calc(1.0rem * calc(1 - var(--space-y-reverse)));
+}
+
+.components_default-19-17 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.components_default-21-26 {
+  font-weight: 500;
+}
+
+.components_default-22-32 {
+  color: rgba(0,188,212,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.components_default-23-32 {
+  color: rgba(160,174,192,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.components_default-26-17 {
+  flex-direction: column;
+  align-content: center;
+}
+
+.components_default-28-24 {
+  width: 35.0rem;
+}
+
+.components_default-29-24 {
+  margin-left: 0.5rem;
+}
+
+.components_default-36-16 {
+  font-size: 1.875rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+  font-weight: 800;
+  color: rgba(26,32,44,var(--text-opacity));
+  --text-opacity: 1;
+  letter-spacing: -0.025em;
+}
+
+.components_default-44-17 {
+  margin: 0.25rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: rgba(113,128,150,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.components_default-75-39 {
   font-weight: 700;
 }
 
-.components_default-56-41 {
+.components_default-79-41 {
   font-weight: 700;
 }
 
-.components_default-61-24 {
+.components_default-84-24 {
   font-weight: 700;
 }
 
@@ -476,6 +567,8 @@ img, video {
 .components_hiccup-234-19 {
   display: flex;
   margin-top: 4.0rem;
+  margin-bottom: 1.75rem;
+  font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.5rem;
 }
@@ -483,7 +576,7 @@ img, video {
 .components_hiccup-236-18 {
   display: flex;
   margin-right: 2.0rem;
-  color: rgba(160,174,192,var(--text-opacity));
+  color: rgba(113,128,150,var(--text-opacity));
   --text-opacity: 1;
   transition-duration: 200ms;
 }
@@ -491,13 +584,14 @@ img, video {
 .components_hiccup-236-18:hover {
   color: rgba(26,32,44,var(--text-opacity));
   --text-opacity: 1;
+  border-bottom-width: 1px;
 }
 
 .components_hiccup-241-18 {
   display: flex;
   text-align: right;
   margin-left: auto;
-  color: rgba(160,174,192,var(--text-opacity));
+  color: rgba(113,128,150,var(--text-opacity));
   --text-opacity: 1;
   transition-duration: 200ms;
 }
@@ -505,6 +599,7 @@ img, video {
 .components_hiccup-241-18:hover {
   color: rgba(26,32,44,var(--text-opacity));
   --text-opacity: 1;
+  border-bottom-width: 1px;
 }
 
 .components_linter-73-18 {
