@@ -231,17 +231,17 @@
         next-link (-> next-page
                       name
                       href)]
-    [:div {:class (c :flex [:mt 16] :font-medium [:leading 6])
+    [:div {:class (c :flex [:mt 16] [:mb 7] :text-lg :font-medium [:leading 6])
            :key (gen-key)}
-     [:a {:class (c :flex [:mr 8] [:text :gray-500]
-                    [:hover [:text :gray-900]]
+     [:a {:class (c :flex [:mr 8] [:text :gray-600]
+                    [:hover [:text :gray-900] :border-b]
                     [:duration 200])
           :href prev-link
           :key (gen-key)} prev-title]
      [:a {:class (c :flex :text-right :ml-auto
-                    [:text :gray-500]
+                    [:text :gray-600]
                     [:duration 200]
-                    [:hover [:text :gray-900]])
+                    [:hover [:text :gray-900] :border-b])
           :href next-link
           :key (gen-key)} next-title]]))
 

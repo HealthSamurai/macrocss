@@ -76,14 +76,15 @@
     (fn []
       [:div {:class (c [:w 72] [:py 4] [:px 8])
              :key (h/gen-key)}
-       [:div {:class (c [:mb 2] :flex)
+       [:div {:class (c [:mb 2])
               :key (h/gen-key)}
-        [:div [:img {:key (h/gen-key)
-                     :class (c [:w 15] )
-                     :src "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia-exp1.licdn.com%2Fdms%2Fimage%2FC560BAQHmyLQmsMqKJg%2Fcompany-logo_200_200%2F0%3Fe%3D2159024400%26v%3Dbeta%26t%3DZQvloyFokWovUhF-xj36Cc1Xfv9xHFS-4JwwXKxDd-c&f=1&nofb=1" }]]
-        [:div {:class (c [:ml 1] [:mt 3]
-                         :text-xl :font-extrabold)
-               :key (h/gen-key)} "macroCSS"]]
+         [:a {:href "#about"}
+          [:div {:class (c :flex)}
+           [:img {:key (h/gen-key)
+                     :class (c [:w 15])
+                 :src "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia-exp1.licdn.com%2Fdms%2Fimage%2FC560BAQHmyLQmsMqKJg%2Fcompany-logo_200_200%2F0%3Fe%3D2159024400%26v%3Dbeta%26t%3DZQvloyFokWovUhF-xj36Cc1Xfv9xHFS-4JwwXKxDd-c&f=1&nofb=1" }]
+           [:div {:class (c :text-xl :font-extrabold [:mt 3])
+                :key (h/gen-key)} "macroCSS"]]]]
        [:nav {:class (c :flex-column)
               :key (h/gen-key)}
         (for [{:keys [id href title clicked] :as item} @m]
@@ -100,14 +101,17 @@
                                :text-sm
                                :font-normal)
                      :key (h/gen-key)} title]]
-             [:span {:class (c :text-sm
+             [:div {:class (condp = title
+                             "Introduction" (c [:mt 1])
+                             "Documentation" (c [:mt 5]))}
+              [:span {:class (c :text-sm
                                :relative
                                 :font-semibold
                                 [:line-height 16]
                                 [:text :gray-900]
                                 [:pt 2]
                                 [:pb 2])
-                     :key (h/gen-key)} (str title ": ")])])]])))
+                     :key (h/gen-key)} (str title ": ")]])])]])))
 
 (rf/reg-sub
   ::content
@@ -127,7 +131,8 @@
 
 (defn navigation []
 (let [n @(rf/subscribe [::content])]
-  [:div {:class (c :flex-col :justify-between)} (when-let [sublinks (:sub n)]
+  [:div {:class (c :flex-col :justify-between)}
+   (when-let [sublinks (:sub n)]
         [:div
           (for [slnk sublinks]
             [:div [:a {:href (-> n
@@ -135,7 +140,8 @@
                                   str
                                   rest
                                   str/join
-                                  (str "/" slnk))} slnk]])])]))
+                                  (str "/" slnk))
+                       :class (c [:text :gray-900])} slnk]])])]))
 
 (defn page []
   (let [m @(rf/subscribe [::content])]
@@ -146,7 +152,7 @@
 (defn ui
   []
   [:div {:class (c :w-full)}
-   [:div {:class (c [:w 340] :border :mx-auto :flex)}
+   [:div {:class (c [:w 340] :mx-auto :flex)}
     [side-menu]
     [:div {:class (c :flex-1)}
      [page]]

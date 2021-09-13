@@ -3,37 +3,60 @@
             [stylo.core :refer [c]]
             [components.linter :as l]))
 
+
+(def img-link "https://downloader.disk.yandex.ru/preview/ca522feb15400eba63497d10e65d0405373c8096601bbda6cee6a48d0e19f323/613f67d4/Wl6CmFjIBj2w8wB2eabbLfsP5MTyOBZ61rOCtuuZNvM1aoLBKXGZxDldjtRlFBHJ9nCtiA5elDx96oZoJ1OvIQ%3D%3D?uid=0&filename=ryzikov.jpeg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2&size=2048x2048")
+(def phrase "\"MacroCSS is is utility-first, atomic only CSS library that is flexible and solves serious code health and convenience problems\"")
+
+(defn niquola-quote []
+  [:figure {:class (c [:bg :gray-100]
+                      [:rounded :xl]
+                      [:mt 2]
+                      [:p 8])}
+   [:img {:class (c [:w 32] [:h 32] [:rounded :full]
+                    :mx-auto)
+          :src img-link}]
+   [:div {:class (c [:pt 6] [:space-y 4])}
+    [:p {:class (c :text-lg :font-semibold)}
+     phrase]
+    [:figcaption {:class (c :font-medium)}
+                 [:div {:class (c [:text "#00bcd4"])}"Nikolay Ryghikov"]
+                 [:div {:class (c [:text :gray-500])}"Health Samurai, CTO"]]]])
+
+(defn niquola-quote-gif []
+  [:div {:class (c :flex-col :content-center)}
+   [:div [:img {:src "https://media.giphy.com/media/8JjUds7oN2MwGUGnfU/giphy.gif?cid=790b761175a6c8190e266f9acbb9560a261ddb7242171c76&rid=giphy.gif&ct=g"
+                :class (c [:w 140])}]]
+   [:div [:img {:class (c [:ml 2])
+                :src "https://media.giphy.com/media/KUW0CK8zQwfZJADhGu/giphy.gif?cid=790b761182f7f2f69c620e14b41aa4b540a47d649a53b85c&rid=giphy.gif&ct=g"}]]])
+
 (defn about
   []
 
   (h/block
-
-   (h/block
-   (h/h1
-    "Philosophy of library.")
-    (h/p1
-     "StyloCSS develops an idea of storing all css in one place without actually touching any .css file.")
-    (h/p1 "It was inspired by Tailwind CSS. But we want to go far beyond.")
-    (h/p1
-     "Library develops an idea of storing all css in one place without actually touching any .css file.")
-    (h/p1 "Install the Stylo library and keep your focus on styling, not typing. Let the macro do the rest of routine. ")
-    (h/p1
-     " P.S. library is based on macro, so we need some alchemy to make it work in ClojureScript environment, ")
-    (h/p1 " but we prepared " (h/a "#installation" "installation") " guide"))
+   [:h {:class (c
+                :text-3xl
+                [:mt 5]
+                [:mb 5]
+                :font-extrabold
+                [:text :gray-900]
+                :tracking-tight)}
+    "Lightspeed styling without leaving your Clojure code."]
+    [:p {:class (c [:m 1] :font-sans :text-xl :font-light [:text :gray-600])}
+     "Utility first CSS library packed with familiar Tailwind classes."]
+    [niquola-quote-gif]
+  (h/block
+   (h/h3 "Version and compatibility. ")
+      (h/p3 "Latest version is 0.1.0")
+      (h/p3 "Tested with: ")
+      (h/p3 "Clojure 1.10.0")
+      (h/p3 "ClojureScript 10.10.866")
+      (h/p3 "Status: usable alpha."))
 
   (h/block
-   (h/h1 "Version and compatibility. ")
-      (h/p1 "Latest version is 0.1.0")
-      (h/p1 "Tested with: ")
-      (h/p1 "Clojure 1.10.0")
-      (h/p1 "ClojureScript 10.10.866")
-      (h/p1 "Status: usable alpha."))
-
-  (h/block
-    (h/h1 "Distribution and license: ")
-    (h/p1 "Copyright © belongs to HealthSamurai and contributors.")
-    (h/p1 "Distributed under the Eclipse Public License 2.0")
-    (h/p1 "Logo is a property of HealthSamurai, but you can make a T-shirt with it free of charge."))))
+    (h/h3 "Distribution and license: ")
+    (h/p3 "Copyright © belongs to HealthSamurai and contributors.")
+    (h/p3 "Distributed under the Eclipse Public License 2.0")
+    (h/p3 "Logo is a property of HealthSamurai, but you can make a T-shirt with it free of charge."))))
 
 (defn installation
   []

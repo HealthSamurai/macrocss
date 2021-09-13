@@ -6,7 +6,7 @@
    [garden.compiler :refer [render-css]]))
 
 (def rounded-size
-  {:none "0" :sm "0.125rem" :md "0.375rem" :lg "0.5rem" :full "9999px"})
+  {:none "0" :sm "0.125rem" :md "0.375rem" :lg "0.5rem" :xl "0.75rem" :full "9999px"})
 
 (defn rounded
   [x & keys]
@@ -15,28 +15,6 @@
             (int? x) (as-unit x :px)
             :else (rounded-size x))]
     (zipmap keys (repeat x))))
-
-(def borders-default {:rounded (rounded nil :border-radius)
-                      :rounded-t (rounded nil :border-top-left-radius :border-top-right-radius)
-                      :rounded-r (rounded nil :border-top-right-radius :border-bottom-right-radius)
-                      :rounded-b (rounded nil :border-bottom-right-radius :border-bottom-left-radius)
-                      :rounded-l (rounded nil :border-top-left-radius :border-bottom-left-radius)
-                      :rounded-tl (rounded nil :border-top-left-radius)
-                      :rounded-tr (rounded nil :border-top-left-radius)
-                      :rounded-br (rounded nil :border-bottom-right-radius)
-                      :border {:border-width {:unit :px, :magnitude 1}}
-                      :border-opacity  {:--border-opacity {:unit :%
-                                                           :magnitude "ENTER INTEGER, MEANS PERCENT"}}
-                      :divide {:border-color "HEX CODE OR PREDEFINED COLOR KEY",
-                               :--divide-opacity 1}
-                      :divide-x
-                      {:--divide-x-reverse 0,
-                       :border-right-width "calc(1px * var(--divide-x-reverse))",
-                       :border-left-width "calc(1px * calc(1 - var(--divide-x-reverse)))"}
-
-                      :divide-y  {:--divide-y-reverse 0,
-                                  :border-top-width "calc(1px * calc(1 - var(--divide-y-reverse)))",
-                                  :border-bottom-width "calc(1px * var(--divide-y-reverse))"}})
 
 ;; https://tailwindcss.com/docs/border-radius/#app
 

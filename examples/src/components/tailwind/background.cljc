@@ -30,4 +30,4 @@
    (ba)
    (bco)
    (bp)
-   (navigation-arrows [:accessibility :border])])
+   (navigation-arrows [:accessibility :borders])])
