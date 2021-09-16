@@ -116,7 +116,6 @@
 (defn h3 [& content]
   [:h3 {:class (c [:m 1]
                   :text-xl
-
                   :font-bold
                   [:text :gray-900]
                   :tracking-tight)
@@ -183,7 +182,8 @@
 (defn create-right-cell [cell]
   [:td {:class (c :font-mono :text-xs
                   [:text :blue-500]
-                  [:p 2])}
+                  [:p 2])
+        :key (gen-key)}
    (reduce (fn [acc c] (conj acc (cell-logic c)))
            [:div]
            cell)])

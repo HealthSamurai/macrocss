@@ -11,23 +11,35 @@
   [:figure {:class (c [:bg :gray-100]
                       [:rounded :xl]
                       [:mt 2]
-                      [:p 8])}
+                      [:p 8])
+            :key (h/gen-key)}
    [:img {:class (c [:w 32] [:h 32] [:rounded :full]
                     :mx-auto)
-          :src img-link}]
-   [:div {:class (c [:pt 6] [:space-y 4])}
-    [:p {:class (c :text-lg :font-semibold)}
+          :src img-link
+          :key (h/gen-key)}]
+   [:div {:class (c [:pt 6] [:space-y 4])
+          :key (h/gen-key)}
+    [:p {:class (c :text-lg :font-semibold)
+         :key (h/gen-key)}
      phrase]
-    [:figcaption {:class (c :font-medium)}
-                 [:div {:class (c [:text "#00bcd4"])}"Nikolay Ryghikov"]
-                 [:div {:class (c [:text :gray-500])}"Health Samurai, CTO"]]]])
+    [:figcaption {:class (c :font-medium)
+                  :key (h/gen-key)}
+     [:div {:class (c [:text "#00bcd4"])
+            :key (h/gen-key)} "Nikolay Ryghikov"]
+     [:div {:class (c [:text :gray-500])
+            :key (h/gen-key)} "Health Samurai, CTO"]]]])
 
 (defn niquola-quote-gif []
-  [:div {:class (c :flex-col :content-center)}
-   [:div [:img {:src "https://media.giphy.com/media/8JjUds7oN2MwGUGnfU/giphy.gif?cid=790b761175a6c8190e266f9acbb9560a261ddb7242171c76&rid=giphy.gif&ct=g"
-                :class (c [:w 140])}]]
-   [:div [:img {:class (c [:ml 2])
-                :src "https://media.giphy.com/media/KUW0CK8zQwfZJADhGu/giphy.gif?cid=790b761182f7f2f69c620e14b41aa4b540a47d649a53b85c&rid=giphy.gif&ct=g"}]]])
+  [:div {:class (c :flex-col :content-center)
+         :key (h/gen-key)}
+   [:div {:key (h/gen-key)}
+     [:img {:src "https://media.giphy.com/media/8JjUds7oN2MwGUGnfU/giphy.gif?cid=790b761175a6c8190e266f9acbb9560a261ddb7242171c76&rid=giphy.gif&ct=g"
+            :class (c [:w 140])
+            :key (h/gen-key)}]]
+   [:div {:key (h/gen-key)}
+    [:img {:class (c [:ml 2])
+           :src "https://media.giphy.com/media/KUW0CK8zQwfZJADhGu/giphy.gif?cid=790b761182f7f2f69c620e14b41aa4b540a47d649a53b85c&rid=giphy.gif&ct=g"
+           :key (h/gen-key)}]]])
 
 (defn about
   []
@@ -39,9 +51,11 @@
                 [:mb 5]
                 :font-extrabold
                 [:text :gray-900]
-                :tracking-tight)}
+                :tracking-tight)
+        :key (h/gen-key)}
     "Lightspeed styling without leaving your Clojure code."]
-    [:p {:class (c [:m 1] :font-sans :text-xl :font-light [:text :gray-600])}
+   [:p {:class (c [:m 1] :font-sans :text-xl :font-light [:text :gray-600])
+        :key (h/gen-key)}
      "Utility first CSS library packed with familiar Tailwind classes."]
     [niquola-quote-gif]
   (h/block

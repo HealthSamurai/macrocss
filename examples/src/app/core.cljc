@@ -140,8 +140,7 @@
                                   str
                                   rest
                                   str/join
-                                  (str "/" slnk))
-                       :class (c [:text :gray-900])} slnk]])])]))
+                                  (str "/" slnk))} slnk]])])]))
 
 (defn page []
   (let [m @(rf/subscribe [::content])]
