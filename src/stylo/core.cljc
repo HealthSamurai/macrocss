@@ -69,11 +69,9 @@
                       garden-readable)]]))
 
 (defn create-media-rules [class-name rules]
-  (if-not class-name
-    (create-media-rules (create-classname rules) rules)
-    (when-let [media-type (->> rules first media)]
+  (when-let [media-type (->> rules ffirst media)]
       (swap! media-styles assoc class-name
-             (garden-media-query class-name media-type rules)))))
+             (garden-media-query class-name media-type (first rules)))))
 
 (defn create-rules [rules]
   (when rules
@@ -93,10 +91,6 @@
          (drop 2)
          str/join)))
 
-(->> (divide-rules [[:text :blue-300] :underline
-                    [:smartphone [:text :pink-500] [:hover :underline]]])
-     :media-rules)
-
 (defmacro c? [& rules]
   (->> rules
        divide-rules
@@ -106,12 +100,38 @@
        garden.core/css
        boolean))
 
-(defn get-styles []
-  (garden.core/css
-   (concat
-    stylo.tailwind.preflight/preflight
-    (map (fn [[k v]] (into [k] v)) @styles)
-    (vals @media-styles))))
+(defn prettify [s]
+  (->> s
+       (#(str/replace % #"\n" ""))
+       (#(str/replace % #"\s{2,}" " "))
+       (reduce (fn [acc v]
+                 (cond (or (= \{ v)
+                           (= \} v)) (conj acc v \newline)
+                       (= \@ v) (conj acc \newline \newline v)
+                       :else (conj acc v)))
+               [])
+       str/join))
+
+(defn css-media-styles
+  ([]
+   (css-media-styles @media-styles))
+  ([media-styles]
+   (-> media-styles
+        vals
+        garden.core/css
+        prettify)))
+
+(defn css-rules
+  ([] (css-rules @styles))
+  ([styles]
+   (garden.core/css
+    (concat stylo.tailwind.preflight/preflight
+            (map (fn [[k v]] (into [k] v)) styles)))))
+
+(defn get-styles
+  []
+  (str (css-rules)
+       (css-media-styles)))
 
 (defmacro mount-style
   []
@@ -123,19 +143,16 @@
          "innerHTML" ~(get-styles)))
 
 (defn compile-styles
-  [styles]
-  (garden.core/css
-   (concat
-    stylo.tailwind.preflight/preflight
-    (->> styles
-         (map (fn [[k v]] (into [k] v))))
-    (vals @media-styles))))
+  [styles media-styles]
+  (str (css-rules styles)
+       (css-media-styles media-styles)))
 
 (comment
   (reset! styles {})
-
+  (c [:text :blue-300]
+     [:smartphone [:text :blue-500]])
   @styles
-
+  @media-styles
   (c? [:progress-bar [:bg :red-500]] {:font-weight "500"})
   (c? [:progress-bar [:bg :red-500]])
   (c? [:disabled [:hover [:bg :red-500]]])

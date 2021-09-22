@@ -74,3 +74,15 @@
                         :new
                         :a2)))
       (is (= (:new @rule-atom) (:old @rule-atom))))))
+
+
+(deftest media-query-test
+  (testing "we do not have different hash with media query,
+            because media query contains styles for the same class "
+    (is (= (c [:text :green-300]
+              [:smartphone
+               [:text :green-300]])
+           (c [:text :green-300]))))
+  (testing "we affect CSS file by adding media queries for concrete class")
+  (testing "media query may include pseudo classes
+and it also works properly"))

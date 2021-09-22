@@ -10,5 +10,6 @@
   (future
     (let [f (io/file output-file)]
       (io/make-parents f)
-      (spit f (stylo.core/compile-styles @stylo.core/styles))))
+      (spit f (stylo.core/compile-styles @stylo.core/styles
+                                         @stylo.core/media-styles))))
   build-state)

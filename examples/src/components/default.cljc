@@ -45,7 +45,7 @@
   []
 
   (h/block
-   [:h {:class (c
+   [:h1 {:class (c
                 :text-3xl
                 [:mt 5]
                 [:mb 5]
@@ -57,7 +57,7 @@
    [:p {:class (c [:m 1] :font-sans :text-xl :font-light [:text :gray-600])
         :key (h/gen-key)}
      "Utility first CSS library packed with familiar Tailwind classes."]
-    [niquola-quote-gif]
+  (niquola-quote-gif)
   (h/block
    (h/h3 "Version and compatibility. ")
       (h/p3 "Latest version is 0.1.0")

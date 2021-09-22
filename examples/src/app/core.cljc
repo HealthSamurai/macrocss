@@ -150,7 +150,7 @@
 
 (defn ui
   []
-  [:div {:class (c :w-full)}
+  [:div {:class (c :w-auto [:smartphone [:w 220]])}
    [:div {:class (c [:w 340] :mx-auto :flex)}
     [side-menu]
     [:div {:class (c :flex-1)}

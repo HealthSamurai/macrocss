@@ -122,7 +122,8 @@
         :key (gen-key)} content])
 
 (defn p3 [& content]
- [:div [:p {:class (c [:ml 1] [:mb 3] :font-sans :font-light :text-base [:text :gray-700])
+  [:div {:key (gen-key)}
+   [:p {:class (c [:ml 1] [:mb 3] :font-sans :font-light :text-base [:text :gray-700])
        :key (gen-key)} content]])
 
 (defn hash-link? [link]
