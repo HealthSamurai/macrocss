@@ -3,7 +3,7 @@
    [garden.core]
    [garden.stylesheet]
    [clojure.string :as str]
-   [stylo.rule :refer [join-rules]]
+   [stylo.rule :refer [rule join-rules]]
    [stylo.tailwind.preflight]
    [stylo.tailwind.accessibility]
    [stylo.tailwind.background]
@@ -25,7 +25,7 @@
   #?(:cljs (:require-macros [stylo.core])))
 
 (defonce styles (atom {}))
-(def media-styles (atom {}))
+(def media-styles (atom []))
 
 (def media {:screen {:screen true}
             :smartphone {:min-width "320px"}
@@ -34,12 +34,37 @@
             :l-tablets {:min-width "1025px"}
             :desktop {:min-width "1281px"}})
 
-(defn media-query? [k]
-  (when (keyword? k)
-    (-> media
-      keys
-      (->> (apply hash-set)
-           k))))
+(defn garden-readable [media-rules]
+  (reduce (fn [acc [f s :as r]]
+            (if (string? f)
+              (conj acc [(keyword f) (second s)])
+              (conj acc r))) [] media-rules))
+
+(defn media-query [media-specs class-name rules]
+  (garden.stylesheet/at-media
+   media-specs
+   [[class-name (-> rules
+                    join-rules
+                    garden-readable)]]))
+
+(defn defmediarules
+  [media]
+  (doseq [[k v] media]
+    (defmethod rule k [_ & rules]
+      (fn [class-name]
+        (media-query v class-name rules)))))
+
+(defmediarules media)
+
+(defn media-rule?
+  ([k]
+   (media-rule? k media))
+  ([k m]
+   (when (keyword? k)
+     (-> m
+         keys
+         (->> (apply hash-set)
+              k)))))
 
 (defn create-classname [rules]
   (->> rules
@@ -50,32 +75,19 @@
   (reduce (fn [acc r]
             (cond
               (keyword? r) (update acc :rules conj r)
-              (-> r first media-query?) (update acc :media-rules conj r)
+              (-> r first media-rule?) (update acc :media-rules conj r)
               :else (update acc :rules conj r)))
           {:rules []
            :media-rules []} rules))
 
-(defn garden-readable [media-rules]
-  (reduce (fn [acc [f s :as r]]
-            (if (string? f)
-              (conj acc [(keyword f) (second s)])
-              (conj acc r))) [] media-rules))
-
-(defn garden-media-query [class-name media-type rules]
-  (garden.stylesheet/at-media
-     media-type
-     [[class-name (-> rules
-                      rest
-                      join-rules
-                      garden-readable)]]))
-
-(defn create-media-rules [class-name rules]
-  (when-let [media-type (->> rules ffirst media)]
-      (swap! media-styles assoc class-name
-             (garden-media-query class-name media-type (first rules)))))
+(defn create-media-rules [class-name media-rules]
+  (->> media-rules
+       (mapv (partial apply rule))
+       (mapv (fn [f] (f class-name)))
+       (mapv (fn [x] (swap! media-styles conj x)))))
 
 (defn create-rules [rules]
-  (when rules
+  (when-not (empty? rules)
     (let [class-name (-> rules create-classname keyword)]
       (swap! styles assoc
              class-name
@@ -85,21 +97,37 @@
 (defmacro c
   [& rs]
   (let [{:keys [media-rules rules]} (divide-rules rs)
-        class-name (create-rules rules)
+        class-name (or (create-rules rules)
+                       (create-classname media-rules))
         _ (create-media-rules class-name media-rules)]
     (->> class-name
          str
          (drop 2)
          str/join)))
 
-(defmacro c? [& rules]
-  (->> rules
-       divide-rules
-       :rules
-       join-rules
-       (into [(keyword (str ".c" (hash rules)))])
-       garden.core/css
-       boolean))
+(defmacro c? [& rs]
+  (let [{:keys [rules media-rules]} (divide-rules rs)
+        class-name (if-not (empty? rules)
+                     (create-classname rules)
+                     (create-classname media-rules))
+
+        compute-rules (fn [r] (->> r
+                                 join-rules
+                                 (into [class-name])
+                                 garden.core/css
+                                 boolean))
+        compute-media-rules (fn [m] (->> m
+                                         (mapv (partial apply rule))
+                                         (mapv (fn [f] (f class-name)))
+                                         garden.core/css
+                                         boolean))]
+    (cond
+      (and (empty? media-rules)
+           (empty? rules)) true
+      (empty? media-rules) (compute-rules rules)
+      (empty? rules) (compute-media-rules media-rules)
+      :else (and (compute-rules rules)
+                 (compute-media-rules media-rules)))))
 
 (defn prettify [s]
   (->> s
@@ -118,9 +146,8 @@
    (css-media-styles @media-styles))
   ([media-styles]
    (-> media-styles
-        vals
-        garden.core/css
-        prettify)))
+       garden.core/css
+       prettify)))
 
 (defn css-rules
   ([] (css-rules @styles))
@@ -150,20 +177,21 @@
 
 (comment
   (reset! styles {})
-  (reset! media-styles {})
-  (c? [:text :blue-300]
-     [:smartphone [:text :blue-500]])
+  (reset! media-styles [])
   @styles
   @media-styles
+  (c? [:text :blue-300]
+      [:smartphone [:text :blue-500]])
+  (c? [:smartphone [:text :blue-500] {:font-weight "500"}]
+      [:screen [:text :pink-200] {:font-weight "300"}])
+  (c? [:smartphone [:bg :red-500] [[:.some-arbitrary-class {:bg :blue-400}]]])
   (c? [:progress-bar [:bg :red-500]] {:font-weight "500"})
-  (divide-rules [[:progress-bar [:bg :red-500]] {:font-weight "500"}])
   (c? [:progress-bar [:bg :red-500]])
   (c? [:disabled [:hover [:bg :red-500]]])
   (c? [:bg :red-500] [[:.some-arbitrary-class {:bg :blue-400}]])
   (c? [:bg :red-500]
       [:hover [[:.some-arbitrary-class {:bg :blue-400}]]])
   (c? [:pseudo ":nth-child(2)" [:hover [:bg :red-500]]])
-
   (c? [[:& {:color "red"}]
        [:&:target {:color "green"}]])
   (c? {:color "red"})
