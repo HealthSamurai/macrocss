@@ -35,10 +35,11 @@
             :desktop {:min-width "1281px"}})
 
 (defn media-query? [k]
-  (-> media
+  (when (keyword? k)
+    (-> media
       keys
       (->> (apply hash-set)
-           k)))
+           k))))
 
 (defn create-classname [rules]
   (->> rules
@@ -149,11 +150,13 @@
 
 (comment
   (reset! styles {})
-  (c [:text :blue-300]
+  (reset! media-styles {})
+  (c? [:text :blue-300]
      [:smartphone [:text :blue-500]])
   @styles
   @media-styles
   (c? [:progress-bar [:bg :red-500]] {:font-weight "500"})
+  (divide-rules [[:progress-bar [:bg :red-500]] {:font-weight "500"}])
   (c? [:progress-bar [:bg :red-500]])
   (c? [:disabled [:hover [:bg :red-500]]])
   (c? [:bg :red-500] [[:.some-arbitrary-class {:bg :blue-400}]])
