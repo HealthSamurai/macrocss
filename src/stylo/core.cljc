@@ -25,7 +25,7 @@
   #?(:cljs (:require-macros [stylo.core])))
 
 (defonce styles (atom {}))
-(def media-styles (atom []))
+(def media-styles (atom {}))
 
 (def media {:screen {:screen true}
             :smartphone {:min-width "320px"}
@@ -34,13 +34,15 @@
             :l-tablets {:min-width "1025px"}
             :desktop {:min-width "1281px"}})
 
-(defn garden-readable [media-rules]
+(defn garden-readable
+  [media-rules]
   (reduce (fn [acc [f s :as r]]
             (if (string? f)
               (conj acc [(keyword f) (second s)])
               (conj acc r))) [] media-rules))
 
-(defn media-query [media-specs class-name rules]
+(defn media-query
+  [media-specs class-name rules]
   (garden.stylesheet/at-media
    media-specs
    [[class-name (-> rules
@@ -66,12 +68,14 @@
          (->> (apply hash-set)
               k)))))
 
-(defn create-classname [rules]
+(defn create-classname
+  [rules]
   (->> rules
        hash
        (str ".c")))
 
-(defn divide-rules [rules]
+(defn divide-rules
+  [rules]
   (reduce (fn [acc r]
             (cond
               (keyword? r) (update acc :rules conj r)
@@ -80,11 +84,20 @@
           {:rules []
            :media-rules []} rules))
 
-(defn create-media-rules [class-name media-rules]
+(defn media-rules-reqs
+  [class-name garden-obj]
+  (swap! media-styles assoc-in [class-name
+                                (-> garden-obj
+                                    :value
+                                    :media-queries)]
+         garden-obj))
+
+(defn create-media-rules
+  [class-name media-rules]
   (->> media-rules
        (mapv (partial apply rule))
        (mapv (fn [f] (f class-name)))
-       (mapv (fn [x] (swap! media-styles conj x)))))
+       (mapv (fn [g] (media-rules-reqs class-name g)))))
 
 (defn create-rules [rules]
   (when-not (empty? rules)
@@ -145,7 +158,9 @@
   ([]
    (css-media-styles @media-styles))
   ([media-styles]
-   (-> media-styles
+   (->> media-styles
+       vals
+       (mapcat vals)
        garden.core/css
        prettify)))
 
