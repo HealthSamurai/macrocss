@@ -1,7 +1,8 @@
 (ns rule-test
   (:require [clojure.test :refer [deftest is testing use-fixtures]]
             [stylo.rule :refer [rule defrules]]
-            [stylo.core :refer [c]]))
+            [stylo.core :refer [c c? styles media-styles]]
+            [garden.core]))
 
 (def rule-atom (atom {:old nil
                       :new nil}))
@@ -12,6 +13,13 @@
   (t))
 
 (use-fixtures :each clear)
+
+(defn clear-styles [t]
+  (reset! styles {})
+  (reset! media-styles {})
+  (t))
+
+(use-fixtures :each clear-styles)
 
 (def rules {:sr-only  {:position "absolute"
                        :width "1px"
@@ -50,8 +58,8 @@
           _ (swap! rule-atom assoc-in [:old :a2] old-a2)]
       (is (= old-a1  (->> rule-atom
                           deref
-                                  :old
-                                  :a1)))
+                          :old
+                          :a1)))
       (is (= old-a2 (->> rule-atom
                          deref
                          :old
@@ -75,7 +83,6 @@
                         :a2)))
       (is (= (:new @rule-atom) (:old @rule-atom))))))
 
-
 (deftest media-query-test
   (testing "we do not have different hash with media query,
             because media query contains styles for the same class "
@@ -83,6 +90,45 @@
               [:smartphone
                [:text :green-300]])
            (c [:text :green-300]))))
-  (testing "we affect CSS file by adding media queries for concrete class")
+
   (testing "media query may include pseudo classes
-and it also works properly"))
+and it also works properly"
+    (let [classname (c [:smartphone [:hover [:text :green-300]]])]
+      (is (-> (stylo.core/get-styles)
+              empty?
+              not))))
+
+  (testing "we can take different forms as arguments: "
+    (testing "pseudoclasses combined with media queries"
+      (c? [:text :blue-300] [:smartphone [:text :blue-500]]))
+    (testing "pseudoclasses combined with media queries"
+      (c? [:smartphone [:text :blue-500] {:font-weight "500"}]
+          [:screen [:text :pink-200] {:font-weight "300"}]))
+    (testing "pseudoclasses combined with classes"
+      (c? [:smartphone [:bg :red-500] [[:.some-arbitrary-class {:bg :blue-400}]]]))
+    (testing "pseudoclasses combined with hiccup styles"
+      (c? [:progress-bar [:bg :red-500]] {:font-weight "500"}))
+    (testing "pseudoclasses with macroCSS structures"
+      (c? [:progress-bar [:bg :red-500]]))
+    (testing "psedoclasses combined with pseudoclasses"
+      (c? [:disabled [:hover [:bg :red-500]]]))
+    (testing "macroCSS with random classes"
+      (c? [:bg :red-500] [[:.some-arbitrary-class {:bg :blue-400}]]))
+    (testing "macroCSS with random classes"
+      (c? [:bg :red-500]
+          [:hover [[:.some-arbitrary-class {:bg :blue-400}]]]))
+    (testing "another way of using pseudoclasses"
+      (c? [:pseudo ":nth-child(2)" [:hover [:bg :red-500]]]))
+    (testing "gardenCSS structures"
+      (c? [[:& {:color "red"}]
+           [:&:target {:color "green"}]]))
+    (testing "plain hiccup"
+      (c? {:color "red"}))
+    (testing "some more pseudoclasses"
+      (c? [:hover [:placeholder :white] [:mb 1]]))
+    (testing "custom values in macroCSS"
+      (c? [:p 1]))
+    (testing "just macroCSS"
+      (c? [:placeholder :white]))
+    (testing "more custom values"
+      (c? [:divide-x 2]))))

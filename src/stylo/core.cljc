@@ -25,14 +25,14 @@
   #?(:cljs (:require-macros [stylo.core])))
 
 (defonce styles (atom {}))
-(def media-styles (atom {}))
+(defonce media-styles (atom {}))
 
-(def media {:screen {:screen true}
-            :smartphone {:min-width "320px"}
-            :ereader {:min-width "481px"}
-            :p-tablets {:min-width "961px"}
-            :l-tablets {:min-width "1025px"}
-            :desktop {:min-width "1281px"}})
+(defonce media (atom {:screen {:screen true}
+                      :smartphone {:min-width "320px"}
+                      :ereader {:min-width "481px"}
+                      :p-tablets {:min-width "961px"}
+                      :l-tablets {:min-width "1025px"}
+                      :desktop {:min-width "1281px"}}))
 
 (defn garden-readable
   [media-rules]
@@ -56,23 +56,47 @@
       (fn [class-name]
         (media-query v class-name rules)))))
 
-(defmediarules media)
+(defmediarules @media)
+
+(defn set-own-mediarules!
+  [rules]
+  (reset! media {})
+  (swap! merge media rules)
+  (defmediarules @media)
+  @media)
+
+(defn extend-media-rules!
+  [rules]
+  (swap! merge media rules)
+  (defmediarules @media)
+  @media)
 
 (defn media-rule?
-  ([k]
-   (media-rule? k media))
-  ([k m]
-   (when (keyword? k)
-     (-> m
-         keys
-         (->> (apply hash-set)
-              k)))))
+  [k]
+  (when (keyword? k)
+    (-> @media
+        keys
+        (->> (apply hash-set)
+             k))))
 
-(defn create-classname
+(defn create-located-classname
+  [env]
+  (when-let [ns-name (get-in env [:ns :name])]
+    (u/format ".%s-%s-%s"
+              (str/replace ns-name #"\." "_")
+              (:line env)
+              (:column env))))
+
+(defn create-hashed-classname
   [rules]
   (->> rules
        hash
        (str ".c")))
+
+(defn create-classname
+  [env rules]
+  (keyword (or (create-located-classname env)
+               (create-hashed-classname rules))))
 
 (defn divide-rules
   [rules]
@@ -84,7 +108,7 @@
           {:rules []
            :media-rules []} rules))
 
-(defn media-rules-reqs
+(defn inject-media-rules
   [class-name garden-obj]
   (swap! media-styles assoc-in [class-name
                                 (-> garden-obj
@@ -97,38 +121,59 @@
   (->> media-rules
        (mapv (partial apply rule))
        (mapv (fn [f] (f class-name)))
-       (mapv (fn [g] (media-rules-reqs class-name g)))))
+       (mapv (fn [g] (inject-media-rules class-name g)))))
 
-(defn create-rules [rules]
+(defn rules-with-location
+  [env rules]
+  (with-meta (join-rules rules)
+    {:location [(:name (:ns env))
+                (:line env)
+                (:column env)]}))
+
+(defn create-rules [env rules]
   (when-not (empty? rules)
-    (let [class-name (-> rules create-classname keyword)]
+    (let [class-name (create-classname env rules)]
       (swap! styles assoc
              class-name
-             (join-rules rules))
+             (rules-with-location env rules))
       class-name)))
 
-(defmacro c
-  [& rs]
+(defn return-classname
+  [classname]
+  (->> classname
+       str
+       (drop 2)
+       str/join
+       keyword))
+
+(defn c-fn
+  [env rs]
   (let [{:keys [media-rules rules]} (divide-rules rs)
-        class-name (or (create-rules rules)
-                       (create-classname media-rules))
+        class-name (or (create-rules env rules)
+                       (create-classname env media-rules))
         _ (create-media-rules class-name media-rules)]
-    (->> class-name
-         str
-         (drop 2)
-         str/join)))
+    (return-classname class-name)))
+
+(defmacro c
+  [& rules]
+  (c-fn &env rules))
+
+(defmacro c-eco
+  "Uses only hashed version of classname. Is recomended for release purposes, because it minimizes resulting CSS file."
+  [& rules]
+  (c-fn nil rules))
 
 (defmacro c? [& rs]
   (let [{:keys [rules media-rules]} (divide-rules rs)
         class-name (if-not (empty? rules)
-                     (create-classname rules)
-                     (create-classname media-rules))
+                     (create-classname &env rules)
+                     (create-classname &env media-rules))
 
         compute-rules (fn [r] (->> r
-                                 join-rules
-                                 (into [class-name])
-                                 garden.core/css
-                                 boolean))
+                                   join-rules
+                                   (into [class-name])
+                                   garden.core/css
+                                   boolean))
         compute-media-rules (fn [m] (->> m
                                          (mapv (partial apply rule))
                                          (mapv (fn [f] (f class-name)))
@@ -159,10 +204,10 @@
    (css-media-styles @media-styles))
   ([media-styles]
    (->> media-styles
-       vals
-       (mapcat vals)
-       garden.core/css
-       prettify)))
+        vals
+        (mapcat vals)
+        garden.core/css
+        prettify)))
 
 (defn css-rules
   ([] (css-rules @styles))
@@ -192,11 +237,11 @@
 
 (comment
   (reset! styles {})
-  (reset! media-styles [])
+  (reset! media-styles {})
   @styles
   @media-styles
-  (c? [:text :blue-300]
-      [:smartphone [:text :blue-500]])
+  (get-styles)
+  (c? [:text :blue-300] [:smartphone [:text :blue-500]])
   (c? [:smartphone [:text :blue-500] {:font-weight "500"}]
       [:screen [:text :pink-200] {:font-weight "300"}])
   (c? [:smartphone [:bg :red-500] [[:.some-arbitrary-class {:bg :blue-400}]]])

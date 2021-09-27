@@ -63,7 +63,7 @@
        :transition-colors
        [:px 3]
        [:py 2])
-    (c [:pseudo :hover [:text :gray-900]]
+    (c [:hover [:text :gray-900]]
        :relative :block
        :transition-colors
        [:px 3]
@@ -150,7 +150,7 @@
 
 (defn ui
   []
-  [:div {:class (c :w-auto [:smartphone [:w 300]])}
+  [:div {:class (c :w-full)}
    [:div {:class (c [:w 340] :mx-auto :flex)}
     [side-menu]
     [:div {:class (c :flex-1)}
