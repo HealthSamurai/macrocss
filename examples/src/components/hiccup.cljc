@@ -69,7 +69,8 @@
     :clojure (c :font-mono
                 :font-hairline
                 :text-sm
-                :tracking-tighter)))
+                :tracking-tighter
+                :whitespace-pre-line)))
 
 (defn code [k & code-string]
   [:div
@@ -85,7 +86,9 @@
           :key (gen-key)} code-string]])
 
 (defn block [& content]
-  [:div {:class (c [:w 180] :content-center [:mt 5])
+  [:div {:class (c :content-center [:mt 5]
+                   [:smartphone [:w 88]]
+                   [:w 180])
          :key (gen-key)}
    [:div
     {:class (c :box-border [:pb 10] [:mb 4] [:border-b :gray-200])
@@ -118,12 +121,14 @@
                   :text-xl
                   :font-bold
                   [:text :gray-900]
-                  :tracking-tight)
+                  :tracking-tight
+                  [:smartphone :break-all])
         :key (gen-key)} content])
 
 (defn p3 [& content]
   [:div {:key (gen-key)}
-   [:p {:class (c [:ml 1] [:mb 3] :font-sans :font-light :text-base [:text :gray-700])
+   [:p {:class (c [:ml 1] [:mb 3] :font-sans :font-light :text-base [:text :gray-700]
+                  [:smartphone :break-all])
        :key (gen-key)} content]])
 
 (defn hash-link? [link]
@@ -198,7 +203,9 @@
           [:tbody] rule-data))
 
 (defn table [rule-data]
-  [:table {:class (c :w-full :text-left :border-collapse [:mt 1] [:mb 1])
+  [:table {:class (c :text-left :border-collapse [:mt 1] [:mb 1]
+                     :w-full [:smartphone [:w 88]
+                              :overflow-scroll])
            :key (gen-key)}
    (create-table-heading ["Class" "Properties"])
    (create-table-cells rule-data)])
@@ -232,17 +239,20 @@
         next-link (-> next-page
                       name
                       href)]
-    [:div {:class (c :flex [:mt 16] [:mb 7] :text-lg :font-medium [:leading 6])
+    [:div {:class (c :flex [:mt 16] [:mb 7] :text-lg :font-medium [:leading 6]
+                     [:smartphone :content-center])
            :key (gen-key)}
-     [:a {:class (c :flex [:mr 8] [:text :gray-600]
+     [:a {:class (c [:text :gray-600]
                     [:hover [:text :gray-900] :border-b]
-                    [:duration 200])
+                    [:duration 200]
+                    [:smartphone [:ml 5]])
           :href prev-link
           :key (gen-key)} prev-title]
-     [:a {:class (c :flex :text-right :ml-auto
+     [:a {:class (c  :ml-auto
                     [:text :gray-600]
                     [:duration 200]
-                    [:hover [:text :gray-900] :border-b])
+                    [:hover [:text :gray-900] :border-b]
+                    [:smartphone [:ml 16]])
           :href next-link
           :key (gen-key)} next-title]]))
 

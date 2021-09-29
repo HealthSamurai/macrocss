@@ -28,11 +28,11 @@
 (defonce media-styles (atom {}))
 
 (defonce media (atom {:screen {:screen true}
-                      :smartphone {:min-width "320px"}
-                      :ereader {:min-width "481px"}
-                      :p-tablets {:min-width "961px"}
-                      :l-tablets {:min-width "1025px"}
-                      :desktop {:min-width "1281px"}}))
+                      :smartphone {:max-width "415px"}
+                      :ereader {:max-width "481px"}
+                      :p-tablets {:max-width "768px"}
+                      :l-tablets {:max-width "1025px"}
+                      :desktop {:min-width "1200px"}}))
 
 (defn garden-readable
   [media-rules]
@@ -110,6 +110,7 @@
 
 (defn inject-media-rules
   [class-name garden-obj]
+  (swap! media-styles dissoc class-name)
   (swap! media-styles assoc-in [class-name
                                 (-> garden-obj
                                     :value
@@ -118,10 +119,12 @@
 
 (defn create-media-rules
   [class-name media-rules]
-  (->> media-rules
+  (if-not (empty? media-rules)
+    (->> media-rules
        (mapv (partial apply rule))
        (mapv (fn [f] (f class-name)))
-       (mapv (fn [g] (inject-media-rules class-name g)))))
+       (mapv (fn [g] (inject-media-rules class-name g))))
+    (swap! media-styles dissoc class-name)))
 
 (defn rules-with-location
   [env rules]
@@ -133,6 +136,7 @@
 (defn create-rules [env rules]
   (when-not (empty? rules)
     (let [class-name (create-classname env rules)]
+      (swap! styles dissoc class-name)
       (swap! styles assoc
              class-name
              (rules-with-location env rules))
@@ -214,7 +218,9 @@
   ([styles]
    (garden.core/css
     (concat stylo.tailwind.preflight/preflight
-            (map (fn [[k v]] (into [k] v)) styles)))))
+            (->> styles
+                 (sort-by (comp :location meta))
+                 (mapv (fn [[k v]] (into [k] v))))))))
 
 (defn get-styles
   []

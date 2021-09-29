@@ -3,7 +3,7 @@
             [clojure.set :as ss]
             [stylo.core :refer [c]]))
 
-(def key-re #"\:\w+")
+(def key-re #"\:\w+[-{0,}\w+]{0,}")
 
 (def str-re #"\"\w+\"")
 
@@ -94,6 +94,8 @@
    :default (c [:text "#bbc2cf"])
 
    :bg (c [:text "#21252b"])})
+
+(c [:text :blue-300])
 
 (defn dispatch-style
   ([el]
@@ -194,7 +196,7 @@
                            (= :keyword prev)))
                 (let [new-last-item (-> acc
                                         last
-                                        (update :val str/trimr))]
+                                        (update :val (fn [x] (->> x str/trimr))))]
                   (-> acc
                       (subvec 0 (- (count acc) 1))
                       (conj new-last-item el)))
@@ -219,7 +221,5 @@
      consider-prev-el
      inject-spaces
      (mapv wrap-by-component)
-     (apply conj [:span {:key (gensym "key-")}]))))
-
-
-(highlight "(ns your-wonderful-code.core\n")
+     (apply conj [:span {:key (gensym "key-")
+                         :class (c :block)}]))))

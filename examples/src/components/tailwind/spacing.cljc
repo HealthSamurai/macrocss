@@ -3,7 +3,8 @@
             [stylo.tailwind.spacing :as s]))
 
 (defn spacing []
-  [:div (h/example-block "Padding"
+  (h/block
+   (h/example-block "Padding"
                          "Utilities for setting padding of an element"
                          (merge {:pyx (h/units [:padding-top
                                                 :padding-bottom
@@ -90,4 +91,4 @@
                                :margin-top "calc(YOUR_INT * 0.25 REM, DEFAULTS TO 1 * calc(1 - var(--space-y-reverse)))"}
                      :space-y-reverse {:used_combinator "&>*+*"
                                        :--space-y-reverse 1}})
-   (h/navigation-arrows [:sizing :svg])])
+   (h/navigation-arrows [:sizing :svg])))

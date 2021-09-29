@@ -77,8 +77,8 @@
                  t/word-break))
 
 (defn typography []
-  [:div (block (h1 "Typography")
-               (p1 "Styling text. Adjusting size, weight, style and other text properties."))
+(block (h1 "Typography")
+               (p1 "Styling text. Adjusting size, weight, style and other text properties.")
 
    (ff)
    (fw)
@@ -90,4 +90,4 @@
    (ph)
    (ta)
    (wb)
-   (navigation-arrows [:accessibility :background])])
+   (navigation-arrows [:accessibility :background])))
