@@ -23,11 +23,10 @@
                  b/background-position))
 
 (defn background []
-  [:div
-   (block
+ (block
     (h1 "Background")
-    (p1 "Styling background. Adjusting attachments, color, opacity, size and position"))
+    (p1 "Styling background. Adjusting attachments, color, opacity, size and position")
    (ba)
    (bco)
    (bp)
-   (navigation-arrows [:accessibility :borders])])
+   (navigation-arrows [:accessibility :borders])))

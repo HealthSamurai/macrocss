@@ -1,6 +1,7 @@
 (ns components.tailwind.pseudo
   (:require [components.hiccup :as h]
-            [stylo.tailwind.variant :as p]))
+            [stylo.tailwind.variant :as p]
+            [components.linter :as l]))
 
 (defn pseudo []
   [:div
@@ -15,7 +16,7 @@
     (h/p1 "Instructions for proper usage of some pseudo-clsses or pseudo-elements")
     (h/code :clojure
             (h/comment-code ";; These parameterized pseudo-classes and pseudo-elements are not \n;; supported. Use :pseudo rule to use them:\n \n")
-    (h/lint "(c [:pseudo \":is(header, main, footer)\" [:text :red-500]]) \n\n")
+    (l/highlight "(c [:pseudo \":is(header, main, footer)\" [:text :red-500]]) \n\n")
     (h/comment-code ";; :dir()
 ;; :has()
 ;; :host()

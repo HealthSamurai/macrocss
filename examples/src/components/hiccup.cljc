@@ -65,7 +65,8 @@
   (condp = style
     :bash (c [:text :white]
              :font-mono
-             :text-sm)
+             :text-sm
+             [:smartphone :whitespace-pre-line])
     :clojure (c :font-mono
                 :font-hairline
                 :text-sm
@@ -96,10 +97,11 @@
     content]])
 
 (defn example-div [& content]
-  [:div {:class (c [:w 180] :content-center [:mt 1])
+  [:div {:class (c [:w 180] :content-center [:mt 1]
+                   [:smartphone [:w 88]])
          :key (gen-key)}
    [:div
-    {:class (c :box-border [:pb 5] [:mb 1])
+    {:class (c :box-border [:pb 5] [:mb 1] [:smartphone :block])
      :key (gen-key)}
     content]])
 
@@ -109,11 +111,12 @@
                 [:m 1]
                 :font-extrabold
                 [:text :gray-900]
-                :tracking-tight)
+                :tracking-tight
+                [:smartphone :text-xl])
         :key (gen-key)} content])
 
 (defn p1 [& content]
-  [:p {:class (c [:m 1] :font-sans :text-lg :font-light [:text :gray-600])
+  [:p {:class (c [:m 1] :font-sans :text-base :font-light [:text :gray-600])
        :key (gen-key)} content])
 
 (defn h3 [& content]
@@ -126,10 +129,8 @@
         :key (gen-key)} content])
 
 (defn p3 [& content]
-  [:div {:key (gen-key)}
-   [:p {:class (c [:ml 1] [:mb 3] :font-sans :font-light :text-base [:text :gray-700]
-                  [:smartphone :break-all])
-       :key (gen-key)} content]])
+  [:p {:class (c [:ml 1] [:mb 3] :font-sans :font-light :text-base [:text :gray-700])
+       :key (gen-key)} content])
 
 (defn hash-link? [link]
   (= "/" (-> link

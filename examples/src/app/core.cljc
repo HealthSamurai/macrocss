@@ -60,21 +60,7 @@
                    [:opacity 0]))]
     [:span {:class style}]))
 
-(rf/reg-sub
- ::mobile-sidebar
- (fn [db _]
-   (if (get db ::mobile-menu)
-
-     {:menu-style (c [:w 72] [:py 4] [:px 8]
-                     [:smartphone
-                      [:w 200]
-                      [:z 50]])
-      :button "x"}
-     {:menu-style (c [:w 72] [:py 4] [:px 8]
-                     [:smartphone :hidden])
-      :button "="})))
-
- (defn clicked-text-color [pred]
+(defn clicked-text-color [pred]
   (if pred
     (c :relative :block
        [:text "#0097a7"]
@@ -88,24 +74,41 @@
        [:py 2]
        [:text :gray-600])))
 
+(rf/reg-sub
+ ::mobile-sidebar
+ (fn [db _]
+   (if (get db ::mobile-menu)
+
+     {:menu-style (c [:w 72] [:py 4] [:px 8]
+                     [:smartphone :flex-none :fixed :w-full
+                      [:z 4]
+                      [:p 1]
+                      [:bg :white]
+                      [:bg-opacity 90]])
+      :button "x"}
+
+     {:menu-style (c [:w 72] [:py 4] [:px 8]
+                     [:smartphone :hidden])
+      :button "="})))
+
 (defn mobile-menu-opener []
   (let [{:keys [button]} @(rf/subscribe [::mobile-sidebar])]
-  [:button {:class (c
-                    [:smartphone
-                     :visible
-                     :fixed
-                    :block
-                   [:z 50]
-                   [:w 12]
-                   [:h 12]
-                   [:left 70]
-                   [:top 140]
-                   [:rounded :full]
-                   [:bg :gray-900]]
-                   :hidden)
-            :on-click #(rf/dispatch [::on-mobile-menu-click])}
-   [:span {:class (c [:text :white]
-                      :text-2xl)} button]]))
+    [:button {:class (c
+                      [:smartphone
+                       :visible
+                       :fixed
+                       :block
+                       [:w 12]
+                       [:h 12]
+                       [:z 5]
+                       [:left 70]
+                       [:top 140]
+                       [:rounded :full]
+                       [:bg :gray-900]]
+                      :hidden)
+              :on-click #(rf/dispatch [::on-mobile-menu-click])}
+     [:span {:class (c [:text :white]
+                       :text-2xl)} button]]))
 
 (defn side-menu
   []
@@ -116,17 +119,18 @@
              :key (h/gen-key)}
        [:div {:class (c [:mb 2])
               :key (h/gen-key)}
-        [:a {:href "#about"
-             :class (c [:smartphone :hidden])}
+        [:a {:class (c [:smartphone :hidden])
+             :href "#about"
+             :on-click #(rf/dispatch [::on-mobile-menu-click])}
          [:div {:class (c :flex)}
           [:img {:key (h/gen-key)
-                 :class (c [:w 15]
-                           [:smartphone [:w 10]])
+                 :class (c [:w 15])
                  :src "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia-exp1.licdn.com%2Fdms%2Fimage%2FC560BAQHmyLQmsMqKJg%2Fcompany-logo_200_200%2F0%3Fe%3D2159024400%26v%3Dbeta%26t%3DZQvloyFokWovUhF-xj36Cc1Xfv9xHFS-4JwwXKxDd-c&f=1&nofb=1"}]
           [:div {:class (c [:mt 3] :text-xl :font-extrabold
                            [:smartphone :text-base :text-center :font-bold])
                  :key (h/gen-key)} "macroCSS"]]]]
-       [:nav {:class (c :flex-column)
+       [:nav {:class (c :flex-column
+                        [:smartphone [:z 5]])
               :key (h/gen-key)}
         (for [{:keys [id href title clicked] :as item} @m]
           [:div {:class (c [:flex-grow 4])
@@ -171,7 +175,6 @@
                             :subs)]
      sublinks)))
 
-
 (defn navigation []
   (let [n @(rf/subscribe [::content])]
     [:div {:class (c :flex-col :justify-between)}
@@ -192,14 +195,15 @@
 
 (defn ui
   []
-   [:div {:class (c [:w 340] :mx-auto :flex
-                    [:smartphone [:w 120]
-                     :overflow-scroll])}
-    [side-menu]
-    [mobile-menu-opener]
-    [:div {:class (c :flex)}
-     [page]
-     [navigation]]])
+  [:div {:class (c [:w 340] :mx-auto :flex
+                   [:smartphone [:w 88]
+                    :overflow-scroll])}
+   [side-menu]
+   [mobile-menu-opener]
+   [:div {:class (c :flex
+                    [:smartphone :relative [:z 1]])}
+    [page]
+    [navigation]]])
 
 ;; Re-frame machinery
 (def compiler
