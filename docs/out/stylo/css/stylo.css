@@ -90,8 +90,16 @@ img, video {
   height: auto;
 }
 
-.app_core-91-25 {
-  flex-grow: 4;
+.app_core-79-5 {
+  --text-opacity: 1;
+  padding-bottom: 0.5rem;
+  transition-property: background-color, border-color, color, fill, stroke;
+  position: relative;
+  padding-right: 0.75rem;
+  display: block;
+  color: rgba(0,151,167,var(--text-opacity));
+  padding-left: 0.75rem;
+  padding-top: 0.5rem;
 }
 
 .components_default-22-17 {
@@ -103,25 +111,29 @@ img, video {
   margin-left: 0.5rem;
 }
 
-.components_hiccup-167-16 {
-  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: .75rem;
-  color: rgba(128,90,213,var(--text-opacity));
-  --text-opacity: 1;
-  white-space: nowrap;
-  padding: 0.25rem;
-}
-
-.app_core-154-18 {
-  width: 85.0rem;
-  margin-left: auto;
-  margin-right: auto;
-  display: flex;
-}
-
 .components_linter-94-13 {
   color: rgba(187,194,207,var(--text-opacity));
   --text-opacity: 1;
+}
+
+.components_hiccup-151-16 {
+  color: rgba(144,205,244,var(--text-opacity));
+  --text-opacity: 1;
+  text-decoration: underline;
+}
+
+.components_hiccup-120-16 {
+  margin: 0.25rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgba(26,32,44,var(--text-opacity));
+  --text-opacity: 1;
+  letter-spacing: -0.025em;
+}
+
+.app_core-177-19 {
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .components_hiccup-28-19 {
@@ -129,43 +141,7 @@ img, video {
   --text-opacity: 1;
 }
 
-.components_hiccup-30-19 {
-  color: rgba(143,179,96,var(--text-opacity));
-  --text-opacity: 1;
-}
-
-.app_core-158-19 {
-  flex: 1 1 0%;
-}
-
-.components_linter-87-19 {
-  color: rgba(72,148,201,var(--text-opacity));
-  --text-opacity: 1;
-}
-
-.components_default-98-24 {
-  font-weight: 700;
-}
-
-.components_hiccup-29-20 {
-  color: rgba(198,120,221,var(--text-opacity));
-  --text-opacity: 1;
-}
-
-.components_hiccup-235-19 {
-  display: flex;
-  margin-top: 4.0rem;
-  margin-bottom: 1.75rem;
-  font-size: 1.125rem;
-  font-weight: 500;
-  line-height: 1.5rem;
-}
-
-.components_default-25-26 {
-  font-weight: 500;
-}
-
-.app_core-46-19 {
+.app_core-50-17 {
   right: 0.0rem;
   top: 0.0rem;
   transition-duration: 200ms;
@@ -177,38 +153,34 @@ img, video {
   left: 0.0rem;
 }
 
-.app_core-99-29 {
-  position: relative;
-  line-height: (16);
-  font-size: .875rem;
-  font-weight: 400;
+.components_hiccup-30-19 {
+  color: rgba(143,179,96,var(--text-opacity));
+  --text-opacity: 1;
 }
 
-.components_linter-79-9 {
+.components_linter-87-19 {
   color: rgba(72,148,201,var(--text-opacity));
   --text-opacity: 1;
 }
 
-.app_core-86-26 {
-  font-size: 1.25rem;
-  font-weight: 800;
-  margin-top: 0.75rem;
+.components_hiccup-94-13 {
+  box-sizing: border-box;
+  padding-bottom: 2.5rem;
+  margin-bottom: 1.0rem;
+  border-bottom-width: 1px;
+  border-color: rgba(237,242,247,var(--border-opacity));
+  --border-opacity: 1;
 }
 
-.app_core-88-22 {
+.components_default-98-24 {
+  font-weight: 700;
+}
+
+.app_core-129-22 {
   flex-column: nil;
 }
 
-.app_core-105-45 {
-  margin-top: 0.25rem;
-}
-
-.components_default-33-17 {
-  flex-direction: column;
-  align-content: center;
-}
-
-.components_hiccup-154-48 {
+.components_hiccup-159-48 {
   font-weight: 600;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   color: rgba(113,128,150,var(--text-opacity));
@@ -217,10 +189,73 @@ img, video {
   padding-bottom: 0.5rem;
 }
 
-.components_hiccup-146-16 {
-  color: rgba(144,205,244,var(--text-opacity));
+.components_hiccup-29-20 {
+  color: rgba(198,120,221,var(--text-opacity));
   --text-opacity: 1;
-  text-decoration: underline;
+}
+
+.components_default-25-26 {
+  font-weight: 500;
+}
+
+.components_hiccup-214-18 {
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: .875rem;
+  font-weight: 600;
+  color: rgba(124,58,237,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.app_core-117-22 {
+  margin-bottom: 0.5rem;
+}
+
+.app_core-84-5:hover {
+  color: rgba(26,32,44,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.app_core-84-5 {
+  --text-opacity: 1;
+  padding-bottom: 0.5rem;
+  transition-property: background-color, border-color, color, fill, stroke;
+  position: relative;
+  padding-right: 0.75rem;
+  display: block;
+  color: rgba(113,128,150,var(--text-opacity));
+  padding-left: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.app_core-132-25 {
+  flex-grow: 4;
+}
+
+.components_linter-79-9 {
+  color: rgba(72,148,201,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.components_hiccup-206-19 {
+  text-align: left;
+  border-collapse: collapse;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+  width: 100%;
+}
+
+.components_default-33-17 {
+  flex-direction: column;
+  align-content: center;
+}
+
+.components_hiccup-165-50 {
+  display: flex;
+  align-content: flex-start;
+}
+
+.app_core-147-45 {
+  margin-top: 0.25rem;
 }
 
 .components_default-16-18 {
@@ -231,20 +266,21 @@ img, video {
   margin-right: auto;
 }
 
-.components_default-93-41 {
-  font-weight: 700;
+.components_hiccup-251-18 {
+  margin-left: auto;
+  color: rgba(113,128,150,var(--text-opacity));
+  --text-opacity: 1;
+  transition-duration: 200ms;
 }
 
-.app_core-61-5 {
+.components_hiccup-251-18:hover {
+  color: rgba(26,32,44,var(--text-opacity));
   --text-opacity: 1;
-  padding-bottom: 0.5rem;
-  transition-property: background-color, border-color, color, fill, stroke;
-  position: relative;
-  padding-right: 0.75rem;
-  display: block;
-  color: rgba(0,151,167,var(--text-opacity));
-  padding-left: 0.75rem;
-  padding-top: 0.5rem;
+  border-bottom-width: 1px;
+}
+
+.components_default-93-41 {
+  font-weight: 700;
 }
 
 .components_hiccup-16-14 {
@@ -257,9 +293,20 @@ img, video {
   --text-opacity: 1;
 }
 
-.components_hiccup-160-50 {
-  display: flex;
-  align-content: flex-start;
+.components_hiccup-201-32 {
+  border-bottom-width: 1px;
+}
+
+.components_hiccup-245-18 {
+  color: rgba(113,128,150,var(--text-opacity));
+  --text-opacity: 1;
+  transition-duration: 200ms;
+}
+
+.components_hiccup-245-18:hover {
+  color: rgba(26,32,44,var(--text-opacity));
+  --text-opacity: 1;
+  border-bottom-width: 1px;
 }
 
 .components_linter-73-18 {
@@ -267,12 +314,18 @@ img, video {
   --text-opacity: 1;
 }
 
-.components_linter-74-16 {
-  color: rgba(183,112,205,var(--text-opacity));
+.app_core-149-30 {
+  font-size: .875rem;
+  position: relative;
+  font-weight: 600;
+  line-height: (16);
+  color: rgba(26,32,44,var(--text-opacity));
   --text-opacity: 1;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
-.app_core-77-21 {
+.app_core-68-19 {
   width: 18.0rem;
   padding-top: 1.0rem;
   padding-bottom: 1.0rem;
@@ -280,10 +333,25 @@ img, video {
   padding-right: 2.0rem;
 }
 
-.components_hiccup-96-17 {
-  width: 45.0rem;
-  align-content: center;
-  margin-top: 0.25rem;
+.components_linter-74-16 {
+  color: rgba(183,112,205,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.components_hiccup-116-15 {
+  margin: 0.25rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1.125rem;
+  font-weight: 300;
+  color: rgba(113,128,150,var(--text-opacity));
+  --text-opacity: 1;
+}
+
+.app_core-141-30 {
+  position: relative;
+  line-height: (16);
+  font-size: .875rem;
+  font-weight: 400;
 }
 
 .components_hiccup-69-14 {
@@ -291,6 +359,7 @@ img, video {
   font-weight: 100;
   font-size: .875rem;
   letter-spacing: -0.05em;
+  white-space: pre-line;
 }
 
 .components_linter-82-12 {
@@ -298,27 +367,26 @@ img, video {
   --text-opacity: 1;
 }
 
-.app_core-82-25 {
-  display: flex;
-}
-
-.components_hiccup-242-18 {
-  display: flex;
-  text-align: right;
-  margin-left: auto;
-  color: rgba(113,128,150,var(--text-opacity));
-  --text-opacity: 1;
-  transition-duration: 200ms;
-}
-
-.components_hiccup-242-18:hover {
-  color: rgba(26,32,44,var(--text-opacity));
-  --text-opacity: 1;
-  border-bottom-width: 1px;
-}
-
 .components_default-37-20 {
   width: 35.0rem;
+}
+
+.app_core-121-24 {
+  display: flex;
+}
+
+.components_hiccup-189-16 {
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: .75rem;
+  color: rgba(66,153,225,var(--text-opacity));
+  --text-opacity: 1;
+  padding: 0.5rem;
+}
+
+.app_core-107-19 {
+  color: rgba(255,255,255,var(--text-opacity));
+  --text-opacity: 1;
+  font-size: 1.5rem;
 }
 
 .components_hiccup-26-13 {
@@ -326,39 +394,13 @@ img, video {
   --text-opacity: 1;
 }
 
-.components_hiccup-91-13 {
-  box-sizing: border-box;
-  padding-bottom: 2.5rem;
-  margin-bottom: 1.0rem;
-  border-bottom-width: 1px;
-  border-color: rgba(237,242,247,var(--border-opacity));
-  --border-opacity: 1;
+.app_core-126-25 {
+  margin-top: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 800;
 }
 
-.components_hiccup-237-18 {
-  display: flex;
-  margin-right: 2.0rem;
-  color: rgba(113,128,150,var(--text-opacity));
-  --text-opacity: 1;
-  transition-duration: 200ms;
-}
-
-.components_hiccup-237-18:hover {
-  color: rgba(26,32,44,var(--text-opacity));
-  --text-opacity: 1;
-  border-bottom-width: 1px;
-}
-
-.components_hiccup-151-19 {
-  border-bottom-width: 1px;
-}
-
-.app_core-134-17 {
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.components_hiccup-126-16 {
+.components_hiccup-130-16 {
   margin-left: 0.25rem;
   margin-bottom: 0.75rem;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -373,12 +415,11 @@ img, video {
   --text-opacity: 1;
 }
 
-.components_hiccup-184-16 {
-  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: .75rem;
-  color: rgba(66,153,225,var(--text-opacity));
-  --text-opacity: 1;
-  padding: 0.5rem;
+.app_core-195-18 {
+  width: 85.0rem;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
 }
 
 .components_default-27-20 {
@@ -396,10 +437,6 @@ img, video {
   letter-spacing: -0.025em;
 }
 
-.app_core-153-17 {
-  width: 100%;
-}
-
 .components_hiccup-31-13 {
   color: rgba(178,185,198,var(--text-opacity));
   --text-opacity: 1;
@@ -408,6 +445,31 @@ img, video {
 .components_hiccup-19-15 {
   color: rgba(195,155,208,var(--text-opacity));
   --text-opacity: 1;
+}
+
+.app_core-93-20 {
+  display: none;
+}
+
+.app_core-200-19 {
+  display: flex;
+}
+
+.components_hiccup-156-19 {
+  border-bottom-width: 1px;
+}
+
+.app_core-55-17 {
+  right: 0.0rem;
+  top: 0.0rem;
+  transition-duration: 200ms;
+  --bg-opacity: 1;
+  position: absolute;
+  background-color: rgba(236,254,255,var(--bg-opacity));
+  border-radius: 0.375rem;
+  bottom: 0.0rem;
+  opacity: 0%;
+  left: 0.0rem;
 }
 
 .components_default-11-20 {
@@ -426,28 +488,6 @@ img, video {
 .components_hiccup-21-21 {
   color: rgba(72,148,201,var(--text-opacity));
   --text-opacity: 1;
-}
-
-.components_hiccup-113-15 {
-  margin: 0.25rem;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 1.125rem;
-  font-weight: 300;
-  color: rgba(113,128,150,var(--text-opacity));
-  --text-opacity: 1;
-}
-
-.components_hiccup-76-12 {
-  width: auto;
-  padding-bottom: 0.75rem;
-  --bg-opacity: 1;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-  background-color: rgba(33,37,43,var(--bg-opacity));
-  padding-right: 1.0rem;
-  border-radius: 12px;
-  padding-left: 1.0rem;
-  padding-top: 0.75rem;
 }
 
 .components_hiccup-50-18 {
@@ -480,6 +520,15 @@ img, video {
   --text-opacity: 1;
 }
 
+.components_hiccup-172-16 {
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: .75rem;
+  color: rgba(128,90,213,var(--text-opacity));
+  --text-opacity: 1;
+  white-space: nowrap;
+  padding: 0.25rem;
+}
+
 .components_hiccup-33-8 {
   color: rgba(33,37,43,var(--text-opacity));
   --text-opacity: 1;
@@ -499,10 +548,13 @@ img, video {
   --text-opacity: 1;
 }
 
-.components_hiccup-99-13 {
-  box-sizing: border-box;
-  padding-bottom: 1.25rem;
-  margin-bottom: 0.25rem;
+.components_hiccup-107-16 {
+  font-size: 1.875rem;
+  margin: 0.25rem;
+  font-weight: 800;
+  color: rgba(26,32,44,var(--text-opacity));
+  --text-opacity: 1;
+  letter-spacing: -0.025em;
 }
 
 .components_hiccup-66-11 {
@@ -517,22 +569,36 @@ img, video {
   --text-opacity: 1;
 }
 
-.app_core-51-19 {
-  right: 0.0rem;
-  top: 0.0rem;
-  transition-duration: 200ms;
+.components_hiccup-89-17 {
+  align-content: center;
+  margin-top: 1.25rem;
+  width: 45.0rem;
+}
+
+.components_hiccup-77-12 {
+  width: auto;
+  padding-bottom: 0.75rem;
   --bg-opacity: 1;
-  position: absolute;
-  background-color: rgba(236,254,255,var(--bg-opacity));
-  border-radius: 0.375rem;
-  bottom: 0.0rem;
-  opacity: 0%;
-  left: 0.0rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  background-color: rgba(33,37,43,var(--bg-opacity));
+  padding-right: 1.0rem;
+  border-radius: 12px;
+  padding-left: 1.0rem;
+  padding-top: 0.75rem;
 }
 
 .components_linter-90-20 {
   color: rgba(198,120,221,var(--text-opacity));
   --text-opacity: 1;
+}
+
+.app_core-123-25 {
+  width: 3.75rem;
+}
+
+.app_core-148-46 {
+  margin-top: 1.25rem;
 }
 
 .components_linter-86-22 {
@@ -545,21 +611,10 @@ img, video {
   --text-opacity: 1;
 }
 
-.components_hiccup-117-16 {
-  margin: 0.25rem;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: rgba(26,32,44,var(--text-opacity));
-  --text-opacity: 1;
-  letter-spacing: -0.025em;
-}
-
-.components_hiccup-196-32 {
-  border-bottom-width: 1px;
-}
-
-.app_core-156-19 {
-  flex: 1 1 0%;
+.components_hiccup-102-13 {
+  box-sizing: border-box;
+  padding-bottom: 1.25rem;
+  margin-bottom: 0.25rem;
 }
 
 .components_linter-76-8 {
@@ -567,36 +622,13 @@ img, video {
   --text-opacity: 1;
 }
 
-.app_core-107-30 {
-  font-size: .875rem;
-  position: relative;
-  font-weight: 600;
-  line-height: (16);
-  color: rgba(26,32,44,var(--text-opacity));
-  --text-opacity: 1;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+.components_linter-225-33 {
+  display: block;
 }
 
 .components_linter-92-22 {
   color: rgba(143,179,96,var(--text-opacity));
   --text-opacity: 1;
-}
-
-.components_hiccup-201-19 {
-  width: 100%;
-  text-align: left;
-  border-collapse: collapse;
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
-}
-
-.app_core-79-22 {
-  margin-bottom: 0.5rem;
-}
-
-.app_core-84-29 {
-  width: 3.75rem;
 }
 
 .components_default-20-18 {
@@ -609,16 +641,16 @@ img, video {
   margin-top: calc(1.0rem * calc(1 - var(--space-y-reverse)));
 }
 
-.components_linter-96-8 {
-  color: rgba(33,37,43,var(--text-opacity));
-  --text-opacity: 1;
+.app_core-73-19 {
+  width: 18.0rem;
+  padding-top: 1.0rem;
+  padding-bottom: 1.0rem;
+  padding-left: 2.0rem;
+  padding-right: 2.0rem;
 }
 
-.components_hiccup-207-18 {
-  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: .875rem;
-  font-weight: 600;
-  color: rgba(124,58,237,var(--text-opacity));
+.components_linter-96-8 {
+  color: rgba(33,37,43,var(--text-opacity));
   --text-opacity: 1;
 }
 
@@ -627,44 +659,23 @@ img, video {
   --text-opacity: 1;
 }
 
-.app_core-66-5:hover {
-  color: rgba(26,32,44,var(--text-opacity));
-  --text-opacity: 1;
+.components_hiccup-242-19 {
+  display: flex;
+  margin-top: 4.0rem;
+  margin-bottom: 1.75rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.5rem;
 }
 
-.app_core-66-5 {
-  --text-opacity: 1;
-  padding-bottom: 0.5rem;
-  transition-property: background-color, border-color, color, fill, stroke;
-  position: relative;
-  padding-right: 0.75rem;
-  display: block;
-  color: rgba(113,128,150,var(--text-opacity));
-  padding-left: 0.75rem;
-  padding-top: 0.5rem;
-}
-
-.components_hiccup-88-17 {
+.components_hiccup-99-17 {
   width: 45.0rem;
   align-content: center;
-  margin-top: 1.25rem;
-}
-
-.app_core-106-46 {
-  margin-top: 1.25rem;
+  margin-top: 0.25rem;
 }
 
 .components_default-89-39 {
   font-weight: 700;
-}
-
-.components_hiccup-104-16 {
-  font-size: 1.875rem;
-  margin: 0.25rem;
-  font-weight: 800;
-  color: rgba(26,32,44,var(--text-opacity));
-  --text-opacity: 1;
-  letter-spacing: -0.025em;
 }
 
 .components_hiccup-13-16 {
@@ -677,7 +688,95 @@ img, video {
   --text-opacity: 1;
 }
 
+.components_linter-98-1 {
+  color: rgba(144,205,244,var(--text-opacity));
+  --text-opacity: 1;
+}
+
 .components_linter-93-19 {
   color: rgba(143,179,96,var(--text-opacity));
   --text-opacity: 1;
+}
+
+@media (max-width: 415px) {
+ .components_hiccup-120-16 {
+ word-break: break-all; }
+}
+
+
+@media (max-width: 415px) {
+ .components_hiccup-206-19 {
+ width: 22.0rem; overflow: scroll; }
+}
+
+
+@media (max-width: 415px) {
+ .components_hiccup-251-18 {
+ margin-left: 4.0rem; }
+}
+
+
+@media (max-width: 415px) {
+ .components_hiccup-245-18 {
+ margin-left: 1.25rem; }
+}
+
+
+@media (max-width: 415px) {
+ .app_core-68-19 {
+ width: 50.0rem; z-index: 50; }
+}
+
+
+@media (max-width: 415px) {
+ .app_core-126-25 {
+ font-size: 1rem; text-align: center; font-weight: 700; }
+}
+
+
+@media (max-width: 415px) {
+ .components_hiccup-130-16 {
+ word-break: break-all; }
+}
+
+
+@media (max-width: 415px) {
+ .app_core-195-18 {
+ width: 30.0rem; overflow: scroll; }
+}
+
+
+@media (max-width: 415px) {
+ .app_core-93-20 {
+ width: 3.0rem; top: 35.0rem; --bg-opacity: 1; height: 3.0rem; visibility: visible; position: fixed; z-index: 50; background-color: rgba(26,32,44,var(--bg-opacity)); border-radius: 9999px; display: block; left: 17.5rem; }
+}
+
+
+@media (max-width: 415px) {
+ .app_core-120-21 {
+ display: none; }
+}
+
+
+@media (max-width: 415px) {
+ .components_hiccup-89-17 {
+ width: 22.0rem; }
+}
+
+
+@media (max-width: 415px) {
+ .app_core-123-25 {
+ width: 2.5rem; }
+}
+
+
+@media (max-width: 415px) {
+ .app_core-73-19 {
+ display: none; }
+}
+
+
+@media (max-width: 415px) {
+ .components_hiccup-242-19 {
+ align-content: center; }
 }
