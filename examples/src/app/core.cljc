@@ -80,11 +80,15 @@
    (if (get db ::mobile-menu)
 
      {:menu-style (c [:w 72] [:py 4] [:px 8]
-                     [:smartphone :flex-none :fixed :w-full
+                     [:smartphone :flex-none
+                      :relative
+                      :w-full
+                      :h-auto
                       [:z 4]
                       [:p 1]
                       [:bg :white]
-                      [:bg-opacity 90]])
+                      [:bg-opacity 90]
+                      :overflow-y-scroll])
       :button "x"}
 
      {:menu-style (c [:w 72] [:py 4] [:px 8]
@@ -98,8 +102,8 @@
                        :visible
                        :fixed
                        :block
-                       [:w 12]
-                       [:h 12]
+                       [:w 16]
+                       [:h 16]
                        [:z 5]
                        [:left 70]
                        [:top 140]
@@ -196,8 +200,7 @@
 (defn ui
   []
   [:div {:class (c [:w 340] :mx-auto :flex
-                   [:smartphone [:w 88]
-                    :overflow-scroll])}
+                   [:smartphone [:w 88]])}
    [side-menu]
    [mobile-menu-opener]
    [:div {:class (c :flex
