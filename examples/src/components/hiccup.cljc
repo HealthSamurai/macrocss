@@ -205,8 +205,7 @@
 
 (defn table [rule-data]
   [:table {:class (c :text-left :border-collapse [:mt 1] [:mb 1]
-                     :w-full [:smartphone [:w 88]
-                              :overflow-scroll])
+                     :w-full [:smartphone [:w 88]])
            :key (gen-key)}
    (create-table-heading ["Class" "Properties"])
    (create-table-cells rule-data)])

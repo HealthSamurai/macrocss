@@ -81,14 +81,16 @@
 
      {:menu-style (c [:w 72] [:py 4] [:px 8]
                      [:smartphone :flex-none
-                      :relative
+                      :fixed
+                      :overflow-x-hidden
+                      :overflow-scroll
                       :w-full
-                      :h-auto
+                      [:h 167]
                       [:z 4]
-                      [:p 1]
+                      [:p 0]
+                      [:mt -2 ]
                       [:bg :white]
-                      [:bg-opacity 90]
-                      :overflow-y-scroll])
+                      [:bg-opacity 100]])
       :button "x"}
 
      {:menu-style (c [:w 72] [:py 4] [:px 8]
@@ -114,13 +116,23 @@
      [:span {:class (c [:text :white]
                        :text-2xl)} button]]))
 
+(defn scroll-to-top
+  [element]
+  (set! (.-scrollTop element) 0))
+
 (defn side-menu
   []
+
+  (r/create-class
+   {:component-did-mount #(let [elem (.getElementById js/document "side-menu")]
+                            (scroll-to-top elem))
+    :reagent-render
   (let [m (rf/subscribe [::menu])
         ms (rf/subscribe [::mobile-sidebar])]
     (fn []
       [:div {:class (:menu-style @ms)
-             :key (h/gen-key)}
+             :key (h/gen-key)
+             :id "side-menu"}
        [:div {:class (c [:mb 2])
               :key (h/gen-key)}
         [:a {:class (c [:smartphone :hidden])
@@ -161,7 +173,7 @@
                                 [:text :gray-900]
                                 [:pt 2]
                                 [:pb 2])
-                      :key (h/gen-key)} (str title ": ")]])])]])))
+                      :key (h/gen-key)} (str title ": ")]])])]]))}))
 
 (rf/reg-sub
  ::content
