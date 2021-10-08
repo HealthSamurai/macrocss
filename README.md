@@ -17,6 +17,15 @@ hibryd of tailwind and https://github.com/clj-commons/cljss
        [search/filter-form]]]
 ```
 
+## Documentation 
+
+Documentation may be found here: 
+https://healthsamurai.github.io/macrocss
+
+Documentation was written using MacroCSS library:
+https://github.com/HealthSamurai/macrocss/tree/master/examples
+
+
 ## Dev
 
 Watch samurai seminar in Russian - https://storage.googleapis.com/samurai-files/samurai-seminar-css.mp4
