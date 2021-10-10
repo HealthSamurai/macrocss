@@ -1,8 +1,10 @@
 # macrocss
 
-Styles in css for clojure(script) using macros
+[![Clojars Project](https://img.shields.io/clojars/v/com.health-samurai/macrocss.svg)](https://clojars.org/com.health-samurai/macrocss)
 
-hibryd of tailwind and https://github.com/clj-commons/cljss
+Macro-driven AtomicCSS library for Clojure(Script).
+
+Hybrid of TailwindCC and https://github.com/clj-commons/cljss
 
 ```clj
 [:div {:class (c [:pt 8] [:px 6] :h-screen :flex :flex-col [:space-y 4])}
