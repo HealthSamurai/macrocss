@@ -2,9 +2,9 @@
 
 [![Clojars Project](https://img.shields.io/clojars/v/com.health-samurai/macrocss.svg)](https://clojars.org/com.health-samurai/macrocss)
 
-Macro-driven AtomicCSS library for Clojure(Script).
+Macro-driven atomic CSS library for Clojure(Script).
 
-Hybrid of TailwindCC and https://github.com/clj-commons/cljss
+Hybrid of TailwindCSS and https://github.com/clj-commons/cljss
 
 ```clj
 [:div {:class (c [:pt 8] [:px 6] :h-screen :flex :flex-col [:space-y 4])}
