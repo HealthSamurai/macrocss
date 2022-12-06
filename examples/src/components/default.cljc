@@ -89,7 +89,7 @@
     (h/p3 "Add  into " [:span {:class (c :font-bold)
                              :key (h/gen-key)} " project.clj "] " dependencies: ")
     (h/code :clojure
-            (l/highlight "[stylo-css \"0.1.0 \"]"))
+            (l/highlight "[com.health-samurai/macrocss \"0.1.0\"]"))
     (h/p3 "Open up your" [:span {:class (c :font-bold)
                                :key (h/gen-key)} " shadow-cljs.edn "] "configuration file and add")
     (h/code :clojure
