@@ -1,6 +1,7 @@
 (ns components.default
   (:require [components.hiccup :as h]
             [stylo.core :refer [c]]
+            [stylo.util :as u]
             [components.linter :as l]))
 
 
@@ -60,7 +61,7 @@
   (niquola-quote-gif)
   (h/block
    (h/h3 "Version and compatibility. ")
-      (h/p3 "Latest version is 0.1.0")
+      (h/p3 (str "Latest version is " (u/get-stylo-version) "."))
       (h/p3 "Tested with: ")
       (h/p3 "Clojure 1.10.0")
       (h/p3 "ClojureScript 10.10.866")
@@ -88,8 +89,9 @@
        (h/a "https://github.com/shadow-cljs/lein-template"))
     (h/p3 "Add  into " [:span {:class (c :font-bold)
                              :key (h/gen-key)} " project.clj "] " dependencies: ")
+    (h/p3 (str (System/getProperty "java.class.path")))
     (h/code :clojure
-            (l/highlight "[com.health-samurai/macrocss \"0.1.0\"]"))
+            (l/highlight (str "[com.health-samurai/macrocss " (u/get-stylo-version) " ]")))
     (h/p3 "Open up your" [:span {:class (c :font-bold)
                                :key (h/gen-key)} " shadow-cljs.edn "] "configuration file and add")
     (h/code :clojure
