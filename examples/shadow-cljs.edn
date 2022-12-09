@@ -6,7 +6,8 @@
  {:app
   {:target :browser
    :modules {:app {:init-fn app.core/init}}
-   :build-hooks [(stylo.shadow/reload "public/out/stylo/css/stylo.css")]
+   :build-hooks [(stylo.shadow/reload "public/out/stylo/css/stylo.css")
+                 (stylo.shadow/add-version-env "public/out/app.js")]
    :output-dir "public/out" 
    :compiler-options {:infer-externs :auto}
 

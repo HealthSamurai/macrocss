@@ -1,9 +1,8 @@
 (ns components.default
   (:require [components.hiccup :as h]
             [stylo.core :refer [c]]
-            [stylo.util :as u]
-            [components.linter :as l]))
-
+            [components.linter :as l]
+            [goog.object :as g]))
 
 (def img-link "https://downloader.disk.yandex.ru/preview/ca522feb15400eba63497d10e65d0405373c8096601bbda6cee6a48d0e19f323/613f67d4/Wl6CmFjIBj2w8wB2eabbLfsP5MTyOBZ61rOCtuuZNvM1aoLBKXGZxDldjtRlFBHJ9nCtiA5elDx96oZoJ1OvIQ%3D%3D?uid=0&filename=ryzikov.jpeg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2&size=2048x2048")
 (def phrase "\"MacroCSS is is utility-first, atomic only CSS library that is flexible and solves serious code health and convenience problems\"")
@@ -61,7 +60,7 @@
   (niquola-quote-gif)
   (h/block
    (h/h3 "Version and compatibility. ")
-      (h/p3 (str "Latest version is " (u/get-stylo-version) "."))
+      (h/p3 (str "Latest version is " (g/get js/window "STYLO_VERSION")))
       (h/p3 "Tested with: ")
       (h/p3 "Clojure 1.10.0")
       (h/p3 "ClojureScript 10.10.866")
@@ -89,9 +88,8 @@
        (h/a "https://github.com/shadow-cljs/lein-template"))
     (h/p3 "Add  into " [:span {:class (c :font-bold)
                              :key (h/gen-key)} " project.clj "] " dependencies: ")
-    (h/p3 (str (System/getProperty "java.class.path")))
     (h/code :clojure
-            (l/highlight (str "[com.health-samurai/macrocss " (u/get-stylo-version) " ]")))
+            (l/highlight (str "[com.health-samurai/macrocss \""  (g/get js/window "STYLO_VERSION") "\"]")))
     (h/p3 "Open up your" [:span {:class (c :font-bold)
                                :key (h/gen-key)} " shadow-cljs.edn "] "configuration file and add")
     (h/code :clojure

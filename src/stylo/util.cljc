@@ -2,7 +2,6 @@
   (:refer-clojure :exclude [format])
   (:require
    [garden.color :refer [hex->rgb]]
-   [clojure.xml :as xml]
    [garden.units :as units]
    #?(:cljs [goog.string :as gstring])
    #?(:cljs [goog.string.format])
@@ -47,14 +46,6 @@
              :deg (units/deg v)
              :rem (units/rem (* v 0.25))
              :percent (units/percent v)))))
-
-
-(defn get-stylo-version
-  []
-  (->> (xml/parse "pom.xml")
-       :content
-       (filterv (comp #{:version} :tag))
-       (#(get-in % [0 :content 0]))))
 
 (comment
   (garden.compiler/render-css (units/percent 42))
