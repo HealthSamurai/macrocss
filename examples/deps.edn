@@ -4,7 +4,7 @@
  {org.clojure/clojurescript {:mvn/version "1.10.866"}
   org.clojure/clojure {:mvn/version "1.10.0"}
   thheller/shadow-cljs {:mvn/version "2.14.4"}
-  com.health-samurai/macrocss {:mvn/version "0.1.2-SNAPSHOT"}
+  macrocss/macrocss {:local/root "../"}
   reagent/reagent {:mvn/version "1.1.0"}
   re-frame/re-frame {:mvn/version "1.2.0"}}
 
