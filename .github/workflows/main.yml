@@ -15,8 +15,22 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  clojars:
+    runs-on: ubuntu-latest
+
+    steps:
+      # This step checks out a copy of your repository.
+      - uses: actions/checkout@v2
+
+      - uses: jlesquembre/clojars-publish-action@0.3
+        env:
+          CLOJARS_USERNAME: ${{ secrets.CLOJARS_USERNAME }}
+          CLOJARS_PASSWORD: ${{ secrets.CLOJARS_PASSWORD }}
+          USE_GIT_REF:      ${{ secrets.USE_GIT_REF }}
+
   # This workflow contains a single job called "build"
   build:
+    needs: clojars
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
