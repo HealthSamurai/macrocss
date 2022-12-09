@@ -1,9 +1,9 @@
 (ns stylo.shadow
-  (:require
-    [stylo.core]
+  (:require [stylo.core]
     [clojure.java.io :as io]
-    [clojure.xml :as xml]))
-
+    [clojure.xml :as xml]
+    [clj-http.client :as client]
+    [clojure.string :as str]))
 
 (defn reload
   {:shadow.build/stage :flush}
@@ -18,12 +18,14 @@
 (defn add-version-env
   {:shadow.build/stage :flush}
   [build-state app-js]
-  (let [env-js (->> (xml/parse "../pom.xml")
-                    :content
-                    (filterv (comp #{:version} :tag))
-                    (#(get-in % [0 :content 0]))
-                    (format "\n var STYLO_VERSION = \"%s\" ; \n" ))
+  (let [http-resp (-> "https://clojars.org/com.health-samurai/macrocss"
+                      client/get
+                      :body)
+        version (-> (re-find #"com.health-samurai:macrocss:\d+\.\d+\.\d+" http-resp)
+                    (str/split #":")
+                    last)
+
+        env-js (format "\n var STYLO_VERSION = \"%s\" ; \n %s" version (slurp app-js))
         f (io/file app-js)]
-    (io/make-parents f)
-    (spit f env-js :append true)
-     build-state))
+    (spit f env-js)
+    build-state))
