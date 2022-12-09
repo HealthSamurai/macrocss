@@ -17,3 +17,4 @@ jobs:
         env:
           CLOJARS_USERNAME: ${{ secrets.CLOJARS_USERNAME }}
           CLOJARS_PASSWORD: ${{ secrets.CLOJARS_PASSWORD }}
+          USE_GIT_REF: ${{ secrets.USE_GIT_REF }}
