@@ -1,0 +1,18 @@
+{:tasks
+ {inc-version
+  {:doc "Increment version of MacroCSS library"
+   :requires [clojure.string]
+   :task (let [new-version (-> (slurp "version")
+                               (clojure.string/split (re-pattern "\\."))
+                               ((fn [[i ii]]
+                                  [i (-> ii (Integer.) inc) "0"]))
+                               ((fn [x] (clojure.string/join "." x))))
+               pom-re (re-pattern "<version>(.+)</version>")
+               new-version-xml (str "<version>" new-version "</version>")
+               new-pom-xml (clojure.string/replace-first
+                            (slurp "pom.xml")
+                            (re-pattern "<version>.+</version>")
+                            new-version-xml)]
+           (spit "version" new-version)
+           (spit "pom.xml" new-pom-xml)
+           (shell (str "git tag " new-version)))}}}
