@@ -28,7 +28,7 @@
   (let [new-version-str (version->str new-version)]
     (utils/save-version new-version)
     (utils/update-pom-xml new-version-str)
-    (shell/sh "sh" "-c" (str "git tag " new-version-str))
+    ;; (shell/sh "sh" "-c" (str "git tag " new-version-str))
     (version)))
 
 (defn bump-major
