@@ -3,6 +3,10 @@
  :tasks
  {:requires ([utils])
 
+  version          {:task (-> (utils/version)
+                              utils/version->str
+                              println)}
+
   release-major    {:task (utils/bump-major)}
 
   release-minor    {:task (utils/bump-minor)}

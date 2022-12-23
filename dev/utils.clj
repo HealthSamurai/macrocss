@@ -30,9 +30,9 @@
                (str "git tag " new-version-str)
                "git pull -r"
                (format "git push --atomic origin master %s" new-version-str)]]
-    (prn cmd)
     (let [{out :out} (shell/sh "sh" "-c" cmd)]
-      (prn out))))
+      (println cmd)
+      (println out))))
 
 (defn propagate-updates
   [new-version]
