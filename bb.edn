@@ -11,4 +11,4 @@
 
   release-minor    {:task (utils/bump-minor)}
 
-  release-fix      {:task (utils/bump-fix)}}}
+  release-patch      {:task (utils/bump-fix)}}}
