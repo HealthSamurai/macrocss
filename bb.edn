@@ -4,5 +4,7 @@
  {:requires ([utils])
 
   release-major    {:task (utils/bump-major)}
+
   release-minor    {:task (utils/bump-minor)}
+
   release-fix      {:task (utils/bump-fix)}}}
