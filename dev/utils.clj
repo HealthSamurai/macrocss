@@ -37,10 +37,14 @@
 (defn propagate-updates
   [new-version]
   (let [new-version-str (version->str new-version)]
+    (shell/sh "sh" "-c" "git checkout origin/master -- version.edn ")
+    (println "checked out version from remote origin...")
     (save-version new-version)
     (update-pom-xml new-version-str)
+    (println "updated version of library locally...")
     (commit-push new-version-str)
-    (version)))
+    (println "library pushed to Clojars and remote repository...")
+    (println "new version:" (version))))
 
 (defn bump-major
   []
