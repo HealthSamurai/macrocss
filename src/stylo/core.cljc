@@ -24,15 +24,29 @@
    [stylo.util :as u])
   #?(:cljs (:require-macros [stylo.core])))
 
+;; TODO refactor -> all in styles
+;; if logic of mediaqueries needs inverting
+;; -> change logic of storing into atom
+;; three atoms -> one atom
+
+;; https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values
+
 (defonce styles (atom {}))
 (defonce media-styles (atom {}))
 
-(defonce media (atom {:screen {:screen true}
+(defonce media (atom {:screen     {:screen true}
+                      ;; tailwind style:
+                      :sm         {:min-width "640px"}
+                      :md         {:min-width "768px"}
+                      :lg         {:min-width "1024px"}
+                      :xl         {:min-width "1280px"}
+                      :2xl        {:min-width "1536px"}
+                      ;; macrocss style:
                       :smartphone {:max-width "415px"}
-                      :ereader {:max-width "481px"}
-                      :p-tablets {:max-width "768px"}
-                      :l-tablets {:max-width "1025px"}
-                      :desktop {:min-width "1200px"}}))
+                      :ereader    {:max-width "481px"}
+                      :p-tablets  {:max-width "768px"}
+                      :l-tablets  {:max-width "1025px"}
+                      :desktop    {:min-width "1200px"}}))
 
 (defn garden-readable
   [media-rules]
@@ -61,13 +75,13 @@
 (defn set-own-mediarules!
   [rules]
   (reset! media {})
-  (swap! merge media rules)
+  (swap! media merge rules)
   (defmediarules @media)
   @media)
 
 (defn extend-media-rules!
   [rules]
-  (swap! merge media rules)
+  (swap! media merge rules)
   (defmediarules @media)
   @media)
 
