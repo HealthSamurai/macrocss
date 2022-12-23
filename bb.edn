@@ -1,14 +1,12 @@
 {:paths ["dev"]
 
  :tasks
- {:requires ([utils])
+ {:requires [[utils]]
 
-  version          {:task (-> (utils/version)
-                              utils/version->str
-                              println)}
+  version            {:task (utils/print-version)}
 
-  release-major    {:task (utils/bump-major)}
+  release-major      {:task (utils/bump-major)}
 
-  release-minor    {:task (utils/bump-minor)}
+  release-minor      {:task (utils/bump-minor)}
 
   release-patch      {:task (utils/bump-fix)}}}
