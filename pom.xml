@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.health-samurai</groupId>
   <artifactId>macrocss</artifactId>
-  <version>0.3.8</version>
+  <version>0.3.9</version>
   <name>macrocss</name>
   <description>Atomic CSS library for ClojureScript</description>
   <url>https://github.com/HealthSamurai/macrocss</url>

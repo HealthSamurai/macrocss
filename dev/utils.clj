@@ -25,10 +25,10 @@
 
 (defn commit-push
   [new-version-str]
-  (doseq [cmd ["git pull -r"
-               "git add version.edn pom.xml"
+  (doseq [cmd ["git add version.edn pom.xml"
                (format "git commit -m 'Bump version to %s'" new-version-str)
                (str "git tag " new-version-str)
+               "git pull -r"
                (format "git push --atomic origin master %s" new-version-str)]]
     (prn cmd)
     (let [{out :out} (shell/sh "sh" "-c" cmd)]
