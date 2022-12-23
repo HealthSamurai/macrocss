@@ -19,11 +19,27 @@
       :out
       empty?))
 
+(defn remote-version
+  []
+  (let [git-lines (-> (shell/sh "sh" "-c" "git diff origin/master:version.edn -- version.edn ")
+                      :out
+                      (str/split #"\n")) ]
+    (->> git-lines
+         (filterv (fn [x](and x (re-find #"\-\{\:major" x))))
+         first
+         rest
+         str/join
+         edn/read-string)))
+
 (defn print-version
   []
-  (println {:version (-> (utils/version-local)
-                         utils/version->str)
-            :actual (utils/actual-version?)}))
+  (let [actual (utils/actual-version?)
+        local-ver {:local-version (-> (version-local) version->str)
+                   :actual actual}
+        result (if actual
+                 local-ver
+                 (merge local-ver {:remote-version (remote-version)}))]
+   (println result)))
 
 (defn fetch-remote-version
   [version-current]
