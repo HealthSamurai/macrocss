@@ -23,16 +23,23 @@
                      new-version-xml)]
     (spit "pom.xml" new-pom-xml)))
 
+(defn commit-push
+  [new-version-str]
+  (doseq [cmd ["git pull -r"
+               "git add version.edn pom.xml"
+               (format "git commit -m 'Bump version to %s'" new-version-str)
+               (str "git tag " new-version-str)
+               (format "git push --atomic origin master %s" new-version-str)]]
+    (prn cmd)
+    (let [{out :out} (shell/sh "sh" "-c" cmd)]
+      (prn out))))
+
 (defn propagate-updates
   [new-version]
   (let [new-version-str (version->str new-version)]
-    (utils/save-version new-version)
-    (utils/update-pom-xml new-version-str)
-    (shell/sh "sh" "-c" "git add version.edn pom.xml")
-    (shell/sh "sh" "-c" "git pull -r")
-    (shell/sh "sh" "-c" (format "git commit -m 'Bump version to %s'" new-version-str))
-    (shell/sh "sh" "-c" (str "git tag " new-version-str))
-    (shell/sh "sh" "-c" (format "git push --atomic origin master %s" new-version-str))
+    (save-version new-version)
+    (update-pom-xml new-version-str)
+    (commit-push new-version-str)
     (version)))
 
 (defn bump-major
