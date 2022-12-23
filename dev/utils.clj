@@ -25,11 +25,12 @@
                       :out
                       (str/split #"\n")) ]
     (->> git-lines
-         (filterv (fn [x](and x (re-find #"\-\{\:major" x))))
+         (filterv (fn [x] (and x (re-find #"\-\{\:major" x))))
          first
          rest
          str/join
-         edn/read-string)))
+         edn/read-string
+         version->str)))
 
 (defn print-version
   []
@@ -53,7 +54,7 @@
 
 (defn version
   []
-  (let [version-current (version)]
+  (let [version-current (version-local)]
     (if (actual-version?)
       (do (println "current version is actual: " version-current)
           version-current)
@@ -107,7 +108,7 @@
       (merge {:fix 0})
       propagate-updates))
 
-(defn bump-fix
+(defn bump-patch
   []
   (-> (version)
       (update :fix inc)
