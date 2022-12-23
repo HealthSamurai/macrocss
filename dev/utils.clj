@@ -31,6 +31,7 @@
     (shell/sh "sh" "-c" "git add version.edn pom.xml")
     (shell/sh "sh" "-c" (format "git commit -m 'Bump version to %s'" new-version-str))
     (shell/sh "sh" "-c" (str "git tag " new-version-str))
+    (shell/sh "sh" "-c" (format "git push --atomic origin master %s" new-version-str))
     (version)))
 
 (defn bump-major
