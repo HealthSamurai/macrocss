@@ -5,12 +5,43 @@
 
 ;; TODO: fetch version from remote (diff from remote)
 
-(defn version [] (edn/read-string (slurp "version.edn")))
-
 (defn version->str
   [ver]
   (->> (vals ver)
        (str/join ".")))
+
+(defn version-local []
+  (edn/read-string (slurp "version.edn")))
+
+(defn actual-version?
+  []
+  (-> (shell/sh "sh" "-c" "git diff origin/master:version.edn -- version.edn ")
+      :out
+      empty?))
+
+(defn print-version
+  []
+  (println {:version (-> (utils/version-local)
+                         utils/version->str)
+            :actual (utils/actual-version?)}))
+
+(defn fetch-remote-version
+  [version-current]
+  (let [_ (shell/sh "sh" "-c" "git checkout origin/master -- version.edn ")
+        new-version (version-local)]
+    (println "checked out version from remote origin...")
+    (println (version->str version-current)
+             " -> "
+             (version->str new-version))
+    new-version))
+
+(defn version
+  []
+  (let [version-current (version)]
+    (if (actual-version?)
+      (do (println "current version is actual: " version-current)
+          version-current)
+      (fetch-remote-version version-current))))
 
 (defn save-version
   [new-ver]
@@ -44,7 +75,7 @@
     (println "updated version of library locally...")
     (commit-push new-version-str)
     (println "library pushed to Clojars and remote repository...")
-    (println "new version:" (version))))
+    (println "new version:" (version->str (version-local)))))
 
 (defn bump-major
   []
