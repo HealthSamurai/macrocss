@@ -1,5 +1,5 @@
 
- var STYLO_VERSION = "0.3.1" ; 
+ var STYLO_VERSION = "0.3.4" ; 
  var shadow$provide = {};
 (function(){
 shadow$provide[0]=function(P,aa,na,x){var w=Object.getOwnPropertySymbols,Q=Object.prototype.hasOwnProperty,ha=Object.prototype.propertyIsEnumerable;na.exports=function(){try{if(!Object.assign)return!1;var ba=new String("abc");ba[5]="de";if("5"===Object.getOwnPropertyNames(ba)[0])return!1;var Ca={};for(ba=0;10>ba;ba++)Ca["_"+String.fromCharCode(ba)]=ba;if("0123456789"!==Object.getOwnPropertyNames(Ca).map(function(R){return Ca[R]}).join(""))return!1;var ya={};"abcdefghijklmnopqrst".split("").forEach(function(R){ya[R]=
