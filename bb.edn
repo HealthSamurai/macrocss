@@ -9,4 +9,4 @@
 
   release-minor      {:task (utils/bump-minor)}
 
-  release-patch      {:task (utils/bump-fix)}}}
+  release-patch      {:task (utils/bump-patch)}}}
