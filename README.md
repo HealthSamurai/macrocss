@@ -27,6 +27,22 @@ https://healthsamurai.github.io/macrocss
 Documentation was written using MacroCSS library:
 https://github.com/HealthSamurai/macrocss/tree/master/examples
 
+## How to bump version
+
+To release new library version: 
+1. Commit existing changes. 
+2. Run: 
+   - `bb release-fix` for small fixes: `0.1.0` -> `0.1.1` 
+   - `bb release-minor` for minor changes:  `0.1.1` -> `0.2.0`
+   - `bb release-major` for major updates:  `6.5.9` -> `7.0.0`
+
+> **Warning** 
+> 
+> Executing `bb release` functions creates a commit, bumps library version,
+> issues new tag and pushes updates to Clojars.
+> To avoid library version update do not use `bb release` functions.
+
+
 
 ## Dev
 
@@ -36,3 +52,4 @@ Watch samurai seminar in Russian - https://storage.googleapis.com/samurai-files/
 
 * Olim Saidov 
 * Nikolai Ryzhikov
+
