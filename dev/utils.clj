@@ -3,6 +3,8 @@
             [clojure.string :as str]
             [clojure.java.shell :as shell]))
 
+;; TODO: fetch version from remote (diff from remote)
+
 (defn version [] (edn/read-string (slurp "version.edn")))
 
 (defn version->str
