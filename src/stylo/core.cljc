@@ -31,22 +31,16 @@
 
 ;; https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values
 
+
 (defonce styles (atom {}))
 (defonce media-styles (atom {}))
 
-(defonce media (atom {:screen     {:screen true}
-                      ;; tailwind style:
-                      :sm         {:min-width "640px"}
-                      :md         {:min-width "768px"}
-                      :lg         {:min-width "1024px"}
-                      :xl         {:min-width "1280px"}
-                      :2xl        {:min-width "1536px"}
-                      ;; macrocss style:
+(defonce media (atom {:screen {:screen true}
                       :smartphone {:max-width "415px"}
-                      :ereader    {:max-width "481px"}
-                      :p-tablets  {:max-width "768px"}
-                      :l-tablets  {:max-width "1025px"}
-                      :desktop    {:min-width "1200px"}}))
+                      :ereader {:max-width "481px"}
+                      :p-tablets {:max-width "768px"}
+                      :l-tablets {:max-width "1025px"}
+                      :desktop {:min-width "1200px"}}))
 
 (defn garden-readable
   [media-rules]
@@ -75,13 +69,13 @@
 (defn set-own-mediarules!
   [rules]
   (reset! media {})
-  (swap! media merge rules)
+  (swap! merge media rules)
   (defmediarules @media)
   @media)
 
 (defn extend-media-rules!
   [rules]
-  (swap! media merge rules)
+  (swap! merge media rules)
   (defmediarules @media)
   @media)
 
