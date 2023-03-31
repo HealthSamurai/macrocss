@@ -1,27 +1,27 @@
 (ns stylo.core
   (:require
-   [garden.core]
-   [garden.stylesheet]
-   [clojure.string :as str]
-   [stylo.rule :refer [rule join-rules]]
-   [stylo.tailwind.preflight]
-   [stylo.tailwind.accessibility]
-   [stylo.tailwind.background]
-   [stylo.tailwind.border]
-   [stylo.tailwind.effect]
-   [stylo.tailwind.flex]
-   [stylo.tailwind.grid]
-   [stylo.tailwind.interactivity]
-   [stylo.tailwind.layout]
-   [stylo.tailwind.sizing]
-   [stylo.tailwind.spacing]
-   [stylo.tailwind.svg]
-   [stylo.tailwind.table]
-   [stylo.tailwind.transform]
-   [stylo.tailwind.transition]
-   [stylo.tailwind.typography]
-   [stylo.tailwind.variant]
-   [stylo.util :as u])
+   #?(:clj [clojure.string :as str])
+   #?(:clj [stylo.rule :refer [rule join-rules]])
+   #?(:clj [garden.core])
+   #?(:clj [garden.stylesheet])
+   #?(:clj [stylo.tailwind.preflight])
+   #?(:clj [stylo.tailwind.accessibility])
+   #?(:clj [stylo.tailwind.background])
+   #?(:clj [stylo.tailwind.border])
+   #?(:clj [stylo.tailwind.effect])
+   #?(:clj [stylo.tailwind.flex])
+   #?(:clj [stylo.tailwind.grid])
+   #?(:clj [stylo.tailwind.interactivity])
+   #?(:clj [stylo.tailwind.layout])
+   #?(:clj [stylo.tailwind.sizing])
+   #?(:clj [stylo.tailwind.spacing])
+   #?(:clj [stylo.tailwind.svg])
+   #?(:clj [stylo.tailwind.table])
+   #?(:clj [stylo.tailwind.transform])
+   #?(:clj [stylo.tailwind.transition])
+   #?(:clj [stylo.tailwind.typography])
+   #?(:clj [stylo.tailwind.variant])
+   #?(:clj [stylo.util :as u]))
   #?(:cljs (:require-macros [stylo.core])))
 
 ;; TODO refactor -> all in styles
@@ -30,8 +30,8 @@
 ;; three atoms -> one atom
 
 ;; https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values
-
-
+#?(:clj
+   (do 
 (defonce styles (atom {}))
 (defonce media-styles (atom {}))
 
@@ -166,15 +166,6 @@
         _ (create-media-rules class-name media-rules)]
     (return-classname class-name)))
 
-(defmacro c
-  [& rules]
-  (c-fn &env rules))
-
-(defmacro c-eco
-  "Uses only hashed version of classname. Is recomended for release purposes, because it minimizes resulting CSS file."
-  [& rules]
-  (c-fn nil rules))
-
 (defmacro c? [& rs]
   (let [{:keys [rules media-rules]} (divide-rules rs)
         class-name (if-not (empty? rules)
@@ -249,7 +240,18 @@
     (str (css-rules styles)))
   ([styles media-styles]
     (str (css-rules styles)
-       (css-media-styles media-styles))))
+       (css-media-styles media-styles))))))
+
+
+(defmacro c
+  [& rules]
+  #?(:clj (c-fn &env rules)))
+
+(defmacro c-eco
+  "Uses only hashed version of classname. Is recomended for release purposes, because it minimizes resulting CSS file."
+  [& rules]
+  #?(:clj (c-fn nil rules)))
+
 
 (comment
   (reset! styles {})
